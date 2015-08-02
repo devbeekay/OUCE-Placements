@@ -1,17 +1,40 @@
 package com.beekay.ouceplacements;
 
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 
-public class Home extends ActionBarActivity {
+public class Home extends AppCompatActivity {
+
+    DrawerLayout drawer;
+    ActionBarDrawerToggle toggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        drawer=(DrawerLayout)findViewById(R.id.drawer);
+        toggle=new ActionBarDrawerToggle(this,drawer,R.string.string_open,R.string.string_close){
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+        };
+
+        drawer.setDrawerListener(toggle);
     }
 
     @Override

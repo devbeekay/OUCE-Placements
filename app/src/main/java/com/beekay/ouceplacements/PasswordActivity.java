@@ -1,6 +1,7 @@
 package com.beekay.ouceplacements;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -172,6 +173,8 @@ public class PasswordActivity extends AppCompatActivity {
         protected void onPostExecute(Map<String, String> stringStringMap) {
             setCookies(stringStringMap);
             getPage();
+            Intent intent=new Intent(PasswordActivity.this,Home.class);
+            startActivity(intent);
         }
     }
 
