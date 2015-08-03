@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,6 +33,7 @@ public class PasswordActivity extends AppCompatActivity {
     static String password;
     private EditText user,pass;
     private Button logButton;
+    Toolbar tool;
 
     public void setCookies(Map<String, String> cookies) {
         this.cookies = cookies;
@@ -50,6 +52,8 @@ public class PasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_password);
         user=(EditText)findViewById(R.id.usertext);
         pass=(EditText)findViewById(R.id.passtext);
+        tool=(Toolbar)findViewById(R.id.toolbr);
+        setSupportActionBar(tool);
 
         logButton=(Button)findViewById(R.id.logbutton);
         logButton.setOnClickListener(new View.OnClickListener() {

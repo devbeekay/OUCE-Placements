@@ -2,23 +2,34 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/drawer">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tool"
+            android:minHeight="@dimen/abc_action_bar_default_height_material"
+            android:background="#3399ff">
+
+        </android.support.v7.widget.Toolbar>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:text="main fragment"/>
-    </RelativeLayout>
-    <!--<android.support.v7.widger.RecyclerView
-        android:layout_height="match_parent"
-        android:layout_width="240dp">-->
+    </LinearLayout>
+    
     <RelativeLayout
         android:layout_width="240dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/navrel"
+        android:background="#fff"
+        android:layout_gravity="start">
         <TextView
             android:layout_height="match_parent"
             android:layout_width="match_parent"
-            android:text="drawer"></TextView></RelativeLayout>
-    <!--</android.support.v7.widger.RecyclerView>-->
+            android:text="drawer"/>
+    </RelativeLayout>
+
 </android.support.v4.widget.DrawerLayout>
