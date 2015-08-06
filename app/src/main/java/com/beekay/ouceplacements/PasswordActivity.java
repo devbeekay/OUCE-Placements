@@ -1,5 +1,6 @@
 package com.beekay.ouceplacements;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -14,6 +15,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -23,17 +26,19 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 
 public class PasswordActivity extends AppCompatActivity {
-    int count=0;
+
     static String username;
     static String password;
     private EditText user,pass;
     private Button logButton;
     Toolbar tool;
+
 
     public void setCookies(Map<String, String> cookies) {
         this.cookies = cookies;
@@ -49,41 +54,49 @@ public class PasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(username!=null && password!=null && isNetAvailable()){
+            ArrayList<String> credentialList = new ArrayList<String>(2);
+            credentialList.add(0, username);
+            credentialList.add(1, password);
+
+                Login log = new Login();
+                log.execute(credentialList);
+
+
+        }
+        else {
         setContentView(R.layout.activity_password);
-        user=(EditText)findViewById(R.id.usertext);
-        pass=(EditText)findViewById(R.id.passtext);
-        tool=(Toolbar)findViewById(R.id.toolbr);
+        System.out.println(username + password + "in static");
+        tool=(Toolbar)findViewById(R.id.tool);
         setSupportActionBar(tool);
 
-        logButton=(Button)findViewById(R.id.logbutton);
-        logButton.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
+            user = (EditText) findViewById(R.id.usertext);
+            pass = (EditText) findViewById(R.id.passtext);
 
-                    ArrayList<String> credentialList = new ArrayList<String>(2);
-                    credentialList.add(0, user.getText().toString());
-                    credentialList.add(1, pass.getText().toString());
 
-                Login log=        new Login();
-                log.execute(credentialList);
+            logButton = (Button) findViewById(R.id.logbutton);
+            logButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if (isNetAvailable()) {
+                        ArrayList<String> credentialList = new ArrayList<String>(2);
+                        credentialList.add(0, user.getText().toString());
+                        credentialList.add(1, pass.getText().toString());
+
+                        Login log = new Login();
+                        log.execute(credentialList);
+                    } else
+
+                    {
+                        Toast.makeText(PasswordActivity.this, "Check your Network Connection", Toast.LENGTH_LONG).show();
+                    }
                 }
-        });
+            });
+        }
     }
 
-    public void getPage(){
-        System.out.println("came to get page");
-        ArrayList<Map<String, String>> cook = new ArrayList<Map<String, String>>();
-
-        cook.add(cookies);
-        new HomeList().execute(cook);
-
-
-    }
-
-    public void sendLogin(ArrayList<String> credentials){
-
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -109,40 +122,6 @@ public class PasswordActivity extends AppCompatActivity {
 
 
 
-    public class HomeList extends AsyncTask<ArrayList<Map<String,String>>,String,String> {
-
-
-
-
-        @Override
-        protected String doInBackground(ArrayList<Map<String,String>>... params) {
-            if(params[0].size()!=0)
-            try {
-                  Document doc = Jsoup.connect("http://oucecareers.org/students/showNotice.php").cookies(params[0].get(0)).get();
-                Elements table = doc.getElementsByTag("table");
-                ArrayList<String> ele = new ArrayList<String>();
-                if (table.first() != null) {
-
-                    Iterator<Element> ite = table.select("tr").select("a").iterator();
-                    ele.add(ite.next().text());
-
-                    while (ite.hasNext() && ele.size() <= 30) {
-                        String td = ite.next().getElementsByAttribute("href").toString();
-                        if (!ele.contains(td)) {
-                            ele.add(td);
-
-                        }
-                    }
-                    for (int i = 0; i < ele.size(); i++) {
-                        System.out.println(ele.get(i));
-                    }
-                }
-            }catch (Exception e){
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
 
     public boolean isNetAvailable(){
         ConnectivityManager connectivityManager=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -155,30 +134,72 @@ public class PasswordActivity extends AppCompatActivity {
      * Created by Krishna on 30-07-2015.
      */
     public class Login extends AsyncTask<ArrayList<String>,String,Map<String,String>> {
-
+        ProgressDialog progressDialog;
 
         @Override
         protected Map<String,String> doInBackground(ArrayList<String>... params) {
+            publishProgress("");
             ArrayList<String> credentials=params[0];
             Map<String,String> loginCookies=null;
             try {
                 System.out.println(credentials.get(0)+credentials.get(1));
                 org.jsoup.Connection.Response res= Jsoup.connect("http://oucecareers.org/s_logaction.php").data("uname",credentials.get(0),"upass",credentials.get(1),"Submit","sign in").method(Connection.Method.POST).execute();
-                loginCookies=res.cookies();
+                try {
+                    System.out.println("came to try");
+                    Document doc = Jsoup.connect("http://oucecareers.org/students/students.php").followRedirects(false).cookies(res.cookies()).get();
+                    Element welcome=doc.select("div#adminpasscontents").first();
+                    System.out.println(welcome.text().length());
+                    //String noticeText=Jsoup.connect("http://oucecareers.org/students/showNotice.php").cookies(res.cookies()).followRedirects(false).get().text();
+                    //System.out.print(noticeText);
 
+                    String name=welcome.text().substring(7);
+                    if(welcome.text().length()==7)
+                    setCookies(null);
+                    else
+                    setCookies(res.cookies());
+                }catch(Exception e)
+                {
+                    System.out.println("exception at cookies");
+                    e.printStackTrace();
+                    setCookies(null);
+                }
+                return getCookies();
             } catch (IOException e) {
-                System.out.println("Something's wrong bitch");
+                System.out.println("Something's wrong");
             }
-            return loginCookies;
+            return getCookies();
 
         }
 
         @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
+            progressDialog=new ProgressDialog(PasswordActivity.this);
+            progressDialog.setMessage("Logging in");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
+        }
+
+        @Override
         protected void onPostExecute(Map<String, String> stringStringMap) {
-            setCookies(stringStringMap);
-            getPage();
-            Intent intent=new Intent(PasswordActivity.this,Home.class);
-            startActivity(intent);
+
+            if(username==null && password==null && getCookies()!=null){
+                username=user.getText().toString();
+                password=pass.getText().toString();
+            }
+            if(getCookies()!=null) {
+                Intent intent = new Intent(PasswordActivity.this, Home.class);
+                ArrayList<Map<String, String>> cookielist = new ArrayList<Map<String, String>>();
+                cookielist.add(stringStringMap);
+                intent.putExtra("cookie", cookielist);
+                startActivity(intent);
+            }
+            else if(getCookies()==null) {
+                progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), "Login Failed!!!", Toast.LENGTH_LONG).show();
+
+            }
         }
     }
 
