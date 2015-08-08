@@ -26,6 +26,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -38,6 +39,16 @@ public class PasswordActivity extends AppCompatActivity {
     private EditText user,pass;
     private Button logButton;
     Toolbar tool;
+
+    public ArrayList<String> getList() {
+        return list;
+    }
+
+    public void setList(ArrayList<String> list) {
+        this.list = list;
+    }
+
+    private ArrayList<String> list;
 
 
     public void setCookies(Map<String, String> cookies) {
@@ -149,14 +160,31 @@ public class PasswordActivity extends AppCompatActivity {
                     Document doc = Jsoup.connect("http://oucecareers.org/students/students.php").followRedirects(false).cookies(res.cookies()).get();
                     Element welcome=doc.select("div#adminpasscontents").first();
                     System.out.println(welcome.text().length());
-                    //String noticeText=Jsoup.connect("http://oucecareers.org/students/showNotice.php").cookies(res.cookies()).followRedirects(false).get().text();
-                    //System.out.print(noticeText);
-
                     String name=welcome.text().substring(7);
-                    if(welcome.text().length()==7)
-                    setCookies(null);
+                    if(welcome.text().length()>7) {
+                        setCookies(res.cookies());
+                        ArrayList<String> sideList=new ArrayList<>();
+                        System.out.println(name+"welcome");
+                        Elements lists=doc.select("div#header-tabs");
+                        Iterator<Element> eachList=lists.select("ul").select("li").iterator();
+                        while(eachList.hasNext()) {
+                            Element subList=eachList.next();
+                            if(subList.children().size()>0){
+                                for(Element l : subList.child(0).select("a")){
+                                    System.out.println(l.text());
+                                    sideList.add(l.text());
+                                }
+                            }
+                            else
+                                sideList.add(subList.text());
+
+                        }
+                        sideList.add(name);
+                        Collections.reverse(sideList);
+                        setList(sideList);
+                    }
                     else
-                    setCookies(res.cookies());
+                    setCookies(null);
                 }catch(Exception e)
                 {
                     System.out.println("exception at cookies");
@@ -193,6 +221,7 @@ public class PasswordActivity extends AppCompatActivity {
                 ArrayList<Map<String, String>> cookielist = new ArrayList<Map<String, String>>();
                 cookielist.add(stringStringMap);
                 intent.putExtra("cookie", cookielist);
+                intent.putExtra("list",getList());
                 startActivity(intent);
             }
             else if(getCookies()==null) {

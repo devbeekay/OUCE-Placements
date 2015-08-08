@@ -4,28 +4,21 @@
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
 <include layout="@layout/toolbar"
-    android:id="@+id/tool"></include>
+    android:id="@+id/tool"/>
 <android.support.v4.widget.DrawerLayout
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:id="@+id/drawer">
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="main fragment"/>
-    </LinearLayout>
-    
+        android:id="@+id/frameContainer"/>
     <ListView
         android:layout_width="270dp"
         android:layout_height="match_parent"
         android:id="@+id/drawerlist"
         android:layout_gravity="start"
-        android:background="@android:color/white"></ListView>
+        android:background="@android:color/white"/>
 
 </android.support.v4.widget.DrawerLayout>
     </LinearLayout>
