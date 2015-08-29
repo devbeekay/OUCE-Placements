@@ -3,10 +3,16 @@
     android:layout_height="match_parent" tools:context="com.beekay.ouceplacements.Notification">
 
     <!-- TODO: Update blank fragment layout -->
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/swipe">
    <android.support.v7.widget.RecyclerView
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:id="@+id/cardList"
        android:background="#ddd"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>

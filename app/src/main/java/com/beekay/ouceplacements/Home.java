@@ -12,11 +12,15 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,14 +36,14 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
-public class Home extends AppCompatActivity implements Notification.OnFragmentInteractionListener {
+public class Home extends AppCompatActivity  {
 
-    Notification.OnFragmentInteractionListener fragmentInteractionListener;
+
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     Toolbar tool;
     ListView list;
-
+    NetCheck netCheck;
     public Document getDocument() {
         return document;
     }
@@ -69,15 +73,22 @@ public class Home extends AppCompatActivity implements Notification.OnFragmentIn
         this.recycleList = recycleList;
     }
 
-    ArrayList<Contents> recycleList;
+    static ArrayList<Contents> recycleList;
     ArrayList<Map<String,String>> cooks;
 
+    public ArrayList<Map<String, String>> getCooks() {
+        return cooks;
+    }
 
+    public void setCooks(ArrayList<Map<String, String>> cooks) {
+        this.cooks = cooks;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        netCheck=new NetCheck();
 
         drawer=(DrawerLayout)findViewById(R.id.drawer);
         list=(ListView)findViewById(R.id.drawerlist);
@@ -85,9 +96,11 @@ public class Home extends AppCompatActivity implements Notification.OnFragmentIn
         setSupportActionBar(tool);
         Intent intent=getIntent();
         cooks=(ArrayList<Map<String,String>>)intent.getSerializableExtra("cookie");
-
-            new HomeList().execute(cooks);
-
+        setCooks(cooks);
+if(netCheck.isNetAvailable(this))
+            new HomeList().execute(getCooks());
+else
+    Toast.makeText(this,"check your network connection",Toast.LENGTH_SHORT).show();
 
         toggle=new ActionBarDrawerToggle(this,drawer,tool,R.string.string_open,R.string.string_close){
 
@@ -119,6 +132,8 @@ public class Home extends AppCompatActivity implements Notification.OnFragmentIn
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
+        MenuItem item=menu.findItem(R.id.share);
+        item.setVisible(false);
         return true;
     }
 
@@ -132,20 +147,27 @@ public class Home extends AppCompatActivity implements Notification.OnFragmentIn
             return true;
         }
 
-        //noinspection SimplifiableIfStatement
+
 
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onFragmentInteraction(ArrayList<Contents> contents) {
 
-    }
 
     public class HomeList extends AsyncTask<ArrayList<Map<String,String>>,String,ArrayList<Contents>> {
 
         ProgressDialog progressDialog;
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog=new ProgressDialog(Home.this);
+            progressDialog.setMessage("Loading...");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
+
+        }
 
         @Override
         protected ArrayList<Contents> doInBackground(ArrayList<Map<String,String>>... params) {
@@ -197,11 +219,6 @@ public class Home extends AppCompatActivity implements Notification.OnFragmentIn
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
             ArrayList<String> links=new ArrayList<>();
-            progressDialog=new ProgressDialog(Home.this);
-            progressDialog.setMessage("Loading...");
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progressDialog.setIndeterminate(true);
-            progressDialog.show();
             Document doc=getDocument();
             int len,i=0;
             boolean firstSkipped=false;
@@ -235,18 +252,58 @@ public class Home extends AppCompatActivity implements Notification.OnFragmentIn
             super.onPostExecute(s);
             ArrayAdapter<String> adapter=new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_list_item_1,android.R.id.text1, sideList);
             list.setAdapter(adapter);
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    System.out.println("came to handle");
+                    if (list.getItemAtPosition(position).toString().equals("Update Marks")) {
+                        if (netCheck.isNetAvailable(Home.this)) {
+
+//                            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("showNotice")).commit();
+                            drawer.closeDrawer(Gravity.LEFT);
+                            Bundle bundle = new Bundle();
+                            System.out.println(getCooks());
+                            bundle.putSerializable("cookies", getCooks());
+                            android.support.v4.app.Fragment fragment_marks = new UpdateMarks();
+                            fragment_marks.setArguments(bundle);
+
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_marks).addToBackStack(null).commit();
+
+                        } else {
+                            Toast.makeText(Home.this, "Check your network connection", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (list.getItemAtPosition(position).toString().equals("Home") || list.getItemAtPosition(position).toString().equals("Notice Board") || position == 0) {
+                        if (fragment.isVisible())
+                            drawer.closeDrawer(Gravity.LEFT);
+                        else {
+                            drawer.closeDrawer(Gravity.LEFT);
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
+
+                        }
+                    } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Change Password")) {
+                        drawer.closeDrawer(Gravity.LEFT);
+                        Bundle bundle = new Bundle();
+                        System.out.println(getCooks());
+                        bundle.putSerializable("cookies", getCooks());
+                        android.support.v4.app.Fragment fragment_pass = new UpdatePassFragment();
+                        fragment_pass.setArguments(bundle);
+                        getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_pass).addToBackStack(null).commit();
+                    }
+
+
+                }
+            });
             setRecycleList(s);
             fragment=new Notification();
-            for(String item: getLinkId()){
-                System.out.println(item);
-            }
 
             if(fragment!=null){
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("list",new ContentWrapper(new ArrayList<>(getRecycleList().subList(1,getRecycleList().size()))));
+                bundle.putStringArrayList("ids",linkId);
+                bundle.putSerializable("cookies",cooks);
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager=getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.frameContainer,fragment).commit();
+                fragmentManager.beginTransaction().replace(R.id.frameContainer,fragment,"showNotice").commit();
             }
 
         }

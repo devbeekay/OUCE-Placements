@@ -25,6 +25,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -39,6 +40,7 @@ public class PasswordActivity extends AppCompatActivity {
     private EditText user,pass;
     private Button logButton;
     Toolbar tool;
+    NetCheck netCheck;
 
     public ArrayList<String> getList() {
         return list;
@@ -65,7 +67,8 @@ public class PasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(username!=null && password!=null && isNetAvailable()){
+        netCheck=new NetCheck();
+        if(username!=null && password!=null && netCheck.isNetAvailable(this)){
             ArrayList<String> credentialList = new ArrayList<String>(2);
             credentialList.add(0, username);
             credentialList.add(1, password);
@@ -91,7 +94,7 @@ public class PasswordActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    if (isNetAvailable()) {
+                    if (netCheck.isNetAvailable(PasswordActivity.this)) {
                         ArrayList<String> credentialList = new ArrayList<String>(2);
                         credentialList.add(0, user.getText().toString());
                         credentialList.add(1, pass.getText().toString());
@@ -134,11 +137,7 @@ public class PasswordActivity extends AppCompatActivity {
 
 
 
-    public boolean isNetAvailable(){
-        ConnectivityManager connectivityManager=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info=connectivityManager.getActiveNetworkInfo();
-        return info!=null && info.isConnectedOrConnecting();
-    }
+
 
 
     /**
@@ -153,11 +152,12 @@ public class PasswordActivity extends AppCompatActivity {
             ArrayList<String> credentials=params[0];
             Map<String,String> loginCookies=null;
             try {
-                System.out.println(credentials.get(0)+credentials.get(1));
+                System.out.println(credentials.get(0) + credentials.get(1));
                 org.jsoup.Connection.Response res= Jsoup.connect("http://oucecareers.org/s_logaction.php").data("uname",credentials.get(0),"upass",credentials.get(1),"Submit","sign in").method(Connection.Method.POST).execute();
+
                 try {
                     System.out.println("came to try");
-                    Document doc = Jsoup.connect("http://oucecareers.org/students/students.php").followRedirects(false).cookies(res.cookies()).get();
+                    Document doc = Jsoup.connect("http://oucecareers.org/students/students.php").followRedirects(false).cookies(res.cookies()).timeout(5000).get();
                     Element welcome=doc.select("div#adminpasscontents").first();
                     System.out.println(welcome.text().length());
                     String name=welcome.text().substring(7);
@@ -170,8 +170,11 @@ public class PasswordActivity extends AppCompatActivity {
                         while(eachList.hasNext()) {
                             Element subList=eachList.next();
                             if(subList.children().size()>0){
-                                for(Element l : subList.child(0).select("a")){
-                                    System.out.println(l.text());
+                                for(Element l : subList.select("a")){
+                                    if(l.attr("href").toString().equals("#")){
+
+                                    }
+                                    else
                                     sideList.add(l.text());
                                 }
                             }
@@ -179,22 +182,28 @@ public class PasswordActivity extends AppCompatActivity {
                                 sideList.add(subList.text());
 
                         }
-                        sideList.add(name);
+                        sideList.add(name.trim());
                         Collections.reverse(sideList);
                         setList(sideList);
                     }
                     else
                     setCookies(null);
-                }catch(Exception e)
+                }catch(SocketTimeoutException e)
                 {
                     System.out.println("exception at cookies");
                     e.printStackTrace();
                     setCookies(null);
+                    ArrayList<String> list=new ArrayList<>();
+                    list.add("timedout");
+                    setList(list);
                 }
+
                 return getCookies();
-            } catch (IOException e) {
+            } catch (Exception e) {
                 System.out.println("Something's wrong");
             }
+
+
             return getCookies();
 
         }
@@ -212,22 +221,29 @@ public class PasswordActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Map<String, String> stringStringMap) {
 
-            if(username==null && password==null && getCookies()!=null){
+            if(username==null && password==null && getCookies()!=null ){
                 username=user.getText().toString();
                 password=pass.getText().toString();
             }
-            if(getCookies()!=null) {
+            if(getCookies()!=null && !getList().get(0).equals("timedout")) {
                 Intent intent = new Intent(PasswordActivity.this, Home.class);
                 ArrayList<Map<String, String>> cookielist = new ArrayList<Map<String, String>>();
                 cookielist.add(stringStringMap);
                 intent.putExtra("cookie", cookielist);
-                intent.putExtra("list",getList());
+                intent.putExtra("list", getList());
+                progressDialog.dismiss();
+                NetCheck.setUser(username);
+                NetCheck.setPass(password);
                 startActivity(intent);
             }
             else if(getCookies()==null) {
                 progressDialog.dismiss();
                 Toast.makeText(getBaseContext(), "Login Failed!!!", Toast.LENGTH_LONG).show();
 
+            }
+            else if(getList().get(0).equals("timedout")){
+                progressDialog.dismiss();
+                Toast.makeText(getBaseContext(), "Time out while connecting", Toast.LENGTH_LONG).show();
             }
         }
     }
