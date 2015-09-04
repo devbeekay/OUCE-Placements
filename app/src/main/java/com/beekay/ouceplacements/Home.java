@@ -30,6 +30,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -74,13 +75,13 @@ public class Home extends AppCompatActivity  {
     }
 
     static ArrayList<Contents> recycleList;
-    ArrayList<Map<String,String>> cooks;
+    ArrayList<HashMap<String,String>> cooks;
 
-    public ArrayList<Map<String, String>> getCooks() {
+    public ArrayList<HashMap<String, String>> getCooks() {
         return cooks;
     }
 
-    public void setCooks(ArrayList<Map<String, String>> cooks) {
+    public void setCooks(ArrayList<HashMap<String, String>> cooks) {
         this.cooks = cooks;
     }
 
@@ -95,7 +96,7 @@ public class Home extends AppCompatActivity  {
         tool=(Toolbar)findViewById(R.id.tool);
         setSupportActionBar(tool);
         Intent intent=getIntent();
-        cooks=(ArrayList<Map<String,String>>)intent.getSerializableExtra("cookie");
+        cooks=(ArrayList<HashMap<String,String>>)intent.getSerializableExtra("cookie");
         setCooks(cooks);
 if(netCheck.isNetAvailable(this))
             new HomeList().execute(getCooks());
@@ -154,7 +155,7 @@ else
 
 
 
-    public class HomeList extends AsyncTask<ArrayList<Map<String,String>>,String,ArrayList<Contents>> {
+    public class HomeList extends AsyncTask<ArrayList<HashMap<String,String>>,String,ArrayList<Contents>> {
 
         ProgressDialog progressDialog;
 
@@ -170,7 +171,7 @@ else
         }
 
         @Override
-        protected ArrayList<Contents> doInBackground(ArrayList<Map<String,String>>... params) {
+        protected ArrayList<Contents> doInBackground(ArrayList<HashMap<String,String>>... params) {
 
             if(params[0].size()!=0)
                 try {
@@ -288,6 +289,12 @@ else
                         android.support.v4.app.Fragment fragment_pass = new UpdatePassFragment();
                         fragment_pass.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_pass).addToBackStack(null).commit();
+                    } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("MY MBD")) {
+                        drawer.closeDrawer(Gravity.LEFT);
+
+                        Intent intent=new Intent(Home.this,Mbd.class);
+                        intent.putExtra("cookies",getCooks());
+                        startActivity(intent);
                     }
 
 
