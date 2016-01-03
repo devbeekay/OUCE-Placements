@@ -1,23 +1,29 @@
 package com.beekay.ouceplacements;
 
+
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 
+
 /**
- * Created by Krishna on 8/30/2015.
+ * Created by Krishna on 8/30/2015. 
  */
 public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailViewHolder> {
 
+
     ArrayList<Details> detailsList;
+
 
     DetailAdapter(ArrayList<Details> detailsList){
         this.detailsList=detailsList;
     }
+
 
     @Override
     public DetailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -25,8 +31,10 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         return new DetailViewHolder(itemView);
     }
 
+
     @Override
     public void onBindViewHolder(DetailViewHolder holder, int position) {
+
 
         Details details=detailsList.get(0);
         holder.course.setText(details.course);
@@ -45,14 +53,18 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         holder.father.setText(details.father);
         holder.occupation.setText(details.occupation);
         holder.income.setText(details.income);
+        holder.present.setText(details.present);
     }
+
 
     @Override
     public int getItemCount() {
         return detailsList.size();
     }
 
+
     public class DetailViewHolder extends RecyclerView.ViewHolder{
+
 
         protected TextView course;
         protected TextView branch;
@@ -70,6 +82,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         protected TextView father;
         protected TextView occupation;
         protected TextView income;
+        protected TextView present;
 
         public DetailViewHolder(View itemView) {
             super(itemView);
@@ -81,7 +94,9 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
             year=(TextView)itemView.findViewById(R.id.yearvalue);
             place=(TextView)itemView.findViewById(R.id.placevalue);
 
+
             age=(TextView)itemView.findViewById(R.id.agevalue);
+
 
             gender=(TextView)itemView.findViewById(R.id.gendervalue);
             national=(TextView)itemView.findViewById(R.id.nationalvalue);
@@ -91,6 +106,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
             father=(TextView)itemView.findViewById(R.id.fathervalue);
             occupation=(TextView)itemView.findViewById(R.id.occupationvalue);
             income=(TextView)itemView.findViewById(R.id.incomevalue);
+            present=(TextView)itemView.findViewById(R.id.presentcomplete);
         }
     }
-}
+} 

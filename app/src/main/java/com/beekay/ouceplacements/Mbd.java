@@ -20,6 +20,7 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -117,7 +118,7 @@ public class Mbd extends AppCompatActivity {
             try{
                 Document doc= Jsoup.connect("http://oucecareers.org/students/showMbd.php?rollno=" + NetCheck.getUser()).cookies(getCookies()).get();
                 String Url=doc.select("img").attr("src").toString();
-                Connection.Response res=Jsoup.connect("http://oucecareers.org/"+Url.substring(3)).followRedirects(false).ignoreContentType(true).ignoreHttpErrors(true).execute();
+                Connection.Response res=Jsoup.connect("http://oucecareers.org/"+Url.substring(3)).followRedirects(false).ignoreContentType(true).timeout(10000).ignoreHttpErrors(true).execute();
                 if(res.statusCode()==200) {
                     BufferedInputStream in = new BufferedInputStream((new URL("http://oucecareers.org/"+Url.substring(3))).openStream());
                     setBitmap(BitmapFactory.decodeStream(in));
@@ -172,10 +173,24 @@ public class Mbd extends AppCompatActivity {
                     }
                     else if(e.attr("name").toString().equals("annualincome")){
                         details.income=e.val();
+
                     }
+
+                }
+                Elements addresses=doc.select("textarea");
+                for(Element e: addresses){
+                    Details details1=new Details();
+                    if(e.attr("name").toString().equals("address1")){
+                        System.out.println(e.val());
+                        details.present=e.val();
+                    }
+                    else if(e.attr("name").toString().equals("address2")){
+                        details.permanent=e.val();
+                    }
+                    detailList.add(details);
                 }
 
-                detailList.add(details);
+
                 return detailList;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -203,8 +218,6 @@ public class Mbd extends AppCompatActivity {
                 getSupportActionBar().setTitle(getMyTitle());
                 collapsingToolbarLayout.setTitle(getMyTitle());
                 recyclerView=(RecyclerView)findViewById(R.id.mbdcardlist);
-                recyclerView.setHasFixedSize(false
-                );
                 LinearLayoutManager llm=new LinearLayoutManager(Mbd.this);
                 llm.setOrientation(LinearLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(llm);

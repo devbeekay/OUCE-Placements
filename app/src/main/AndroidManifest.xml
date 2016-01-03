@@ -22,7 +22,7 @@
         <activity
             android:name=".Home"
             android:label="@string/title_activity_home"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.beekay.ouceplacements.Home" />
@@ -35,6 +35,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.beekay.ouceplacements.Home" />
         </activity>
+
+        <service
+            android:name=".Checker"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

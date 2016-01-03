@@ -24,5 +24,7 @@ public class Details {
     protected String father;
     protected String occupation;
     protected String income;
+    protected String present;
+    protected String permanent;
 
 }
