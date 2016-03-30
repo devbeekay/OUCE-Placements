@@ -69,7 +69,7 @@ public class Mbd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mbd);
         Intent intent=getIntent();
-        ArrayList<HashMap<String,String>> cooks=(ArrayList<HashMap<String,String>>)intent.getSerializableExtra("cookies");
+        ArrayList<HashMap<String,String>> cooks= (ArrayList<HashMap<String, String>>) Cooks.getCookies();
             System.out.println(cooks.size());
             setCookies(cooks.get(0));
             new LoadMBD().execute("");
@@ -78,33 +78,9 @@ public class Mbd extends AppCompatActivity {
         image=(ImageView)findViewById(R.id.image);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         collapsingToolbarLayout=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
-
-       // collapsingToolbarLayout.setSystemUiVisibility(View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_mbd, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     public class LoadMBD extends AsyncTask<String,String,ArrayList<Details>>{
         ProgressDialog progressDialog;
@@ -131,51 +107,87 @@ public class Mbd extends AppCompatActivity {
                 details.gender=doc.select("select > option[selected=\"selected\"").text();
                 details.dream=doc.select("div#companyholder").text();
                 for(Element  e: doc.select("input")){
-                    if(e.attr("name").toString().equals("yoc")){
-                        details.year=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("name")){
-                        setTitle(e.val());
-                    }
-                    else if(e.attr("name").toString().equals("course")){
-                        details.course=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("branch")){
-                        details.branch=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("dob")){
-                        details.dob=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("pob")){
-                        details.placeOfBirth=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("age")){
-                        details.age=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("nationality")){
-                        details.nationality=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("height")){
-                        details.height=e.val();
+                    switch(e.attr("name").toString()){
+                        case "yoc":
+                            details.year=e.val();
+                            break;
+                        case "name":
+                            setTitle(e.val());
+                            break;
+                        case "course":
+                            details.course=e.val();
+                            break;
+                        case "branch":
+                            details.branch=e.val();
+                            break;
+                        case "dob":
+                            details.dob = e.val();
+                            break;
+                        case "pob":
+                            details.placeOfBirth = e.val();
+                            break;
+                        case "age":
+                            details.age = e.val();
+                            break;
+                        case "nationality":
+                            details.nationality = e.val();
+                            break;
+                        case "height":
+                            details.height = e.val();
+                            break;
+                        case "eyesight":
+                            details.eyesight = e.val();
+                            break;
+                        case "weight":
+                            details.weight=e.val();
+                            break;
+                        case "fname":
+                            details.father=e.val();
+                            break;
+                        case "occupation":
+                            details.occupation=e.val();
+                            break;
+                        case "annualincome":
+                            details.income = e.val();
+                            break;
+                        case "city1":
+                            details.presentCity=e.val();
+                            break;
+                        case "city2":
+                            details.permanentCity=e.val();
+                            break;
+                        case "state1":
+                            details.presentState=e.val();
+                            break;
+                        case "state2":
+                            details.permanentState=e.val();
+                            break;
+                        case "country1":
+                            details.presentCountry=e.val();
+                            break;
+                        case "country2":
+                            details.permanentCountry=e.val();
+                            break;
+                        case "pin1":
+                            details.presentPin = e.val();
+                            break;
+                        case "pin2":
+                            details.permanentPin = e.val();
+                            break;
+                        case "phone1":
+                            details.phone1=e.val();
+                            break;
+                        case "phone2":
+                            details.phone2=e.val();
+                            break;
+                        case "mail1":
+                            details.mail1=e.val();
+                            break;
+                        case "mail2":
+                            details.mail2=e.val();
+                            break;
 
                     }
-                    else if(e.attr("name").toString().equals("weight")){
-                        details.weight=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("eyesight")){
-                        details.eyesight=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("fname")){
-                        details.father=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("occupation")){
-                        details.occupation=e.val();
-                    }
-                    else if(e.attr("name").toString().equals("annualincome")){
-                        details.income=e.val();
-
-                    }
-
                 }
                 Elements addresses=doc.select("textarea");
                 for(Element e: addresses){

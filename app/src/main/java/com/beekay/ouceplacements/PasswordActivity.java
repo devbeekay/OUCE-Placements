@@ -3,10 +3,7 @@ package com.beekay.ouceplacements;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import org.jsoup.Connection;
@@ -31,6 +27,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+
 
 
 public class PasswordActivity extends AppCompatActivity {
@@ -127,19 +124,12 @@ public class PasswordActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.about) {
+            Toast.makeText(this,"PDS 2014-16 with ♥",Toast.LENGTH_LONG).show();
         }
 
         return super.onOptionsItemSelected(item);
     }
-
-
-
-
-
-
-
     /**
      * Created by Krishna on 30-07-2015.
      */
@@ -153,16 +143,18 @@ public class PasswordActivity extends AppCompatActivity {
             Map<String,String> loginCookies=null;
             try {
                 System.out.println(credentials.get(0) + credentials.get(1));
-                org.jsoup.Connection.Response res= Jsoup.connect("http://oucecareers.org/s_logaction.php").data("uname",credentials.get(0),"upass",credentials.get(1),"Submit","sign in").method(Connection.Method.POST).execute();
+                org.jsoup.Connection.Response res= Jsoup.connect("http://oucecareers.org/s_logaction.php").data("uname",credentials.get(0),"upass",credentials.get(1),"Submit","sign in").method(Connection.Method.POST).timeout(50000).execute();
 
                 try {
                     System.out.println("came to try");
-                    Document doc = Jsoup.connect("http://oucecareers.org/students/students.php").followRedirects(false).cookies(res.cookies()).timeout(5000).get();
+                    Document doc = Jsoup.connect("http://oucecareers.org/students/students.php").followRedirects(false).cookies(res.cookies()).timeout(50000).get();
                     Element welcome=doc.select("div#adminpasscontents").first();
                     System.out.println(welcome.text().length());
                     String name=welcome.text().substring(7);
                     if(welcome.text().length()>7) {
-                        setCookies(res.cookies());
+                        ArrayList<HashMap<String, String>> cook = new ArrayList<HashMap<String, String>>();
+                        cook.add((HashMap<String, String>) res.cookies());
+                        Cooks.setCookies(cook);
                         ArrayList<String> sideList=new ArrayList<>();
                         System.out.println(name+"welcome");
                         Elements lists=doc.select("div#header-tabs");
@@ -171,7 +163,7 @@ public class PasswordActivity extends AppCompatActivity {
                             Element subList=eachList.next();
                             if(subList.children().size()>0){
                                 for(Element l : subList.select("a")){
-                                    if(l.attr("href").toString().equals("#")){
+                                    if(l.attr("href").toString().equals("#") || l.text().equalsIgnoreCase("Change Photo")){
 
                                     }
                                     else
@@ -187,7 +179,7 @@ public class PasswordActivity extends AppCompatActivity {
                         setList(sideList);
                     }
                     else
-                    setCookies(null);
+                    Cooks.setCookies(null);
                 }catch(SocketTimeoutException e)
                 {
                     System.out.println("exception at cookies");
@@ -221,15 +213,12 @@ public class PasswordActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Map<String, String> stringStringMap) {
 
-            if(username==null && password==null && getCookies()!=null ){
+            if(username==null && password==null && Cooks.getCookies()!=null ){
                 username=user.getText().toString();
                 password=pass.getText().toString();
             }
-            if(getCookies()!=null && !getList().get(0).equals("timedout")) {
+            if(Cooks.getCookies()!=null && !getList().get(0).equals("timedout")) {
                 Intent intent = new Intent(PasswordActivity.this, Home.class);
-                ArrayList<Map<String, String>> cookielist = new ArrayList<Map<String, String>>();
-                cookielist.add(stringStringMap);
-                intent.putExtra("cookie", cookielist);
                 intent.putExtra("list", getList());
                 progressDialog.dismiss();
                 NetCheck.setUser(username);

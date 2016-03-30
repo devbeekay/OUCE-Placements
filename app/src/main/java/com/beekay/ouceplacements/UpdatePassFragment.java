@@ -45,7 +45,7 @@ public class UpdatePassFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_update_pass, container, false);
-        ArrayList<HashMap<String,String>> clist=(ArrayList<HashMap<String,String>>)getArguments().getSerializable("cookies");
+        ArrayList<HashMap<String,String>> clist= (ArrayList<HashMap<String, String>>) Cooks.getCookies();
         setCookie(clist.get(0));
         final EditText oldpass=(EditText)view.findViewById(R.id.oldpass);
         final EditText newpass1=(EditText)view.findViewById(R.id.newpass1);

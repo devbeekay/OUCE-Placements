@@ -1,11 +1,24 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="com.beekay.ouceplacements.Notice"
     android:id="@+id/notice_frame">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
         android:text= ""
         android:id="@+id/resultView"/>
+
+    <android.support.design.widget.FloatingActionButton
+
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:id="@+id/fab"
+        app:layout_anchorGravity="bottom|right|end"
+        app:backgroundTint="#ee0066"
+        android:clickable="true"
+        android:layout_margin="16dp"
+        android:src="@mipmap/ic_share_white_24dp"
+        android:layout_gravity="right|bottom" />
 
 </FrameLayout>

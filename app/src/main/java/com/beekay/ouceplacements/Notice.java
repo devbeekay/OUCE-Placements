@@ -3,9 +3,13 @@ package com.beekay.ouceplacements;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,8 +34,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.jsoup.select.Evaluator;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -53,7 +59,7 @@ public class Notice extends android.support.v4.app.Fragment {
     }
 
     String id;
-    ArrayList<Map<String,String>> cooks;
+    ArrayList<HashMap<String,String>> cooks;
     NetCheck netCheck;
     public Notice() {
         // Required empty public constructor
@@ -66,11 +72,30 @@ public class Notice extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         setId(getArguments().getString("id"));
-        cooks= (ArrayList<Map<String, String>>) getArguments().getSerializable("cookies");
-            System.out.println(cooks.get(0).containsKey("PHPSESSID"));
-        System.out.println(getNoticeId());
+        cooks= (ArrayList<HashMap<String, String>>)Cooks.getCookies();
+            System.out.println(getNoticeId());
         View v=inflater.inflate(R.layout.fragment_notice, container, false);
         resultView=(TextView)v.findViewById(R.id.resultView);
+        FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View rootView = view.getRootView();
+                rootView.setDrawingCacheEnabled(true);
+                Bitmap screen = rootView.getDrawingCache();
+                String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), screen, "ScreenShot", "Screen Shot");
+                System.out.println(path);
+                Uri uri = Uri.parse(path);
+                System.out.println(uri.toString());
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                intent.setType("image/png");
+                startActivity(Intent.createChooser(intent, "Placement"));
+                System.out.println("came back");
+
+
+            }
+        });
         netCheck=new NetCheck();
         if(netCheck.isNetAvailable(getActivity()))
         new OpenNotice().execute(getNoticeId());
@@ -81,7 +106,7 @@ public class Notice extends android.support.v4.app.Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_home,menu);
+        inflater.inflate(R.menu.menu_home, menu);
 
         super.onCreateOptionsMenu(menu, inflater);
 
@@ -90,14 +115,7 @@ public class Notice extends android.support.v4.app.Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.share){
-            Intent sharingIntent=new Intent(Intent.ACTION_SEND);
-            sharingIntent.setType("text/plain");
-            String sharedText="http://oucecareers.org/students/opennotice.php?noticeid="+getNoticeId();
-            sharingIntent.putExtra(Intent.EXTRA_SUBJECT,"Check out the placement notification @\n");
-            sharingIntent.putExtra(Intent.EXTRA_TEXT,sharedText);
-            startActivity(Intent.createChooser(sharingIntent,"Share via"));
-        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -126,6 +144,9 @@ public class Notice extends android.support.v4.app.Fragment {
                                 elementsList.add(tag);
                             }
                             else if(tag.tagName().toString().equals("table")){
+                                elementsList.add(tag);
+                            }
+                            else if(tag.tagName().equalsIgnoreCase("li") ){
                                 elementsList.add(tag);
                             }
 
@@ -195,6 +216,17 @@ public class Notice extends android.support.v4.app.Fragment {
                 }
 
                 else if(s.get(i).tagName().equalsIgnoreCase("p")){
+                    TextView textView=new TextView(getActivity());
+                    LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(10, 10, 10, 10);
+                    textView.setLayoutParams(params);
+                    textView.setText(s.get(i).text());
+                    textView.setGravity(Gravity.CENTER_HORIZONTAL);
+                    textView.setTextIsSelectable(true);
+                    ll.addView(textView);
+                }
+
+                else if(s.get(i).tagName().equalsIgnoreCase("li")){
                     TextView textView=new TextView(getActivity());
                     LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
                     params.setMargins(10, 10, 10, 10);

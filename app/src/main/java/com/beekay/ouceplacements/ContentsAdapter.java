@@ -35,6 +35,7 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Conten
         this.contentsList=contentsList;
     }
 
+
     @Override
     public ContentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         setContext(parent.getContext());
@@ -46,6 +47,12 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Conten
     @Override
     public void onBindViewHolder(ContentViewHolder holder, int position) {
             Contents contents=contentsList.get(position);
+        if(position%2==0){
+            holder.card.setCardBackgroundColor(Color.parseColor("#dd1166"));
+        }
+        else{
+            holder.card.setCardBackgroundColor(Color.parseColor("#66dd66"));
+        }
         holder.notificationView.setText(contents.notificationContent);
 
         holder.attachmentView.setText(contents.attachments);
@@ -69,6 +76,12 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Conten
             lastPostition=position;
         }
     }
+    public void refresh(List<Contents> contentsList){
+        this.contentsList.clear();
+        this.contentsList.addAll(contentsList);
+        notifyDataSetChanged();
+    }
+
 
     public static class ContentViewHolder extends RecyclerView.ViewHolder{
 

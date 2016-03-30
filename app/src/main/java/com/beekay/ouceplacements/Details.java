@@ -15,9 +15,6 @@ public class Details {
     protected String age;
     protected String gender;
     protected String nationality;
-    protected String religion;
-    protected String caste;
-    protected String subcast;
     protected String height;
     protected String weight;
     protected String eyesight;
@@ -26,5 +23,11 @@ public class Details {
     protected String income;
     protected String present;
     protected String permanent;
-
+    protected String presentCity;
+    protected String permanentCity;
+    protected String presentState,permanentState;
+    protected String presentCountry, permanentCountry;
+    protected String presentPin,permanentPin;
+    protected String phone1,phone2;
+    protected String mail1,mail2;
 }

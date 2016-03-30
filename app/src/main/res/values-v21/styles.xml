@@ -13,4 +13,7 @@
     <item name="spinBars">true</item>
     <item name="color">@android:color/white</item>
 </style>
+    <style name="myDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

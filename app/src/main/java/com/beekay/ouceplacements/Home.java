@@ -3,7 +3,9 @@ package com.beekay.ouceplacements;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -71,7 +73,7 @@ public class Home extends AppCompatActivity  {
     }
 
     public void setRecycleList(ArrayList<Contents> recycleList) {
-        this.recycleList = recycleList;
+        Home.recycleList = recycleList;
     }
 
     static ArrayList<Contents> recycleList;
@@ -96,12 +98,12 @@ public class Home extends AppCompatActivity  {
         tool=(Toolbar)findViewById(R.id.tool);
         setSupportActionBar(tool);
         Intent intent=getIntent();
-        cooks=(ArrayList<HashMap<String,String>>)intent.getSerializableExtra("cookie");
+        cooks= (ArrayList<HashMap<String, String>>) Cooks.getCookies();
         setCooks(cooks);
-if(netCheck.isNetAvailable(this))
+        if(netCheck.isNetAvailable(this))
             new HomeList().execute(getCooks());
-else
-    Toast.makeText(this,"check your network connection",Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this,"check your network connection",Toast.LENGTH_SHORT).show();
 
         toggle=new ActionBarDrawerToggle(this,drawer,tool,R.string.string_open,R.string.string_close){
 
@@ -132,10 +134,8 @@ else
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_home, menu);
-        MenuItem item=menu.findItem(R.id.share);
-        item.setVisible(false);
-        return true;
+
+        return false;
     }
 
     @Override
@@ -177,7 +177,7 @@ else
                 try {
 
 
-                    Document notDoc=Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(params[0].get(0)).get();
+                    Document notDoc=Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(params[0].get(0)).timeout(50000).get();
                     setDocument(notDoc);
                     publishProgress("");
                     Elements table=notDoc.select("table");
@@ -259,18 +259,12 @@ else
                     System.out.println("came to handle");
                     if (list.getItemAtPosition(position).toString().equals("Update Marks")) {
                         if (netCheck.isNetAvailable(Home.this)) {
-
-//                            getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("showNotice")).commit();
                             drawer.closeDrawer(Gravity.LEFT);
-                            Bundle bundle = new Bundle();
                             System.out.println(getCooks());
-                            bundle.putSerializable("cookies", getCooks());
                             android.support.v4.app.Fragment fragment_marks = new UpdateMarks();
-                            fragment_marks.setArguments(bundle);
-
                             getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_marks).addToBackStack(null).commit();
-
                         } else {
+                            drawer.closeDrawer(Gravity.LEFT);
                             Toast.makeText(Home.this, "Check your network connection", Toast.LENGTH_SHORT).show();
                         }
                     } else if (list.getItemAtPosition(position).toString().equals("Home") || list.getItemAtPosition(position).toString().equals("Notice Board") || position == 0) {
@@ -283,18 +277,31 @@ else
                         }
                     } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Change Password")) {
                         drawer.closeDrawer(Gravity.LEFT);
-                        Bundle bundle = new Bundle();
                         System.out.println(getCooks());
-                        bundle.putSerializable("cookies", getCooks());
                         android.support.v4.app.Fragment fragment_pass = new UpdatePassFragment();
-                        fragment_pass.setArguments(bundle);
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_pass).addToBackStack(null).commit();
                     } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("MY MBD")) {
                         drawer.closeDrawer(Gravity.LEFT);
 
-                        Intent intent=new Intent(Home.this,Mbd.class);
-                        intent.putExtra("cookies",getCooks());
+                        Intent intent = new Intent(Home.this, Mbd.class);
                         startActivity(intent);
+                    } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Apply YBD")) {
+                        if (netCheck.isNetAvailable(Home.this)) {
+                            drawer.closeDrawer(Gravity.LEFT);
+                            android.support.v4.app.Fragment fragment_ybd = new Ybd();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_ybd).addToBackStack(null).commit();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Check you Network Connection", Toast.LENGTH_SHORT).show();
+                        }
+                    } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Sign Out")) {
+                        Cooks.setCookies(null);
+                        finish();
+                    } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Feedback")) {
+                        Intent intent = new Intent(Intent.ACTION_SENDTO);
+                        intent.setData(Uri.parse("mailto:"));
+                        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"devbeekay@gmail.com"});
+                        intent.putExtra(Intent.EXTRA_SUBJECT,"Feedback"+" "+Build.MANUFACTURER+" "+Build.MODEL+" "+Build.VERSION.RELEASE);
+                        startActivity(Intent.createChooser(intent,"Send Email to Developer"));
                     }
 
 
@@ -307,7 +314,6 @@ else
                 Bundle bundle=new Bundle();
                 bundle.putSerializable("list",new ContentWrapper(new ArrayList<>(getRecycleList().subList(1,getRecycleList().size()))));
                 bundle.putStringArrayList("ids",linkId);
-                bundle.putSerializable("cookies",cooks);
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager=getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.frameContainer,fragment,"showNotice").commit();

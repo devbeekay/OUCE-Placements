@@ -7,7 +7,7 @@
     <string name="string_open">Menu</string>
     <string name="string_close">Home</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_mbd">MBD</string>
 </resources>

@@ -24,6 +24,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -43,7 +44,7 @@ public class Notification extends android.support.v4.app.Fragment {
     RecyclerView recyclerView;
     Map<String, String> cookie;
     ArrayList<Contents> recycleList;
-    RecyclerView.Adapter adapter;
+    ContentsAdapter adapter;
     ArrayList<String> linkId;
     SwipeRefreshLayout swipe;
     NetCheck netCheck;
@@ -66,10 +67,10 @@ public class Notification extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
             super.onCreateView(inflater, container, savedInstanceState);
-        netCheck=new NetCheck();
+            netCheck=new NetCheck();
             ContentWrapper wrapper = (ContentWrapper) getArguments().getSerializable("list");
             setRecycleList(wrapper.getContents());
-            ArrayList<Map<String, String>> cooks = (ArrayList<Map<String, String>>) getArguments().getSerializable("cookies");
+            ArrayList<HashMap<String, String>> cooks = (ArrayList<HashMap<String, String>>)Cooks.getCookies();
             setCookie(cooks.get(0));
             setLinkId(getArguments().getStringArrayList("ids"));
             View view = inflater.inflate(R.layout.fragment_notification, container, false);
@@ -269,8 +270,7 @@ public class Notification extends android.support.v4.app.Fragment {
 
             super.onPostExecute(s);
             setRecycleList(s);
-            adapter=new ContentsAdapter(getRecycleList());
-            adapter.notifyDataSetChanged();
+            adapter.refresh(s);
             recyclerView.setAdapter(adapter);
             swipe.setRefreshing(false);
         }

@@ -22,6 +22,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
 
     DetailAdapter(ArrayList<Details> detailsList){
         this.detailsList=detailsList;
+        setHasStableIds(true);
     }
 
 
@@ -53,13 +54,18 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         holder.father.setText(details.father);
         holder.occupation.setText(details.occupation);
         holder.income.setText(details.income);
-        holder.present.setText(details.present);
+        holder.present.setText(details.present+"\n"+details.presentCity+"\n"+details.presentCountry+"\n"+details.presentPin);
+        holder.permanent.setText(details.permanent+"\n"+details.permanentCity+"\n"+details.permanentCountry+"\n"+details.permanentPin);
     }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 
     @Override
     public int getItemCount() {
-        return detailsList.size();
+        return 1;
     }
 
 
@@ -83,6 +89,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
         protected TextView occupation;
         protected TextView income;
         protected TextView present;
+        protected TextView permanent;
 
         public DetailViewHolder(View itemView) {
             super(itemView);
@@ -93,11 +100,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
             dob=(TextView)itemView.findViewById(R.id.dobvalue);
             year=(TextView)itemView.findViewById(R.id.yearvalue);
             place=(TextView)itemView.findViewById(R.id.placevalue);
-
-
             age=(TextView)itemView.findViewById(R.id.agevalue);
-
-
             gender=(TextView)itemView.findViewById(R.id.gendervalue);
             national=(TextView)itemView.findViewById(R.id.nationalvalue);
             height=(TextView)itemView.findViewById(R.id.heightvalue);
@@ -107,6 +110,7 @@ public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailView
             occupation=(TextView)itemView.findViewById(R.id.occupationvalue);
             income=(TextView)itemView.findViewById(R.id.incomevalue);
             present=(TextView)itemView.findViewById(R.id.presentcomplete);
+            permanent= (TextView) itemView.findViewById(R.id.permanentcomplete);
         }
     }
 } 

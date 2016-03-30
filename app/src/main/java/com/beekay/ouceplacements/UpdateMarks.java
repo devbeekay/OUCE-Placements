@@ -63,6 +63,7 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
         return semi2;
     }
 
+
     public void setSemi2(String semi2) {
         this.semi2 = semi2;
     }
@@ -111,29 +112,33 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
         @Override
         protected String doInBackground(String... params) {
             publishProgress("");
-            ArrayList<Map<String,String>> cooks= (ArrayList<Map<String, String>>) getArguments().getSerializable("cookies");
+            ArrayList<HashMap<String,String>> cooks= (ArrayList<HashMap<String, String>>) Cooks.getCookies();
             setCookie((HashMap<String,String>)cooks.get(0));
             try {
                 Document notDoc= Jsoup.connect("http://oucecareers.org/students/updatemarks.php").followRedirects(false).cookies(getCookie()).get();
-                System.out.println(notDoc);
                 Elements buttonText=notDoc.getElementsByTag("input");
-                for(Element input:buttonText){
-                    if(input.attr("id").toString().equals("pgsem1")){
-                        setSemi1(input.attr("value").toString());
+                Element but = buttonText.tagName("button").first();
+                int s = but.attr("onClick").indexOf(",'")+2;
+                int e = but.attr("onClick").indexOf(")")-1;
+                setCourse(but.attr("onClick").substring(s,e));
+                if(getCourse().equalsIgnoreCase("ME") || getCourse().equalsIgnoreCase("MTECH")) {
+                    for (Element input : buttonText) {
+                        if (input.attr("id").toString().equals("pgsem1")) {
+                            setSemi1(input.attr("value").toString());
+                        } else if (input.attr("id").toString().equals("pgsem2")) {
+                            setSemi2(input.attr("value").toString());
+                        } else if (input.attr("type").toString().equals("hidden")) {
+                            setRoll(input.attr("value").toString());
+                        } else if (input.attr("type").toString().equals("button")) {
+                            int start = input.attr("onClick").toString().indexOf(",'") + 2;
+                            int end = input.attr("onClick").toString().indexOf(")") - 1;
+                            setCourse(input.attr("onClick").toString().substring(start, end));
+                            System.out.println(input.attr("onClick").toString().substring(start, end));
+                        }
                     }
-                    else if(input.attr("id").toString().equals("pgsem2")){
-                        setSemi2(input.attr("value").toString());
-                    }
-                    else if(input.attr("type").toString().equals("hidden")){
-                        setRoll(input.attr("value").toString());
-                    }
-                    else if(input.attr("type").toString().equals("button")){
-                        int start=input.attr("onClick").toString().indexOf(",'")+2;
-                        int end=input.attr("onClick").toString().indexOf(")")-1;
-                        setCourse(input.attr("onClick").toString().substring(start,end));
-                        System.out.println(input.attr("onClick").toString().substring(start,end));
-                    }
-
+                }
+                else{
+                    return getCourse();
                 }
 
             } catch (IOException e) {
@@ -211,6 +216,14 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
                     }
 
                 });
+            }
+            else if(getCourse().equalsIgnoreCase("BE") || getCourse().equalsIgnoreCase("BTECH")){
+                Toast.makeText(getActivity(),"Updation of marks for "+getCourse()+" not supported yet",Toast.LENGTH_LONG).toString();
+                getActivity().getSupportFragmentManager().popBackStack();
+            }
+            else if(getCourse().equalsIgnoreCase("MCA")){
+                Toast.makeText(getActivity(),"Updation of marks for "+getCourse()+" not supported yet",Toast.LENGTH_LONG).toString();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         }
     }

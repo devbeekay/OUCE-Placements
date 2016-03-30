@@ -441,50 +441,65 @@
         android:text="Income"
         android:layout_margin="2dp"
         android:padding="2dp"/>
-
-</RelativeLayout>
-
-</android.support.v7.widget.CardView>
-
-
-    <android.support.v7.widget.CardView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        app:cardCornerRadius="2dp"
-        app:cardBackgroundColor="#fff"
-        android:id="@+id/addresscard"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp">
-    <RelativeLayout
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="10dp"
+        android:background="#eee"
+        android:layout_below="@+id/incomevalue"
+        android:id="@+id/linepresent"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/linepresent"
         android:text="Present Address"
         android:textColor="@android:color/secondary_text_dark"
         android:id="@+id/presentheading"
         android:padding="2dp"
         android:textSize="@dimen/abc_text_size_headline_material"
         android:layout_margin="2dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
-        android:layout_below="@+id/presentheading"
-        android:id="@+id/linepresent"
-        android:layout_margin="5dp"/>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/linepresent"
+        android:layout_below="@+id/presentheading"
         android:id="@+id/presentcomplete"
         android:textColor="@android:color/secondary_text_dark"
         android:text="Present Address"
         android:layout_margin="2dp"
         android:padding="2dp"/>
-    </RelativeLayout>
-    </android.support.v7.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/presentcomplete"
+        android:id="@+id/linepermanent"
+        android:layout_margin="5dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linepermanent"
+        android:text="Permanent Address"
+        android:textColor="@android:color/secondary_text_dark"
+        android:id="@+id/permanentheading"
+        android:padding="2dp"
+        android:textSize="@dimen/abc_text_size_headline_material"
+        android:layout_margin="2dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/permanentheading"
+        android:id="@+id/permanentcomplete"
+        android:textColor="@android:color/secondary_text_dark"
+        android:text="Permanent Address"
+        android:layout_margin="2dp"
+        android:padding="2dp"/>
+
+</RelativeLayout>
+
+</android.support.v7.widget.CardView>
 
 </LinearLayout>
