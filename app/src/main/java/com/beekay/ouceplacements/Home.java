@@ -302,6 +302,14 @@ public class Home extends AppCompatActivity  {
                         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"devbeekay@gmail.com"});
                         intent.putExtra(Intent.EXTRA_SUBJECT,"Feedback"+" "+Build.MANUFACTURER+" "+Build.MODEL+" "+Build.VERSION.RELEASE);
                         startActivity(Intent.createChooser(intent,"Send Email to Developer"));
+                    }else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Job Status")) {
+                        if (netCheck.isNetAvailable(Home.this)) {
+                            drawer.closeDrawer(Gravity.LEFT);
+                            android.support.v4.app.Fragment fragment_ybd = new JobStatusFrag();
+                            getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_ybd).addToBackStack(null).commit();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Check you Network Connection", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
 

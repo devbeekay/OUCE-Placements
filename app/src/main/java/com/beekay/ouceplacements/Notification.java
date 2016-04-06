@@ -154,16 +154,6 @@ public class Notification extends android.support.v4.app.Fragment {
         this.linkId = linkId;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         public void onFragmentInteraction(ArrayList<Contents> contents);
@@ -171,34 +161,25 @@ public class Notification extends android.support.v4.app.Fragment {
 
 
     public class RefreshList extends AsyncTask<String, String, ArrayList<Contents>> {
-
         ProgressDialog progressDialog;
         Document document;
-
         public Document getDocument() {
             return document;
         }
-
         public void setDocument(Document document) {
             this.document = document;
         }
-
-
-
         @Override
         protected ArrayList<Contents> doInBackground(String... params) {
-
-
+            ArrayList<String> links = new ArrayList<>();
+            int len;
             try {
-
-
                 Document notDoc = Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(getCookie()).get();
                 setDocument(notDoc);
                 publishProgress("");
                 Elements table = notDoc.select("table");
                 Contents contents;
                 boolean firstSkipped=false;
-
                 ArrayList<Contents> list = new ArrayList<Contents>();
                 int i = 0;
                 for (Element tr : table.select("tr")) {
@@ -207,12 +188,10 @@ public class Notification extends android.support.v4.app.Fragment {
                         for (Element td : tr.select("td")) {
                             if (i == 0)
                                 contents.number = td.text();
-
                             if (i == 1) {
-
                                 contents.notificationContent = td.text();
-
-
+                                len = td.select("a").attr("href").length();
+                                links.add(td.select("a").attr("href").toString().substring(len - 5, len - 1));
                             }
                             if (i == 2)
                                 contents.attachments = td.text();
@@ -220,14 +199,12 @@ public class Notification extends android.support.v4.app.Fragment {
                                 contents.datePosted = td.text();
                             i++;
                         }
-
                         i = 0;
-
                         list.add(contents);
                     }
                     firstSkipped=true;
                 }
-
+                setLinkId(links);
                 return list;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -238,39 +215,33 @@ public class Notification extends android.support.v4.app.Fragment {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-            ArrayList<String> links = new ArrayList<>();
-            Document doc = getDocument();
-            int len, i = 0;
-            boolean firstSkipped = false;
-            Element table = doc.select("table").first();
-            for (Element row : table.select("tr")) {
-                i = 0;
-                for (Element link : row.select("td")) {
-
-                    if (i == 1) {
-                        if (!firstSkipped)
-                            firstSkipped = true;
-
-                        else {
-                            //   System.out.print(link.select("a").attr("href").toString().length());
-                            len = link.select("a").attr("href").length();
-                            links.add(link.select("a").attr("href").toString().substring(len - 5, len - 1));
-                        }
-
-                    }
-
-                    i++;
-                }
-            }
-            setLinkId(links);
+//            ArrayList<String> links = new ArrayList<>();
+//            Document doc = getDocument();
+//            int len, i = 0;
+//            boolean firstSkipped = false;
+//            Element table = doc.select("table").first();
+//            for (Element row : table.select("tr")) {
+//                i = 0;
+//                for (Element link : row.select("td")) {
+//                    if (i == 1) {
+//                        if (!firstSkipped)
+//                            firstSkipped = true;
+//                        else {
+//                            len = link.select("a").attr("href").length();
+//                            links.add(link.select("a").attr("href").toString().substring(len - 5, len - 1));
+//                        }
+//                    }
+//                    i++;
+//                }
+//            }
+//            setLinkId(links);
         }
 
         @Override
         protected void onPostExecute(ArrayList<Contents> s) {
-
-            super.onPostExecute(s);
-            setRecycleList(s);
-            adapter.refresh(s);
+        super.onPostExecute(s);
+            setRecycleList(s);//setting the list of items for the recycle list
+            adapter.refresh(s);//adjusting the  adapter for refreshed list
             recyclerView.setAdapter(adapter);
             swipe.setRefreshing(false);
         }
