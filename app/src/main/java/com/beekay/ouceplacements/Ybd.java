@@ -108,8 +108,6 @@ public class Ybd extends Fragment {
                             if (i == 1) {
 
                                 details.company = td.text();
-
-
                             }
                             if (i == 2) {
                                 details.designation = td.text();
@@ -126,7 +124,6 @@ public class Ybd extends Fragment {
                             if(i==6){
                                 if(td.text().toString().equalsIgnoreCase("Not Eligible") || td.text().equalsIgnoreCase("Action")){
                                     details.eligible=td.text();
-
                                     linkId.add("Not Eligible");
                                 }
                                 else{
@@ -137,12 +134,10 @@ public class Ybd extends Fragment {
                                     linkId.add(link.substring(startIndex+1,endIndex));
                                 }
                             }
-
                             i++;
                         }
 
                         i = 0;
-
                         list.add(details);
                     }
                     firstSkipped=true;
@@ -163,7 +158,6 @@ public class Ybd extends Fragment {
             adapter.notifyItemRangeChanged(0, adapter.getItemCount());
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(adapter);
-
             recyclerView.smoothScrollBy(20, 20);
         }
     }

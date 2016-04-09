@@ -2,20 +2,16 @@ package com.beekay.ouceplacements;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import org.jsoup.Jsoup;
@@ -40,7 +36,6 @@ public class Notification extends android.support.v4.app.Fragment {
 
 
     private OnFragmentInteractionListener mListener;
-    ArrayList<Contents> contentList;
     RecyclerView recyclerView;
     Map<String, String> cookie;
     ArrayList<Contents> recycleList;
@@ -123,6 +118,9 @@ public class Notification extends android.support.v4.app.Fragment {
 
     }
 
+
+
+
     // TODO: Rename method, update argument and hook method into UI event
 
     @Override
@@ -176,11 +174,10 @@ public class Notification extends android.support.v4.app.Fragment {
             try {
                 Document notDoc = Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(getCookie()).get();
                 setDocument(notDoc);
-                publishProgress("");
                 Elements table = notDoc.select("table");
                 Contents contents;
                 boolean firstSkipped=false;
-                ArrayList<Contents> list = new ArrayList<Contents>();
+                ArrayList<Contents> list = new ArrayList<>();
                 int i = 0;
                 for (Element tr : table.select("tr")) {
                     if(firstSkipped) {
@@ -215,26 +212,6 @@ public class Notification extends android.support.v4.app.Fragment {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-//            ArrayList<String> links = new ArrayList<>();
-//            Document doc = getDocument();
-//            int len, i = 0;
-//            boolean firstSkipped = false;
-//            Element table = doc.select("table").first();
-//            for (Element row : table.select("tr")) {
-//                i = 0;
-//                for (Element link : row.select("td")) {
-//                    if (i == 1) {
-//                        if (!firstSkipped)
-//                            firstSkipped = true;
-//                        else {
-//                            len = link.select("a").attr("href").length();
-//                            links.add(link.select("a").attr("href").toString().substring(len - 5, len - 1));
-//                        }
-//                    }
-//                    i++;
-//                }
-//            }
-//            setLinkId(links);
         }
 
         @Override
@@ -246,4 +223,7 @@ public class Notification extends android.support.v4.app.Fragment {
             swipe.setRefreshing(false);
         }
     }
+
+
+
 }

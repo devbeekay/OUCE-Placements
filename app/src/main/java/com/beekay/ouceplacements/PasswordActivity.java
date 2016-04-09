@@ -1,7 +1,6 @@
 package com.beekay.ouceplacements;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -20,7 +19,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +64,7 @@ public class PasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         netCheck=new NetCheck();
         if(username!=null && password!=null && netCheck.isNetAvailable(this)){
-            ArrayList<String> credentialList = new ArrayList<String>(2);
+            ArrayList<String> credentialList = new ArrayList<>(2);
             credentialList.add(0, username);
             credentialList.add(1, password);
 
@@ -92,7 +90,7 @@ public class PasswordActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (netCheck.isNetAvailable(PasswordActivity.this)) {
-                        ArrayList<String> credentialList = new ArrayList<String>(2);
+                        ArrayList<String> credentialList = new ArrayList<>(2);
                         credentialList.add(0, user.getText().toString());
                         credentialList.add(1, pass.getText().toString());
 
@@ -140,7 +138,6 @@ public class PasswordActivity extends AppCompatActivity {
         protected Map<String,String> doInBackground(ArrayList<String>... params) {
             publishProgress("");
             ArrayList<String> credentials=params[0];
-            Map<String,String> loginCookies=null;
             try {
                 System.out.println(credentials.get(0) + credentials.get(1));
                 org.jsoup.Connection.Response res= Jsoup.connect("http://oucecareers.org/s_logaction.php").data("uname",credentials.get(0),"upass",credentials.get(1),"Submit","sign in").method(Connection.Method.POST).timeout(50000).execute();
@@ -152,7 +149,7 @@ public class PasswordActivity extends AppCompatActivity {
                     System.out.println(welcome.text().length());
                     String name=welcome.text().substring(7);
                     if(welcome.text().length()>7) {
-                        ArrayList<HashMap<String, String>> cook = new ArrayList<HashMap<String, String>>();
+                        ArrayList<HashMap<String, String>> cook = new ArrayList<>();
                         cook.add((HashMap<String, String>) res.cookies());
                         Cooks.setCookies(cook);
                         ArrayList<String> sideList=new ArrayList<>();
@@ -206,6 +203,7 @@ public class PasswordActivity extends AppCompatActivity {
             progressDialog=new ProgressDialog(PasswordActivity.this);
             progressDialog.setMessage("Logging in");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
             progressDialog.setIndeterminate(true);
             progressDialog.show();
         }

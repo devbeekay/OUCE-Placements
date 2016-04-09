@@ -1,6 +1,5 @@
 package com.beekay.ouceplacements;
 
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,17 +7,13 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -29,14 +24,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 
 public class Home extends AppCompatActivity  {
@@ -97,11 +86,10 @@ public class Home extends AppCompatActivity  {
         list=(ListView)findViewById(R.id.drawerlist);
         tool=(Toolbar)findViewById(R.id.tool);
         setSupportActionBar(tool);
-        Intent intent=getIntent();
-        cooks= (ArrayList<HashMap<String, String>>) Cooks.getCookies();
+        cooks = Cooks.getCookies();
         setCooks(cooks);
         if(netCheck.isNetAvailable(this))
-            new HomeList().execute(getCooks());
+            new HomeList().execute("");
         else
             Toast.makeText(this,"check your network connection",Toast.LENGTH_SHORT).show();
 
@@ -131,31 +119,7 @@ public class Home extends AppCompatActivity  {
         toggle.syncState();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-
-        return false;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (toggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-
-
-
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-    public class HomeList extends AsyncTask<ArrayList<HashMap<String,String>>,String,ArrayList<Contents>> {
+    public class HomeList extends AsyncTask<String,String,ArrayList<Contents>> {
 
         ProgressDialog progressDialog;
 
@@ -171,20 +135,20 @@ public class Home extends AppCompatActivity  {
         }
 
         @Override
-        protected ArrayList<Contents> doInBackground(ArrayList<HashMap<String,String>>... params) {
+        protected ArrayList<Contents> doInBackground(String... params) {
 
-            if(params[0].size()!=0)
+            if(cooks.size()!=0)
                 try {
 
 
-                    Document notDoc=Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(params[0].get(0)).timeout(50000).get();
+                    Document notDoc=Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(cooks.get(0)).timeout(50000).get();
                     setDocument(notDoc);
                     publishProgress("");
                     Elements table=notDoc.select("table");
                     Contents contents;
 
 
-                    ArrayList<Contents> list=new ArrayList<Contents>();
+                    ArrayList<Contents> list=new ArrayList<>();
                     int i=0;
                     for(Element tr : table.select("tr")){
                         contents=new Contents();
@@ -193,10 +157,7 @@ public class Home extends AppCompatActivity  {
                                 contents.number=td.text();
 
                             if(i==1) {
-
                                 contents.notificationContent = td.text();
-
-
                             }
                             if(i==2)
                                 contents.attachments=td.text();
@@ -221,7 +182,7 @@ public class Home extends AppCompatActivity  {
             super.onProgressUpdate(values);
             ArrayList<String> links=new ArrayList<>();
             Document doc=getDocument();
-            int len,i=0;
+            int len,i;
             boolean firstSkipped=false;
             Element table=doc.select("table").first();
             for(Element row: table.select("tr")){
@@ -259,35 +220,35 @@ public class Home extends AppCompatActivity  {
                     System.out.println("came to handle");
                     if (list.getItemAtPosition(position).toString().equals("Update Marks")) {
                         if (netCheck.isNetAvailable(Home.this)) {
-                            drawer.closeDrawer(Gravity.LEFT);
+                            drawer.closeDrawer(GravityCompat.START);
                             System.out.println(getCooks());
                             android.support.v4.app.Fragment fragment_marks = new UpdateMarks();
                             getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_marks).addToBackStack(null).commit();
                         } else {
-                            drawer.closeDrawer(Gravity.LEFT);
+                            drawer.closeDrawer(GravityCompat.START);
                             Toast.makeText(Home.this, "Check your network connection", Toast.LENGTH_SHORT).show();
                         }
                     } else if (list.getItemAtPosition(position).toString().equals("Home") || list.getItemAtPosition(position).toString().equals("Notice Board") || position == 0) {
                         if (fragment.isVisible())
-                            drawer.closeDrawer(Gravity.LEFT);
+                            drawer.closeDrawer(GravityCompat.START);
                         else {
-                            drawer.closeDrawer(Gravity.LEFT);
-                            getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
+                            drawer.closeDrawer(GravityCompat.START);
+                            if (!(getSupportFragmentManager().getBackStackEntryAt(0) instanceof Notification))
+                                getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
 
                         }
                     } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Change Password")) {
-                        drawer.closeDrawer(Gravity.LEFT);
+                        drawer.closeDrawer(GravityCompat.START);
                         System.out.println(getCooks());
                         android.support.v4.app.Fragment fragment_pass = new UpdatePassFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_pass).addToBackStack(null).commit();
                     } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("MY MBD")) {
-                        drawer.closeDrawer(Gravity.LEFT);
-
+                        drawer.closeDrawer(GravityCompat.START);
                         Intent intent = new Intent(Home.this, Mbd.class);
                         startActivity(intent);
                     } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Apply YBD")) {
                         if (netCheck.isNetAvailable(Home.this)) {
-                            drawer.closeDrawer(Gravity.LEFT);
+                            drawer.closeDrawer(GravityCompat.START);
                             android.support.v4.app.Fragment fragment_ybd = new Ybd();
                             getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_ybd).addToBackStack(null).commit();
                         } else {
@@ -300,11 +261,11 @@ public class Home extends AppCompatActivity  {
                         Intent intent = new Intent(Intent.ACTION_SENDTO);
                         intent.setData(Uri.parse("mailto:"));
                         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{"devbeekay@gmail.com"});
-                        intent.putExtra(Intent.EXTRA_SUBJECT,"Feedback"+" "+Build.MANUFACTURER+" "+Build.MODEL+" "+Build.VERSION.RELEASE);
-                        startActivity(Intent.createChooser(intent,"Send Email to Developer"));
-                    }else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Job Status")) {
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Feedback" + " " + Build.MANUFACTURER + " " + Build.MODEL + " " + Build.VERSION.RELEASE);
+                        startActivity(Intent.createChooser(intent, "Send Email to Developer"));
+                    } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Job Status")) {
                         if (netCheck.isNetAvailable(Home.this)) {
-                            drawer.closeDrawer(Gravity.LEFT);
+                            drawer.closeDrawer(GravityCompat.START);
                             android.support.v4.app.Fragment fragment_ybd = new JobStatusFrag();
                             getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_ybd).addToBackStack(null).commit();
                         } else {
@@ -318,18 +279,30 @@ public class Home extends AppCompatActivity  {
             setRecycleList(s);
             fragment=new Notification();
 
-            if(fragment!=null){
                 Bundle bundle=new Bundle();
-                bundle.putSerializable("list",new ContentWrapper(new ArrayList<>(getRecycleList().subList(1,getRecycleList().size()))));
-                bundle.putStringArrayList("ids",linkId);
+                bundle.putSerializable("list", new ContentWrapper(new ArrayList<>(getRecycleList().subList(1, getRecycleList().size()))));
+                bundle.putStringArrayList("ids", linkId);
                 fragment.setArguments(bundle);
                 FragmentManager fragmentManager=getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.frameContainer,fragment,"showNotice").commit();
-            }
+                fragmentManager.beginTransaction().add(R.id.frameContainer, fragment, "showNotice").commit();
 
         }
     }
 
+    @Override
+    public void onBackPressed() {
 
-
+        if(getSupportFragmentManager().getBackStackEntryCount()==0)
+            super.onBackPressed();
+        else{
+            Notification notification = (Notification) getSupportFragmentManager().findFragmentByTag("showNotice");
+            if(notification.isVisible()){
+                if(!(getSupportFragmentManager().getBackStackEntryAt(0) instanceof Notification))
+                    super.onBackPressed();
+            }
+            else{
+                super.onBackPressed();
+            }
+        }
+    }
 }

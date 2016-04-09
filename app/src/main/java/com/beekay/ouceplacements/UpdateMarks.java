@@ -118,9 +118,10 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
                 Document notDoc= Jsoup.connect("http://oucecareers.org/students/updatemarks.php").followRedirects(false).cookies(getCookie()).get();
                 Elements buttonText=notDoc.getElementsByTag("input");
                 Element but = buttonText.tagName("button").first();
-                int s = but.attr("onClick").indexOf(",'")+2;
-                int e = but.attr("onClick").indexOf(")")-1;
-                setCourse(but.attr("onClick").substring(s,e));
+                String butt = buttonText.attr("onClick");
+                int s = butt.indexOf(",'")+2;
+                int e = butt.indexOf(")")-1;
+                setCourse(butt.substring(s,e));
                 if(getCourse().equalsIgnoreCase("ME") || getCourse().equalsIgnoreCase("MTECH")) {
                     for (Element input : buttonText) {
                         if (input.attr("id").toString().equals("pgsem1")) {

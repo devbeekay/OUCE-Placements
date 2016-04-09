@@ -68,8 +68,7 @@ public class Mbd extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mbd);
-        Intent intent=getIntent();
-        ArrayList<HashMap<String,String>> cooks= (ArrayList<HashMap<String, String>>) Cooks.getCookies();
+        ArrayList<HashMap<String,String>> cooks= Cooks.getCookies();
             System.out.println(cooks.size());
             setCookies(cooks.get(0));
             new LoadMBD().execute("");

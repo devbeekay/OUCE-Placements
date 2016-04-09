@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.internal.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -39,7 +38,7 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
-        cooks=(ArrayList<HashMap<String,String>>)intent.getSerializableExtra("cookie");
+        cooks=Cooks.getCookies();
         jobId = intent.getStringExtra("position");
 
         System.out.println(cooks.size());
@@ -132,11 +131,12 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         protected Boolean doInBackground(String... strings) {
             try {
                 Document doc = Jsoup.connect("http://oucecareers.org/students/applyjobaction.php?jobid="+strings[0]).cookies(cooks.get(0)).followRedirects(false).get();
-                if(doc.body().text().equalsIgnoreCase("Successfully Applied")){
-                    return true;
-                }
-                else
-                    return false;
+//                if(doc.body().text().equalsIgnoreCase("Successfully Applied")){
+//                    return true;
+//                }
+//                else
+//                    return false;
+                return doc.body().text().equalsIgnoreCase("Successfully Applied");
             } catch (IOException e) {
                 e.printStackTrace();
             }

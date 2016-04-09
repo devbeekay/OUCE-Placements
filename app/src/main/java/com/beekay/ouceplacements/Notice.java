@@ -17,7 +17,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ActionMenuView;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -27,19 +26,15 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.jsoup.select.Evaluator;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
 
 
 /**
@@ -72,7 +67,7 @@ public class Notice extends android.support.v4.app.Fragment {
         // Inflate the layout for this fragment
         setHasOptionsMenu(true);
         setId(getArguments().getString("id"));
-        cooks= (ArrayList<HashMap<String, String>>)Cooks.getCookies();
+        cooks= Cooks.getCookies();
             System.out.println(getNoticeId());
         View v=inflater.inflate(R.layout.fragment_notice, container, false);
         resultView=(TextView)v.findViewById(R.id.resultView);
@@ -129,9 +124,7 @@ public class Notice extends android.support.v4.app.Fragment {
                 System.out.println("try start time"+(new java.sql.Timestamp(new java.util.Date().getTime())));
                 Document doc = Jsoup.connect("http://oucecareers.org/students/opennotice.php?noticeid=" + params[0]).cookies(cooks.get(0)).followRedirects(false).get();
                 boolean firstSkipped=false;
-
-                String text=new String();
-                ArrayList<Element> elementsList=new ArrayList<Element>();
+                ArrayList<Element> elementsList=new ArrayList<>();
                 for(Element e: doc.getElementsByTag("center")){
                     if(!firstSkipped)
                         firstSkipped=true;

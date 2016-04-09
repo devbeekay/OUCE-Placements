@@ -1,6 +1,7 @@
 package com.beekay.ouceplacements;
 
 
+import android.app.ProgressDialog;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -21,7 +22,6 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 
 /**
@@ -52,9 +52,10 @@ public class JobStatusFrag extends Fragment {
     }
 
     public class GetJobStatus extends AsyncTask<String, String, ArrayList<Company>>{
-
+        ProgressDialog progressDialog;
         @Override
         protected ArrayList<Company> doInBackground(String... strings) {
+            publishProgress("");
             ArrayList<Company> rows = new ArrayList<>();
             try {
                 Document document = Jsoup.connect("http://oucecareers.org/students/jobstatus.php").followRedirects(false).cookies(Cooks.getCookies().get(0)).timeout(50000).get();
@@ -91,6 +92,12 @@ public class JobStatusFrag extends Fragment {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
+            progressDialog = new ProgressDialog(getActivity());
+            progressDialog.setMessage("Loading");
+            progressDialog.setIndeterminate(true);
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
         }
 
         @Override
@@ -125,7 +132,9 @@ public class JobStatusFrag extends Fragment {
                 row.setGravity(1);
                 table.addView(row);
             }
+            progressDialog.hide();
         }
+
     }
 
 

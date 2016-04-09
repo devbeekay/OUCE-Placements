@@ -3,7 +3,6 @@ package com.beekay.ouceplacements;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.util.Linkify;
@@ -22,7 +21,7 @@ import java.util.regex.Pattern;
  */
 public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.ContentViewHolder>{
 
-        private List<Contents> contentsList;
+    private List<Contents> contentsList;
     int lastPostition=-1;
 
     public void setContext(Context context) {
@@ -40,7 +39,6 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Conten
     public ContentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         setContext(parent.getContext());
         View itemView= LayoutInflater.from(parent.getContext()).inflate(R.layout.card,parent,false);
-
         return new ContentViewHolder(itemView);
     }
 
@@ -51,10 +49,9 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Conten
             holder.card.setCardBackgroundColor(Color.parseColor("#dd1166"));
         }
         else{
-            holder.card.setCardBackgroundColor(Color.parseColor("#66dd66"));
+            holder.card.setCardBackgroundColor(Color.parseColor("#3F51B6"));
         }
         holder.notificationView.setText(contents.notificationContent);
-
         holder.attachmentView.setText(contents.attachments);
         Pattern wordMatch=Pattern.compile("^upload/[-a-zA-Z0-9+&@#/%?=~_|!:,.; ]*[-a-zA-Z0-9+&@#/%=~_| ]");
         String url="http://oucecareers.org/";
