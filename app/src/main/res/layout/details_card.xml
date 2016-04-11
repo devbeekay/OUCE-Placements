@@ -464,7 +464,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/presentheading"
         android:id="@+id/presentcomplete"
-        android:textColor="@android:color/secondary_text_dark"
+        android:textColor="@android:color/black"
         android:text="Present Address"
         android:layout_margin="2dp"
         android:padding="2dp"/>
@@ -493,7 +493,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/permanentheading"
         android:id="@+id/permanentcomplete"
-        android:textColor="@android:color/secondary_text_dark"
+        android:textColor="@android:color/black"
         android:text="Permanent Address"
         android:layout_margin="2dp"
         android:padding="2dp"/>

@@ -3,6 +3,7 @@ package com.beekay.ouceplacements;
 
 import android.app.ProgressDialog;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -120,12 +121,15 @@ public class JobStatusFrag extends Fragment {
                 dView.setPadding(10, 10, 10, 10);
                 row.addView(dView);
                 TextView sView = new TextView(getActivity());
-                cView.setLayoutParams(fieldParams);
+                sView.setLayoutParams(fieldParams);
                 sView.setText(companies.get(i).status);
                 sView.setPadding(10,10,10,10);
                 row.addView(sView);
                 if(j==0){
                     row.setBackgroundColor(Color.parseColor("#3399ff"));
+                    cView.setTypeface(null, Typeface.BOLD);
+                    dView.setTypeface(null, Typeface.BOLD);
+                    sView.setTypeface(null, Typeface.BOLD);
                     j++;
                 }
                 row.setOrientation(LinearLayout.HORIZONTAL);

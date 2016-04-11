@@ -160,7 +160,7 @@ public class PasswordActivity extends AppCompatActivity {
                             Element subList=eachList.next();
                             if(subList.children().size()>0){
                                 for(Element l : subList.select("a")){
-                                    if(l.attr("href").toString().equals("#") || l.text().equalsIgnoreCase("Change Photo")){
+                                    if(l.attr("href").toString().equals("#") || l.text().equalsIgnoreCase("Change Photo") || l.text().equalsIgnoreCase("Home") || l.text().equalsIgnoreCase("Notice Board")){
 
                                     }
                                     else

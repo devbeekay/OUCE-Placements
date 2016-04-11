@@ -79,38 +79,42 @@ public class Home extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        netCheck=new NetCheck();
+        if (savedInstanceState == null) {
+            setContentView(R.layout.activity_home);
+            netCheck = new NetCheck();
 
-        drawer=(DrawerLayout)findViewById(R.id.drawer);
-        list=(ListView)findViewById(R.id.drawerlist);
-        tool=(Toolbar)findViewById(R.id.tool);
-        setSupportActionBar(tool);
-        cooks = Cooks.getCookies();
-        setCooks(cooks);
-        if(netCheck.isNetAvailable(this))
-            new HomeList().execute("");
-        else
-            Toast.makeText(this,"check your network connection",Toast.LENGTH_SHORT).show();
+            drawer = (DrawerLayout) findViewById(R.id.drawer);
+            list = (ListView) findViewById(R.id.drawerlist);
+            tool = (Toolbar) findViewById(R.id.tool);
+            setSupportActionBar(tool);
+            cooks = Cooks.getCookies();
+            setCooks(cooks);
+            if (netCheck.isNetAvailable(this))
+                new HomeList().execute("");
+            else
+                Toast.makeText(this, "check your network connection", Toast.LENGTH_SHORT).show();
 
-        toggle=new ActionBarDrawerToggle(this,drawer,tool,R.string.string_open,R.string.string_close){
+            toggle = new ActionBarDrawerToggle(this, drawer, tool, R.string.string_open, R.string.string_close) {
 
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu();
-                super.onDrawerOpened(drawerView);
-            }
+                @Override
+                public void onDrawerOpened(View drawerView) {
+                    invalidateOptionsMenu();
+                    super.onDrawerOpened(drawerView);
+                }
 
-            @Override
-            public void onDrawerClosed(View drawerView)
-            {
-                invalidateOptionsMenu();
-                super.onDrawerClosed(drawerView);
-            }
-        };
-        drawer.setDrawerListener(toggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toggle.syncState();
+                @Override
+                public void onDrawerClosed(View drawerView) {
+                    invalidateOptionsMenu();
+                    super.onDrawerClosed(drawerView);
+                }
+            };
+            drawer.setDrawerListener(toggle);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            toggle.syncState();
+        }
+        else{
+            setContentView(R.layout.activity_home);
+        }
     }
 
     @Override
@@ -229,14 +233,14 @@ public class Home extends AppCompatActivity  {
                             Toast.makeText(Home.this, "Check your network connection", Toast.LENGTH_SHORT).show();
                         }
                     } else if (list.getItemAtPosition(position).toString().equals("Home") || list.getItemAtPosition(position).toString().equals("Notice Board") || position == 0) {
-                        if (fragment.isVisible())
-                            drawer.closeDrawer(GravityCompat.START);
-                        else {
-                            drawer.closeDrawer(GravityCompat.START);
-                            if (!(getSupportFragmentManager().getBackStackEntryAt(0) instanceof Notification))
-                                getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
-
-                        }
+//                        if (fragment.isVisible())
+//                            drawer.closeDrawer(GravityCompat.START);
+//                        else {
+//                            drawer.closeDrawer(GravityCompat.START);
+//                            if (!(getSupportFragmentManager().getBackStackEntryAt(0) instanceof Notification))
+//                                getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
+//
+//                        }
                     } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Change Password")) {
                         drawer.closeDrawer(GravityCompat.START);
                         System.out.println(getCooks());
