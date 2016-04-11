@@ -2,6 +2,7 @@ package com.beekay.ouceplacements;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -36,6 +38,7 @@ public class PasswordActivity extends AppCompatActivity {
     private Button logButton;
     Toolbar tool;
     NetCheck netCheck;
+    DataOpener opener;
 
     public ArrayList<String> getList() {
         return list;
@@ -67,23 +70,29 @@ public class PasswordActivity extends AppCompatActivity {
             ArrayList<String> credentialList = new ArrayList<>(2);
             credentialList.add(0, username);
             credentialList.add(1, password);
-
                 Login log = new Login();
                 log.execute(credentialList);
-
-
         }
         else {
-        setContentView(R.layout.activity_password);
-        System.out.println(username + password + "in static");
-        tool=(Toolbar)findViewById(R.id.tool);
-        setSupportActionBar(tool);
-
-
+            setContentView(R.layout.activity_password);
+            System.out.println(username + password + "in static");
+            tool=(Toolbar)findViewById(R.id.tool);
+            setSupportActionBar(tool);
             user = (EditText) findViewById(R.id.usertext);
             pass = (EditText) findViewById(R.id.passtext);
-
-
+            opener = new DataOpener(this);
+            opener.openRead();
+            Cursor cursor = opener.retrieve();
+            if(cursor.getCount()>0){
+                int i = 0;
+                while(cursor.moveToFirst() && i==0){
+                        user.setText(cursor.getString(0));
+                        pass.setText(cursor.getString(1));
+                        i++;
+                }
+            }
+            cursor.close();
+            opener.close();
             logButton = (Button) findViewById(R.id.logbutton);
             logButton.setOnClickListener(new View.OnClickListener() {
 
@@ -216,6 +225,31 @@ public class PasswordActivity extends AppCompatActivity {
                 password=pass.getText().toString();
             }
             if(Cooks.getCookies()!=null && !getList().get(0).equals("timedout")) {
+                CheckBox box = (CheckBox) findViewById(R.id.remember);
+                if(box.isChecked()){
+                    opener = new DataOpener(PasswordActivity.this);
+                    opener.open();
+                    Cursor cursor = opener.retrieve(username);
+                    if(cursor.getCount()!=0 ){
+                        int i = 0;
+                        String pas = null;
+                        while(cursor.moveToFirst() && i==0){
+                            pas = cursor.getString(2);
+                            i++;
+                        }
+                        if(!pas.equalsIgnoreCase(password)){
+                            //TODO update code
+                        }
+                        cursor.close();
+                        opener.close();
+                    }
+                    else{
+                        opener.insertData(username,password);
+                        cursor.close();
+                        opener.close();
+                        Toast.makeText(PasswordActivity.this,"User remembered",Toast.LENGTH_LONG).show();
+                    }
+                }
                 Intent intent = new Intent(PasswordActivity.this, Home.class);
                 intent.putExtra("list", getList());
                 progressDialog.dismiss();
