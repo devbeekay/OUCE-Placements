@@ -75,7 +75,7 @@ public class DataOpener {
         ContentValues values = new ContentValues();
         values.put(USER,user);
         values.put(PASS,pass);
-        return db.update(TABLE_NAME,values,USER+"='"+user+"'",null);
+        return db.update(TABLE_NAME,values,USER+"="+user,null);
     }
 
     public Cursor retrieve(){

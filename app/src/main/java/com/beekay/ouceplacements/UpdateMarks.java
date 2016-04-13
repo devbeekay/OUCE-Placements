@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,9 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
     String bsem1, bsem2, bsem3, bsem4, bsem5, bsem6, bsem7, bsem8;
     EditText bs1, bs2, bs3, bs4, bs5, bs6, bs7, bs8;
     View view;
+    boolean loaded=false;
+    Button beUpdate;
+    TextView bemarks;
 
     public HashMap<String, String> getCookie() {
         return cookie;
@@ -101,8 +105,25 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
         progressDialog=new ProgressDialog(getActivity());
         if(netCheck.isNetAvailable(getActivity()))
         new Updating().execute("");
+        while(!loaded){
+
+        }
+        if(getCourse().equalsIgnoreCase("ME") || getCourse().equalsIgnoreCase("MTECH")) {
             view = inflater.inflate(R.layout.fragment_update_marks, container, false);
             frame = (FrameLayout) view.findViewById(R.id.update);
+        }else{
+            view = inflater.inflate(R.layout.be_marks, container, false);
+            bs1 = (EditText) view.findViewById(R.id.s1value);
+            bs2 = (EditText) view.findViewById(R.id.s2value);
+            bs3 = (EditText) view.findViewById(R.id.s3value);
+            bs4 = (EditText) view.findViewById(R.id.s4value);
+            bs5 = (EditText) view.findViewById(R.id.s5value);
+            bs6 = (EditText) view.findViewById(R.id.s6value);
+            bs7 = (EditText) view.findViewById(R.id.s7value);
+            bs8 = (EditText) view.findViewById(R.id.s8value);
+            beUpdate = (Button) view.findViewById(R.id.beupdate);
+            bemarks = (TextView) view.findViewById(R.id.marksbe);
+        }
         return view;
     }
 
@@ -125,6 +146,7 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
                 int s = butt.indexOf(",'")+2;
                 int e = butt.indexOf(")")-1;
                 setCourse(butt.substring(s,e));
+                loaded=true;
                 if(getCourse().equalsIgnoreCase("ME") || getCourse().equalsIgnoreCase("MTECH")) {
                     for (Element input : buttonText) {
                         if (input.attr("id").toString().equals("pgsem1")) {
@@ -185,6 +207,7 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
             progressDialog.dismiss();
             if(getCourse().equals("ME") || getCourse().equals("MTECH")){
                 LinearLayout layout=new LinearLayout(getActivity().getApplicationContext());
@@ -243,9 +266,6 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
                 });
             }
             else if(getCourse().equalsIgnoreCase("BE") || getCourse().equalsIgnoreCase("BTECH")){
-//                Toast.makeText(getActivity(),"Updation of marks for "+getCourse()+" not supported yet",Toast.LENGTH_LONG).toString();
-//                getActivity().getSupportFragmentManager().popBackStack();
-
                 bs1.setText(bsem1);
                 bs1.setFocusable(false);
                 bs1.setKeyListener(null);
@@ -264,6 +284,16 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
                 bs6.setText(bsem6);
                 bs7.setText(bsem7);
                 bs8.setText(bsem8);
+
+                beUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(netCheck.isNetAvailable(getActivity()))
+                            new Update().execute(bsem1,bsem2,bsem3,bsem4,bsem5,bs6.getText().toString(),bs7.getText().toString(),bs8.getText().toString());
+                        else
+                            Toast.makeText(getActivity(),"Check Your network connection",Toast.LENGTH_LONG).show();
+                    }
+                });
             }
             else if(getCourse().equalsIgnoreCase("MCA")){
                 Toast.makeText(getActivity(),"Updation of marks for "+getCourse()+" not supported yet",Toast.LENGTH_LONG).toString();
@@ -278,8 +308,33 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
         protected String doInBackground(String... params) {
             try {
                 publishProgress("");
-                Connection.Response response=Jsoup.connect("http://oucecareers.org/students/updatemarksaction.php?rollno="+getRoll()+"&pgsem1="+params[0]+"&pgsem2="+params[1]+"&course="+getCourse()+"&avggpa="+params[2]).cookies(getCookie()).execute();
-                System.out.println(response.toString());
+                if(getCourse().equalsIgnoreCase("ME") || getCourse().equalsIgnoreCase("MTECH") ) {
+                    Connection.Response response = Jsoup.connect("http://oucecareers.org/students/updatemarksaction.php?rollno=" + getRoll() + "&pgsem1=" + params[0] + "&pgsem2=" + params[1] + "&course=" + getCourse() + "&avggpa=" + params[2]).cookies(Cooks.getCookies().get(0)).timeout(50000).execute();
+                    System.out.println(response.toString());
+                }
+                else if(getCourse().equalsIgnoreCase("BE")){
+                    Float dividingFactor=6.0F;
+                    if(params[5]== null || params[5]=="0.00" || params[5].length()==0){
+
+                        //if(sem7gpa==0.00 && sem8gpa==0.00){ dividingfactor=6.0;}
+//                        if(sem8gpa==0.00 && sem7gpa!=0.00){dividingfactor=7.0;}
+//                        if(sem8gpa!=0.00 && sem8gpa!=0.00){dividingfactor=8.0;}
+//                        if(sem6gpa==0.00){dividingfactor=5.0;}
+                        dividingFactor=5.0F;
+                    }
+                    else if((params[6] == null || params[6].equalsIgnoreCase("0.00") || params[6].length()==0) && (params[7] == null || params[7].equalsIgnoreCase("0.00") || params[7].length()==0) ){
+                        dividingFactor = 6.0F;
+                    }
+                    else if(!(params[6] == null || params[6].equalsIgnoreCase("0.00") || params[6].length()==0) && (params[7] == null || params[7].equalsIgnoreCase("0.00") || params[7].length()==0) ){
+                        dividingFactor = 7.0F;
+                    }
+                    else if(!(params[6] == null || params[6].equalsIgnoreCase("0.00") || params[6].length()==0) && !(params[7] == null || params[7].equalsIgnoreCase("0.00") || params[7].length()==0) ){
+                        dividingFactor = 8.0F;
+                    }
+                    Float avg = (Float.parseFloat(params[0])+Float.parseFloat(params[1])+Float.parseFloat(params[2])+Float.parseFloat(params[3])+Float.parseFloat(params[4]))/dividingFactor;
+                    Connection.Response response = Jsoup.connect("http://oucecareers.org/students/updatemarksaction.php?rollno=" + getRoll() +"&sem6gpa="+params[5]+"&sem7gpa="+params[6]+"&sem8gpa="+params[7]+"&course="+getCourse()+"&sem1gpa="+params[0]+"&sem2gpa="+params[1]+"&sem3gpa="+params[2]+"&sem4gpa="+params[3]+"&sem5gpa="+params[4]+"&avggpa="+avg).cookies(Cooks.getCookies().get(0)).timeout(50000).execute();
+                    return ""+avg;
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -301,6 +356,9 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressDialog.dismiss();
+            if(getCourse().equalsIgnoreCase("BE")){
+                bemarks.setText(s);
+            }
         }
     }
 

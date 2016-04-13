@@ -81,19 +81,7 @@ public class PasswordActivity extends AppCompatActivity {
             setSupportActionBar(tool);
             user = (EditText) findViewById(R.id.usertext);
             pass = (EditText) findViewById(R.id.passtext);
-            opener = new DataOpener(this);
-            opener.openRead();
-            Cursor cursor = opener.retrieve();
-            if(cursor.getCount()>0){
-                int i = 0;
-                while(cursor.moveToFirst() && i==0){
-                        user.setText(cursor.getString(0));
-                        pass.setText(cursor.getString(1));
-                        i++;
-                }
-            }
-            cursor.close();
-            opener.close();
+
             user.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean b) {
@@ -102,12 +90,27 @@ public class PasswordActivity extends AppCompatActivity {
                     opener.openRead();
                     Editable u = user.getText();
                     System.out.println(u.toString());
-                    if (u!=null) {
+                    if (u.toString().length()>0) {
                         Cursor cursor = opener.retrieve(u.toString());
                         if (cursor.getCount() > 0) {
                             int i = 0;
                             while (cursor.moveToFirst() && i == 0) {
                                 System.out.println(cursor.getString(1));
+                                pass.setText(cursor.getString(1));
+                                i++;
+                            }
+                        }
+                        cursor.close();
+                        opener.close();
+                    }
+                    else{
+                        opener = new DataOpener(PasswordActivity.this);
+                        opener.openRead();
+                        Cursor cursor = opener.retrieve();
+                        if(cursor.getCount()>0){
+                            int i = 0;
+                            while(cursor.moveToFirst() && i==0){
+                                user.setText(cursor.getString(0));
                                 pass.setText(cursor.getString(1));
                                 i++;
                             }
@@ -193,11 +196,9 @@ public class PasswordActivity extends AppCompatActivity {
                             Element subList=eachList.next();
                             if(subList.children().size()>0){
                                 for(Element l : subList.select("a")){
-                                    if(l.attr("href").toString().equals("#") || l.text().equalsIgnoreCase("Change Photo") || l.text().equalsIgnoreCase("Home") || l.text().equalsIgnoreCase("Notice Board")){
-
+                                    if(!(l.attr("href").toString().equals("#") || l.text().equalsIgnoreCase("Change Photo") || l.text().equalsIgnoreCase("Home") || l.text().equalsIgnoreCase("Notice Board"))) {
+                                        sideList.add(l.text());
                                     }
-                                    else
-                                    sideList.add(l.text());
                                 }
                             }
                             else
@@ -261,8 +262,9 @@ public class PasswordActivity extends AppCompatActivity {
                             pas = cursor.getString(1);
                             i++;
                         }
-                        if(!pas.equalsIgnoreCase(password)){
-                            //TODO update code
+                        if(pas !=null && !pas.equalsIgnoreCase(password)){
+                            //update code
+                            opener.upgrade(username,password);
                         }
                         cursor.close();
                         opener.close();

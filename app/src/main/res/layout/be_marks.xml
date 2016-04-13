@@ -179,6 +179,30 @@
             android:text="Update"
             android:id="@+id/beupdate"
             android:layout_below="@id/sem8box"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/beupdate"
+            android:layout_margin="10dp"
+            android:id="@+id/updatebox">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Updated Marks"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/updatedmarks"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                android:id="@+id/marksbe"/>
+        </LinearLayout>
+
 
     </RelativeLayout>
 
