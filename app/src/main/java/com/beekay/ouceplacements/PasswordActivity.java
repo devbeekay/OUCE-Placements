@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -93,6 +94,29 @@ public class PasswordActivity extends AppCompatActivity {
             }
             cursor.close();
             opener.close();
+            user.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    System.out.println("focus changed");
+                    opener = new DataOpener(PasswordActivity.this);
+                    opener.openRead();
+                    Editable u = user.getText();
+                    System.out.println(u.toString());
+                    if (u!=null) {
+                        Cursor cursor = opener.retrieve(u.toString());
+                        if (cursor.getCount() > 0) {
+                            int i = 0;
+                            while (cursor.moveToFirst() && i == 0) {
+                                System.out.println(cursor.getString(1));
+                                pass.setText(cursor.getString(1));
+                                i++;
+                            }
+                        }
+                        cursor.close();
+                        opener.close();
+                    }
+                }
+            });
             logButton = (Button) findViewById(R.id.logbutton);
             logButton.setOnClickListener(new View.OnClickListener() {
 
@@ -234,7 +258,7 @@ public class PasswordActivity extends AppCompatActivity {
                         int i = 0;
                         String pas = null;
                         while(cursor.moveToFirst() && i==0){
-                            pas = cursor.getString(2);
+                            pas = cursor.getString(1);
                             i++;
                         }
                         if(!pas.equalsIgnoreCase(password)){

@@ -83,6 +83,6 @@ public class DataOpener {
     }
 
     public Cursor retrieve(String user){
-        return db.query(TABLE_NAME, new String[]{USER,PASS},null,null,null,null,null);
+        return db.query(TABLE_NAME, new String[]{USER,PASS},"user=?",new String[]{user},null,null,null);
     }
 }

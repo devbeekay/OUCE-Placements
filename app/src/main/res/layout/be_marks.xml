@@ -1,6 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/sem1box">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem 1"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/sem1"
+                android:gravity="center_vertical"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/s1value"/>
+        </LinearLayout>
 
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/sem1box"
+            android:layout_margin="5dp"
+            android:id="@+id/sem2box">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem 2"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/sem2"
+                android:gravity="center_vertical"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/s2value"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/sem2box"
+            android:layout_margin="5dp"
+            android:id="@+id/sem3box">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem 3"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/sem3"
+                android:gravity="center_vertical"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/s3value"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/sem3box"
+            android:layout_margin="5dp"
+            android:id="@+id/sem4box">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem 4"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/sem4"
+                android:gravity="center_vertical"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/s4value"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/sem4box"
+            android:layout_margin="5dp"
+            android:id="@+id/sem5box">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem 5"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/sem5"
+                android:gravity="center_vertical"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/s5value"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/sem5box"
+            android:layout_margin="5dp"
+            android:id="@+id/sem6box">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem 6"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/sem6"
+                android:gravity="center_vertical"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/s6value"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/sem6box"
+            android:layout_margin="5dp"
+            android:id="@+id/sem7box">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem 7"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/sem7"
+                android:gravity="center_vertical"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/s7value"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/sem7box"
+            android:layout_margin="5dp"
+            android:id="@+id/sem8box">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem 8"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/sem8"
+                android:gravity="center_vertical"/>
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/s8value"/>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Update"
+            android:id="@+id/beupdate"
+            android:layout_below="@id/sem8box"/>
+
+    </RelativeLayout>
+
+</ScrollView>

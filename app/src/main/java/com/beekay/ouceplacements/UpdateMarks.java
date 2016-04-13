@@ -42,6 +42,9 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
     HashMap<String,String> cookie;
     ProgressDialog progressDialog;
     NetCheck netCheck;
+    String bsem1, bsem2, bsem3, bsem4, bsem5, bsem6, bsem7, bsem8;
+    EditText bs1, bs2, bs3, bs4, bs5, bs6, bs7, bs8;
+    View view;
 
     public HashMap<String, String> getCookie() {
         return cookie;
@@ -98,8 +101,8 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
         progressDialog=new ProgressDialog(getActivity());
         if(netCheck.isNetAvailable(getActivity()))
         new Updating().execute("");
-        View view=inflater.inflate(R.layout.fragment_update_marks, container, false);
-        frame=(FrameLayout)view.findViewById(R.id.update);
+            view = inflater.inflate(R.layout.fragment_update_marks, container, false);
+            frame = (FrameLayout) view.findViewById(R.id.update);
         return view;
     }
 
@@ -130,13 +133,34 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
                             setSemi2(input.attr("value").toString());
                         } else if (input.attr("type").toString().equals("hidden")) {
                             setRoll(input.attr("value").toString());
-                        } else if (input.attr("type").toString().equals("button")) {
-                            int start = input.attr("onClick").toString().indexOf(",'") + 2;
-                            int end = input.attr("onClick").toString().indexOf(")") - 1;
-                            setCourse(input.attr("onClick").toString().substring(start, end));
-                            System.out.println(input.attr("onClick").toString().substring(start, end));
                         }
                     }
+                }
+                else if (getCourse().equalsIgnoreCase("BE")){
+                    for (Element input : buttonText) {
+                        if (input.attr("id").toString().equals("sem1gpa")) {
+                            bsem1 = input.attr("value").toString();
+                        } else if (input.attr("id").toString().equals("sem2gpa")) {
+                            bsem2 = input.attr("value").toString();
+                        } else if (input.attr("id").toString().equals("sem3gpa")) {
+                            bsem3 = input.attr("value").toString();
+                        } else if (input.attr("id").toString().equals("sem4gpa")) {
+                            bsem4 = input.attr("value").toString();
+                        } else if (input.attr("id").toString().equals("sem5gpa")) {
+                            bsem5 = input.attr("value").toString();
+                        } else if (input.attr("id").toString().equals("sem6gpa")) {
+                            bsem6 = input.attr("value").toString();
+                        } else if (input.attr("id").toString().equals("sem7gpa")) {
+                            bsem7 = input.attr("value").toString();
+                        } else if (input.attr("id").toString().equals("sem8gpa")) {
+                            bsem8 = input.attr("value").toString();
+                        } else if (input.attr("type").toString().equals("hidden")) {
+                            setRoll(input.attr("value").toString());
+                        }
+                    }
+                }
+                else if(getCourse().equalsIgnoreCase("MCA")){
+
                 }
                 else{
                     return getCourse();
@@ -219,8 +243,27 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
                 });
             }
             else if(getCourse().equalsIgnoreCase("BE") || getCourse().equalsIgnoreCase("BTECH")){
-                Toast.makeText(getActivity(),"Updation of marks for "+getCourse()+" not supported yet",Toast.LENGTH_LONG).toString();
-                getActivity().getSupportFragmentManager().popBackStack();
+//                Toast.makeText(getActivity(),"Updation of marks for "+getCourse()+" not supported yet",Toast.LENGTH_LONG).toString();
+//                getActivity().getSupportFragmentManager().popBackStack();
+
+                bs1.setText(bsem1);
+                bs1.setFocusable(false);
+                bs1.setKeyListener(null);
+                bs2.setText(bsem2);
+                bs2.setFocusable(false);
+                bs2.setKeyListener(null);
+                bs3.setText(bsem3);
+                bs3.setFocusable(false);
+                bs3.setKeyListener(null);
+                bs4.setText(bsem4);
+                bs4.setFocusable(false);
+                bs4.setKeyListener(null);
+                bs5.setText(bsem5);
+                bs5.setFocusable(false);
+                bs5.setKeyListener(null);
+                bs6.setText(bsem6);
+                bs7.setText(bsem7);
+                bs8.setText(bsem8);
             }
             else if(getCourse().equalsIgnoreCase("MCA")){
                 Toast.makeText(getActivity(),"Updation of marks for "+getCourse()+" not supported yet",Toast.LENGTH_LONG).toString();
