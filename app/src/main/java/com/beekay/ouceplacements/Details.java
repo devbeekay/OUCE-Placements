@@ -30,4 +30,13 @@ public class Details {
     protected String presentPin,permanentPin;
     protected String phone1,phone2;
     protected String mail1,mail2;
+    protected String sboard,scollege,saddress,syop,scgpa;
+    protected String iboard,icollege,iaddress,iyop,igpa;
+    protected String dboard,dcollege,daddress,dyop,dgpa;
+    protected String bboard,bcollege,baddress,byop,bgpa;
+    protected String eamcet,sem,aggregate,project;
+    protected String gatescore;
+    protected String pgscore,thesis;
+    protected String extras;
+    protected String itdname, itdduration, itdtype;
 }

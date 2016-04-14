@@ -179,13 +179,102 @@ public class Mbd extends AppCompatActivity {
                         case "phone2":
                             details.phone2=e.val();
                             break;
-                        case "mail1":
+                        case "emailid1":
                             details.mail1=e.val();
                             break;
-                        case "mail2":
+                        case "emailid2":
                             details.mail2=e.val();
                             break;
-
+                        case "sscboard":
+                            details.sboard=e.val();
+                            break;
+                        case "ssccollege":
+                            details.scollege=e.val();
+                            break;
+                        case "sscaddress":
+                            details.saddress=e.val();
+                            break;
+                        case "sscyop":
+                            details.syop=e.val();
+                            break;
+                        case "sscgpa":
+                            details.scgpa=e.val();
+                            break;
+                        case "ipboard":
+                            details.iboard=e.val();
+                            break;
+                        case "ipcollege":
+                            details.icollege=e.val();
+                            break;
+                        case "ipaddress":
+                            details.iaddress=e.val();
+                            break;
+                        case "ipyop":
+                            details.iyop=e.val();
+                            break;
+                        case "ipgpa":
+                            details.igpa=e.val();
+                            break;
+                        case "diplomaboard":
+                            details.dboard=e.val();
+                            break;
+                        case "diplomacollege":
+                            details.dcollege=e.val();
+                            break;
+                        case "diplomaaddress":
+                            details.daddress=e.val();
+                            break;
+                        case "diplomayop":
+                            details.dyop=e.val();
+                            break;
+                        case "diplomagpa":
+                            details.dgpa=e.val();
+                            break;
+                        case "bscboard":
+                            details.bboard=e.val();
+                            break;
+                        case "bsccollege":
+                            details.bcollege=e.val();
+                            break;
+                        case "bscaddress":
+                            details.baddress=e.val();
+                            break;
+                        case "bscyop":
+                            details.byop=e.val();
+                            break;
+                        case "bscgpa":
+                            details.bgpa=e.val();
+                            break;
+                        case "eiecetrank":
+                            details.eamcet=e.val();
+                            break;
+                        case "avggpa":
+                            details.aggregate=e.val();
+                            break;
+                        case "semister":
+                            details.sem=e.val();
+                            break;
+                        case "titleofproject":
+                            details.project=e.val();
+                            break;
+                        case "gatescore":
+                            details.gatescore=e.val();
+                            break;
+                        case "pgavggpa":
+                            details.pgscore=e.val();
+                            break;
+                        case "pgsem3title":
+                            details.thesis=e.val();
+                            break;
+                        case "itdname":
+                            details.itdname=e.val();
+                            break;
+                        case "itdduration":
+                            details.itdduration=e.val();
+                            break;
+                        case "itdtypeoftraining":
+                            details.itdtype=e.val();
+                            break;
                     }
                 }
                 Elements addresses=doc.select("textarea");
@@ -197,6 +286,9 @@ public class Mbd extends AppCompatActivity {
                     }
                     else if(e.attr("name").toString().equals("address2")){
                         details.permanent=e.val();
+                    }
+                    else if(e.attr("name").toString().equals("extracirculars")){
+                        details.extras=e.val();
                     }
                     detailList.add(details);
                 }

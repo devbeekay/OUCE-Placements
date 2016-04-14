@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class Home extends AppCompatActivity  {
+public class Home extends AppCompatActivity {
 
 
     DrawerLayout drawer;
@@ -36,6 +36,7 @@ public class Home extends AppCompatActivity  {
     Toolbar tool;
     ListView list;
     NetCheck netCheck;
+
     public Document getDocument() {
         return document;
     }
@@ -66,7 +67,7 @@ public class Home extends AppCompatActivity  {
     }
 
     static ArrayList<Contents> recycleList;
-    ArrayList<HashMap<String,String>> cooks;
+    ArrayList<HashMap<String, String>> cooks;
 
     public ArrayList<HashMap<String, String>> getCooks() {
         return cooks;
@@ -111,8 +112,7 @@ public class Home extends AppCompatActivity  {
             drawer.setDrawerListener(toggle);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toggle.syncState();
-        }
-        else{
+        } else {
             setContentView(R.layout.activity_home);
         }
     }
@@ -123,14 +123,14 @@ public class Home extends AppCompatActivity  {
         toggle.syncState();
     }
 
-    public class HomeList extends AsyncTask<String,String,ArrayList<Contents>> {
+    public class HomeList extends AsyncTask<String, String, ArrayList<Contents>> {
 
         ProgressDialog progressDialog;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progressDialog=new ProgressDialog(Home.this);
+            progressDialog = new ProgressDialog(Home.this);
             progressDialog.setMessage("Loading...");
             progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progressDialog.setIndeterminate(true);
@@ -141,41 +141,41 @@ public class Home extends AppCompatActivity  {
         @Override
         protected ArrayList<Contents> doInBackground(String... params) {
 
-            if(cooks.size()!=0)
+            if (cooks.size() != 0)
                 try {
 
 
-                    Document notDoc=Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(cooks.get(0)).timeout(50000).get();
+                    Document notDoc = Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(cooks.get(0)).timeout(50000).get();
                     setDocument(notDoc);
                     publishProgress("");
-                    Elements table=notDoc.select("table");
+                    Elements table = notDoc.select("table");
                     Contents contents;
 
 
-                    ArrayList<Contents> list=new ArrayList<>();
-                    int i=0;
-                    for(Element tr : table.select("tr")){
-                        contents=new Contents();
-                        for(Element td : tr.select("td")){
-                            if(i==0)
-                                contents.number=td.text();
+                    ArrayList<Contents> list = new ArrayList<>();
+                    int i = 0;
+                    for (Element tr : table.select("tr")) {
+                        contents = new Contents();
+                        for (Element td : tr.select("td")) {
+                            if (i == 0)
+                                contents.number = td.text();
 
-                            if(i==1) {
+                            if (i == 1) {
                                 contents.notificationContent = td.text();
                             }
-                            if(i==2)
-                                contents.attachments=td.text();
-                            if(i==3)
-                                contents.datePosted=td.text();
+                            if (i == 2)
+                                contents.attachments = td.text();
+                            if (i == 3)
+                                contents.datePosted = td.text();
                             i++;
                         }
-                        i=0;
+                        i = 0;
 
                         list.add(contents);
                     }
 
                     return list;
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             return null;
@@ -184,21 +184,21 @@ public class Home extends AppCompatActivity  {
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-            ArrayList<String> links=new ArrayList<>();
-            Document doc=getDocument();
-            int len,i;
-            boolean firstSkipped=false;
-            Element table=doc.select("table").first();
-            for(Element row: table.select("tr")){
-                i=0;
-                for(Element link: row.select("td")) {
+            ArrayList<String> links = new ArrayList<>();
+            Document doc = getDocument();
+            int len, i;
+            boolean firstSkipped = false;
+            Element table = doc.select("table").first();
+            for (Element row : table.select("tr")) {
+                i = 0;
+                for (Element link : row.select("td")) {
 
-                    if(i==1 ) {
-                        if(!firstSkipped)
-                            firstSkipped=true;
+                    if (i == 1) {
+                        if (!firstSkipped)
+                            firstSkipped = true;
 
                         else {
-                         //   System.out.print(link.select("a").attr("href").toString().length());
+                            //   System.out.print(link.select("a").attr("href").toString().length());
                             len = link.select("a").attr("href").length();
                             links.add(link.select("a").attr("href").toString().substring(len - 5, len - 1));
                         }
@@ -214,9 +214,9 @@ public class Home extends AppCompatActivity  {
         @Override
         protected void onPostExecute(ArrayList<Contents> s) {
             progressDialog.dismiss();
-            ArrayList<String> sideList=(ArrayList<String>)getIntent().getSerializableExtra("list");
+            ArrayList<String> sideList = (ArrayList<String>) getIntent().getSerializableExtra("list");
             super.onPostExecute(s);
-            ArrayAdapter<String> adapter=new ArrayAdapter<String>(getBaseContext(),android.R.layout.simple_list_item_1,android.R.id.text1, sideList);
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, android.R.id.text1, sideList);
             list.setAdapter(adapter);
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -232,15 +232,6 @@ public class Home extends AppCompatActivity  {
                             drawer.closeDrawer(GravityCompat.START);
                             Toast.makeText(Home.this, "Check your network connection", Toast.LENGTH_SHORT).show();
                         }
-                    } else if (list.getItemAtPosition(position).toString().equals("Home") || list.getItemAtPosition(position).toString().equals("Notice Board") || position == 0) {
-//                        if (fragment.isVisible())
-//                            drawer.closeDrawer(GravityCompat.START);
-//                        else {
-//                            drawer.closeDrawer(GravityCompat.START);
-//                            if (!(getSupportFragmentManager().getBackStackEntryAt(0) instanceof Notification))
-//                                getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment).commit();
-//
-//                        }
                     } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Change Password")) {
                         drawer.closeDrawer(GravityCompat.START);
                         System.out.println(getCooks());
@@ -281,32 +272,13 @@ public class Home extends AppCompatActivity  {
                 }
             });
             setRecycleList(s);
-            fragment=new Notification();
-
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("list", new ContentWrapper(new ArrayList<>(getRecycleList().subList(1, getRecycleList().size()))));
-                bundle.putStringArrayList("ids", linkId);
-                fragment.setArguments(bundle);
-                FragmentManager fragmentManager=getSupportFragmentManager();
-                fragmentManager.beginTransaction().add(R.id.frameContainer, fragment, "showNotice").commit();
-
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-
-        if(getSupportFragmentManager().getBackStackEntryCount()==0)
-            super.onBackPressed();
-        else{
-            Notification notification = (Notification) getSupportFragmentManager().findFragmentByTag("showNotice");
-            if(notification.isVisible()){
-                if(!(getSupportFragmentManager().getBackStackEntryAt(0) instanceof Notification))
-                    super.onBackPressed();
-            }
-            else{
-                super.onBackPressed();
-            }
+            fragment = new Notification();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("list", new ContentWrapper(new ArrayList<>(getRecycleList().subList(1, getRecycleList().size()))));
+            bundle.putStringArrayList("ids", linkId);
+            fragment.setArguments(bundle);
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().add(R.id.frameContainer, fragment, "showNotice").commit();
         }
     }
 }

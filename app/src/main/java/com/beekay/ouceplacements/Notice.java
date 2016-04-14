@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -75,6 +76,7 @@ public class Notice extends android.support.v4.app.Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 View rootView = view.getRootView();
                 rootView.setDrawingCacheEnabled(true);
                 Bitmap screen = rootView.getDrawingCache();

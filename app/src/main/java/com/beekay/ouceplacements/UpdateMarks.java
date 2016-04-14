@@ -311,15 +311,11 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
                 if(getCourse().equalsIgnoreCase("ME") || getCourse().equalsIgnoreCase("MTECH") ) {
                     Connection.Response response = Jsoup.connect("http://oucecareers.org/students/updatemarksaction.php?rollno=" + getRoll() + "&pgsem1=" + params[0] + "&pgsem2=" + params[1] + "&course=" + getCourse() + "&avggpa=" + params[2]).cookies(Cooks.getCookies().get(0)).timeout(50000).execute();
                     System.out.println(response.toString());
+                    return ""+params[2];
                 }
                 else if(getCourse().equalsIgnoreCase("BE")){
                     Float dividingFactor=6.0F;
-                    if(params[5]== null || params[5]=="0.00" || params[5].length()==0){
-
-                        //if(sem7gpa==0.00 && sem8gpa==0.00){ dividingfactor=6.0;}
-//                        if(sem8gpa==0.00 && sem7gpa!=0.00){dividingfactor=7.0;}
-//                        if(sem8gpa!=0.00 && sem8gpa!=0.00){dividingfactor=8.0;}
-//                        if(sem6gpa==0.00){dividingfactor=5.0;}
+                    if(params[5]== null || params[5].equals("0.00") || params[5].length()==0){
                         dividingFactor=5.0F;
                     }
                     else if((params[6] == null || params[6].equalsIgnoreCase("0.00") || params[6].length()==0) && (params[7] == null || params[7].equalsIgnoreCase("0.00") || params[7].length()==0) ){
@@ -331,8 +327,10 @@ public class UpdateMarks extends android.support.v4.app.Fragment {
                     else if(!(params[6] == null || params[6].equalsIgnoreCase("0.00") || params[6].length()==0) && !(params[7] == null || params[7].equalsIgnoreCase("0.00") || params[7].length()==0) ){
                         dividingFactor = 8.0F;
                     }
-                    Float avg = (Float.parseFloat(params[0])+Float.parseFloat(params[1])+Float.parseFloat(params[2])+Float.parseFloat(params[3])+Float.parseFloat(params[4]))/dividingFactor;
+                    System.out.println(dividingFactor);
+                    Float avg = (Float.parseFloat(params[0])+Float.parseFloat(params[1])+Float.parseFloat(params[2])+Float.parseFloat(params[3])+Float.parseFloat(params[4])+Float.parseFloat(params[5])+Float.parseFloat(params[6])+Float.parseFloat(params[7]))/dividingFactor;
                     Connection.Response response = Jsoup.connect("http://oucecareers.org/students/updatemarksaction.php?rollno=" + getRoll() +"&sem6gpa="+params[5]+"&sem7gpa="+params[6]+"&sem8gpa="+params[7]+"&course="+getCourse()+"&sem1gpa="+params[0]+"&sem2gpa="+params[1]+"&sem3gpa="+params[2]+"&sem4gpa="+params[3]+"&sem5gpa="+params[4]+"&avggpa="+avg).cookies(Cooks.getCookies().get(0)).timeout(50000).execute();
+                    System.out.println(response.toString());
                     return ""+avg;
                 }
             } catch (IOException e) {

@@ -67,22 +67,13 @@ public class PasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         netCheck=new NetCheck();
-        if(username!=null && password!=null && netCheck.isNetAvailable(this)){
-            ArrayList<String> credentialList = new ArrayList<>(2);
-            credentialList.add(0, username);
-            credentialList.add(1, password);
-                Login log = new Login();
-                log.execute(credentialList);
-        }
-        else {
-            setContentView(R.layout.activity_password);
-            System.out.println(username + password + "in static");
-            tool=(Toolbar)findViewById(R.id.tool);
-            setSupportActionBar(tool);
-            user = (EditText) findViewById(R.id.usertext);
-            pass = (EditText) findViewById(R.id.passtext);
-
-            user.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        setContentView(R.layout.activity_password);
+        System.out.println(username + password + "in static");
+        tool=(Toolbar)findViewById(R.id.tool);
+        setSupportActionBar(tool);
+        user = (EditText) findViewById(R.id.usertext);
+        pass = (EditText) findViewById(R.id.passtext);
+        user.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean b) {
                     System.out.println("focus changed");
@@ -119,27 +110,26 @@ public class PasswordActivity extends AppCompatActivity {
                         opener.close();
                     }
                 }
-            });
-            logButton = (Button) findViewById(R.id.logbutton);
-            logButton.setOnClickListener(new View.OnClickListener() {
+        });
+        logButton = (Button) findViewById(R.id.logbutton);
+        logButton.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     if (netCheck.isNetAvailable(PasswordActivity.this)) {
                         ArrayList<String> credentialList = new ArrayList<>(2);
-                        credentialList.add(0, user.getText().toString());
-                        credentialList.add(1, pass.getText().toString());
+                        username = user.getText().toString();
+                        password = pass.getText().toString();
 
                         Login log = new Login();
-                        log.execute(credentialList);
+                        log.execute(username,password);
                     } else
 
                     {
                         Toast.makeText(PasswordActivity.this, "Check your Network Connection", Toast.LENGTH_LONG).show();
                     }
                 }
-            });
-        }
+        });
     }
 
 
@@ -167,16 +157,16 @@ public class PasswordActivity extends AppCompatActivity {
     /**
      * Created by Krishna on 30-07-2015.
      */
-    public class Login extends AsyncTask<ArrayList<String>,String,Map<String,String>> {
+    public class Login extends AsyncTask<String,String,Map<String,String>> {
         ProgressDialog progressDialog;
 
         @Override
-        protected Map<String,String> doInBackground(ArrayList<String>... params) {
+        protected Map<String,String> doInBackground(String... params) {
             publishProgress("");
-            ArrayList<String> credentials=params[0];
+
             try {
-                System.out.println(credentials.get(0) + credentials.get(1));
-                org.jsoup.Connection.Response res= Jsoup.connect("http://oucecareers.org/s_logaction.php").data("uname",credentials.get(0),"upass",credentials.get(1),"Submit","sign in").method(Connection.Method.POST).timeout(50000).execute();
+                System.out.println(params[0] + params[1]);
+                org.jsoup.Connection.Response res= Jsoup.connect("http://oucecareers.org/s_logaction.php").data("uname",params[0],"upass",params[1],"Submit","sign in").method(Connection.Method.POST).timeout(50000).execute();
 
                 try {
                     System.out.println("came to try");
