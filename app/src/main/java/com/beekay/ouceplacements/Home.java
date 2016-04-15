@@ -5,11 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,11 +31,16 @@ import java.util.HashMap;
 public class Home extends AppCompatActivity {
 
 
+    static ArrayList<Contents> recycleList;
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     Toolbar tool;
     ListView list;
     NetCheck netCheck;
+    Document document;
+    android.support.v4.app.Fragment fragment;
+    ArrayList<String> linkId;
+    ArrayList<HashMap<String, String>> cooks;
 
     public Document getDocument() {
         return document;
@@ -45,9 +50,6 @@ public class Home extends AppCompatActivity {
         this.document = document;
     }
 
-    Document document;
-    android.support.v4.app.Fragment fragment;
-
     public ArrayList<String> getLinkId() {
         return linkId;
     }
@@ -56,8 +58,6 @@ public class Home extends AppCompatActivity {
         this.linkId = linkId;
     }
 
-    ArrayList<String> linkId;
-
     public ArrayList<Contents> getRecycleList() {
         return recycleList;
     }
@@ -65,9 +65,6 @@ public class Home extends AppCompatActivity {
     public void setRecycleList(ArrayList<Contents> recycleList) {
         Home.recycleList = recycleList;
     }
-
-    static ArrayList<Contents> recycleList;
-    ArrayList<HashMap<String, String>> cooks;
 
     public ArrayList<HashMap<String, String>> getCooks() {
         return cooks;
@@ -83,7 +80,8 @@ public class Home extends AppCompatActivity {
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_home);
             netCheck = new NetCheck();
-
+            if(NetCheck.getUser()==null)
+                finish();
             drawer = (DrawerLayout) findViewById(R.id.drawer);
             list = (ListView) findViewById(R.id.drawerlist);
             tool = (Toolbar) findViewById(R.id.tool);

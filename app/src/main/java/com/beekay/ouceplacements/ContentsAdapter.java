@@ -21,19 +21,17 @@ import java.util.regex.Pattern;
  */
 public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.ContentViewHolder>{
 
-    private List<Contents> contentsList;
     int lastPostition=-1;
-
-    public void setContext(Context context) {
-        this.context = context;
-    }
-
     Context context;
+    private List<Contents> contentsList;
 
     ContentsAdapter(List<Contents> contentsList){
         this.contentsList=contentsList;
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     @Override
     public ContentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -75,8 +73,10 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Conten
     }
     public void refresh(List<Contents> contentsList){
         this.contentsList.clear();
+        this.notifyItemRangeRemoved(0,this.getItemCount());
         this.contentsList.addAll(contentsList);
         notifyDataSetChanged();
+        notifyItemRangeChanged(0,this.getItemCount());
     }
 
 

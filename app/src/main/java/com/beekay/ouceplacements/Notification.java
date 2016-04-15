@@ -1,10 +1,10 @@
 package com.beekay.ouceplacements;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,7 +35,6 @@ import java.util.Map;
 public class Notification extends android.support.v4.app.Fragment {
 
 
-    private OnFragmentInteractionListener mListener;
     RecyclerView recyclerView;
     Map<String, String> cookie;
     ArrayList<Contents> recycleList;
@@ -43,6 +42,11 @@ public class Notification extends android.support.v4.app.Fragment {
     ArrayList<String> linkId;
     SwipeRefreshLayout swipe;
     NetCheck netCheck;
+    private OnFragmentInteractionListener mListener;
+
+    public Notification() {
+        // Required empty public constructor
+    }
 
     public Map<String, String> getCookie() {
         return cookie;
@@ -52,11 +56,6 @@ public class Notification extends android.support.v4.app.Fragment {
         this.cookie = cookie;
     }
 
-    public Notification() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,18 +64,16 @@ public class Notification extends android.support.v4.app.Fragment {
             netCheck=new NetCheck();
             ContentWrapper wrapper = (ContentWrapper) getArguments().getSerializable("list");
             setRecycleList(wrapper.getContents());
-            ArrayList<HashMap<String, String>> cooks = (ArrayList<HashMap<String, String>>)Cooks.getCookies();
+            ArrayList<HashMap<String, String>> cooks = Cooks.getCookies();
             setCookie(cooks.get(0));
             setLinkId(getArguments().getStringArrayList("ids"));
             View view = inflater.inflate(R.layout.fragment_notification, container, false);
             recyclerView = (RecyclerView) view.findViewById(R.id.cardList);
-            recyclerView.setHasFixedSize(true);
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
             llm.setOrientation(LinearLayoutManager.VERTICAL);
             recyclerView.setLayoutManager(llm);
             adapter = new ContentsAdapter(getRecycleList());
             recyclerView.setAdapter(adapter);
-            //recyclerView.setItemAnimator();
             recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                 @Override
                 public void onItemClick(View v, int position) {
@@ -101,6 +98,7 @@ public class Notification extends android.support.v4.app.Fragment {
                 }
             }));
             swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+            swipe.setColorSchemeResources(R.color.green,R.color.yellow,R.color.blue);
             swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
@@ -154,7 +152,7 @@ public class Notification extends android.support.v4.app.Fragment {
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        public void onFragmentInteraction(ArrayList<Contents> contents);
+        void onFragmentInteraction(ArrayList<Contents> contents);
     }
 
 
@@ -217,9 +215,14 @@ public class Notification extends android.support.v4.app.Fragment {
         @Override
         protected void onPostExecute(ArrayList<Contents> s) {
         super.onPostExecute(s);
-            setRecycleList(s);//setting the list of items for the recycle list
-            adapter.refresh(s);//adjusting the  adapter for refreshed list
-            recyclerView.setAdapter(adapter);
+//            setRecycleList(s);//setting the list of items for the recycle list
+            recycleList.clear();
+            recycleList.addAll(s);
+            recyclerView.removeAllViews();
+            recyclerView.destroyDrawingCache();
+//            adapter.refresh(s);//adjusting the  adapter for refreshed list
+            adapter.notifyDataSetChanged();
+            adapter.notifyItemRangeChanged(0,adapter.getItemCount());
             swipe.setRefreshing(false);
         }
     }

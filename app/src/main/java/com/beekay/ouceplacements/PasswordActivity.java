@@ -1,6 +1,7 @@
 package com.beekay.ouceplacements;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -35,11 +36,14 @@ public class PasswordActivity extends AppCompatActivity {
 
     static String username;
     static String password;
-    private EditText user,pass;
-    private Button logButton;
     Toolbar tool;
     NetCheck netCheck;
     DataOpener opener;
+    Context context;
+    private EditText user,pass;
+    private Button logButton;
+    private ArrayList<String> list;
+    private Map<String,String> cookies;
 
     public ArrayList<String> getList() {
         return list;
@@ -49,26 +53,20 @@ public class PasswordActivity extends AppCompatActivity {
         this.list = list;
     }
 
-    private ArrayList<String> list;
-
+    public Map<String, String> getCookies() {
+        return cookies;
+    }
 
     public void setCookies(Map<String, String> cookies) {
         this.cookies = cookies;
     }
 
-    public Map<String, String> getCookies() {
-        return cookies;
-    }
-
-    private Map<String,String> cookies;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         netCheck=new NetCheck();
+        context = this;
         setContentView(R.layout.activity_password);
-        System.out.println(username + password + "in static");
         tool=(Toolbar)findViewById(R.id.tool);
         setSupportActionBar(tool);
         user = (EditText) findViewById(R.id.usertext);
@@ -77,7 +75,7 @@ public class PasswordActivity extends AppCompatActivity {
                 @Override
                 public void onFocusChange(View view, boolean b) {
                     System.out.println("focus changed");
-                    opener = new DataOpener(PasswordActivity.this);
+                    opener = new DataOpener(context);
                     opener.openRead();
                     Editable u = user.getText();
                     System.out.println(u.toString());
@@ -91,11 +89,13 @@ public class PasswordActivity extends AppCompatActivity {
                                 i++;
                             }
                         }
+                        else
+                            pass.setText("");
                         cursor.close();
                         opener.close();
                     }
                     else{
-                        opener = new DataOpener(PasswordActivity.this);
+                        opener = new DataOpener(context);
                         opener.openRead();
                         Cursor cursor = opener.retrieve();
                         if(cursor.getCount()>0){
@@ -116,11 +116,10 @@ public class PasswordActivity extends AppCompatActivity {
 
                 @Override
                 public void onClick(View v) {
-                    if (netCheck.isNetAvailable(PasswordActivity.this)) {
+                    if (netCheck.isNetAvailable(context)) {
                         ArrayList<String> credentialList = new ArrayList<>(2);
                         username = user.getText().toString();
                         password = pass.getText().toString();
-
                         Login log = new Login();
                         log.execute(username,password);
                     } else
@@ -159,6 +158,7 @@ public class PasswordActivity extends AppCompatActivity {
      */
     public class Login extends AsyncTask<String,String,Map<String,String>> {
         ProgressDialog progressDialog;
+        String name;
 
         @Override
         protected Map<String,String> doInBackground(String... params) {
@@ -173,7 +173,7 @@ public class PasswordActivity extends AppCompatActivity {
                     Document doc = Jsoup.connect("http://oucecareers.org/students/students.php").followRedirects(false).cookies(res.cookies()).timeout(50000).get();
                     Element welcome=doc.select("div#adminpasscontents").first();
                     System.out.println(welcome.text().length());
-                    String name=welcome.text().substring(7);
+                    name=welcome.text().substring(7);
                     if(welcome.text().length()>7) {
                         ArrayList<HashMap<String, String>> cook = new ArrayList<>();
                         cook.add((HashMap<String, String>) res.cookies());
@@ -193,7 +193,6 @@ public class PasswordActivity extends AppCompatActivity {
                             }
                             else
                                 sideList.add(subList.text());
-
                         }
                         sideList.add(name.trim());
                         Collections.reverse(sideList);
@@ -253,8 +252,8 @@ public class PasswordActivity extends AppCompatActivity {
                             i++;
                         }
                         if(pas !=null && !pas.equalsIgnoreCase(password)){
-                            //update code
                             opener.upgrade(username,password);
+                            Toast.makeText(context,name+"\'s Password Updated",Toast.LENGTH_LONG).show();
                         }
                         cursor.close();
                         opener.close();
@@ -263,7 +262,7 @@ public class PasswordActivity extends AppCompatActivity {
                         opener.insertData(username,password);
                         cursor.close();
                         opener.close();
-                        Toast.makeText(PasswordActivity.this,"User remembered",Toast.LENGTH_LONG).show();
+                        Toast.makeText(context,"Password remembered for "+name,Toast.LENGTH_LONG).show();
                     }
                 }
                 Intent intent = new Intent(PasswordActivity.this, Home.class);
