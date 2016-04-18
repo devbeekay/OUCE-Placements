@@ -74,17 +74,14 @@ public class PasswordActivity extends AppCompatActivity {
         user.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean b) {
-                    System.out.println("focus changed");
                     opener = new DataOpener(context);
                     opener.openRead();
                     Editable u = user.getText();
-                    System.out.println(u.toString());
                     if (u.toString().length()>0) {
                         Cursor cursor = opener.retrieve(u.toString());
                         if (cursor.getCount() > 0) {
                             int i = 0;
                             while (cursor.moveToFirst() && i == 0) {
-                                System.out.println(cursor.getString(1));
                                 pass.setText(cursor.getString(1));
                                 i++;
                             }
@@ -129,6 +126,7 @@ public class PasswordActivity extends AppCompatActivity {
                     }
                 }
         });
+
     }
 
 
@@ -165,21 +163,17 @@ public class PasswordActivity extends AppCompatActivity {
             publishProgress("");
 
             try {
-                System.out.println(params[0] + params[1]);
                 org.jsoup.Connection.Response res= Jsoup.connect("http://oucecareers.org/s_logaction.php").data("uname",params[0],"upass",params[1],"Submit","sign in").method(Connection.Method.POST).timeout(50000).execute();
 
                 try {
-                    System.out.println("came to try");
                     Document doc = Jsoup.connect("http://oucecareers.org/students/students.php").followRedirects(false).cookies(res.cookies()).timeout(50000).get();
                     Element welcome=doc.select("div#adminpasscontents").first();
-                    System.out.println(welcome.text().length());
                     name=welcome.text().substring(7);
                     if(welcome.text().length()>7) {
                         ArrayList<HashMap<String, String>> cook = new ArrayList<>();
                         cook.add((HashMap<String, String>) res.cookies());
                         Cooks.setCookies(cook);
                         ArrayList<String> sideList=new ArrayList<>();
-                        System.out.println(name+"welcome");
                         Elements lists=doc.select("div#header-tabs");
                         Iterator<Element> eachList=lists.select("ul").select("li").iterator();
                         while(eachList.hasNext()) {
@@ -202,7 +196,6 @@ public class PasswordActivity extends AppCompatActivity {
                     Cooks.setCookies(null);
                 }catch(SocketTimeoutException e)
                 {
-                    System.out.println("exception at cookies");
                     e.printStackTrace();
                     setCookies(null);
                     ArrayList<String> list=new ArrayList<>();
@@ -212,7 +205,6 @@ public class PasswordActivity extends AppCompatActivity {
 
                 return getCookies();
             } catch (Exception e) {
-                System.out.println("Something's wrong");
             }
 
 
@@ -234,10 +226,6 @@ public class PasswordActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Map<String, String> stringStringMap) {
 
-            if(username==null && password==null && Cooks.getCookies()!=null ){
-                username=user.getText().toString();
-                password=pass.getText().toString();
-            }
             if(Cooks.getCookies()!=null && !getList().get(0).equals("timedout")) {
                 CheckBox box = (CheckBox) findViewById(R.id.remember);
                 if(box.isChecked()){

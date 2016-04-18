@@ -1,21 +1,32 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        release {
+            keyAlias 'OUCE-Placements-Keys'
+            keyPassword '5257464B'
+            storeFile file('C:/Users/bvepuri/studioProjects/placementkeys.jks')
+            storePassword '5257464B'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion '23.0.2'
-
     defaultConfig {
         applicationId "com.beekay.ouceplacements"
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "1.10"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFile 'C:/Users/bvepuri/AppData/Local/Android/sdk/tools/proguard/proguard-android.txt'
+            signingConfig signingConfigs.release
         }
+    }
+    productFlavors {
     }
 }
 

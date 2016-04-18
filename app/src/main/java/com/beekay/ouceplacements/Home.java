@@ -24,6 +24,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -80,7 +81,7 @@ public class Home extends AppCompatActivity {
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_home);
             netCheck = new NetCheck();
-            if(NetCheck.getUser()==null)
+            if(Cooks.getCookies()==null)
                 finish();
             drawer = (DrawerLayout) findViewById(R.id.drawer);
             list = (ListView) findViewById(R.id.drawerlist);
@@ -119,6 +120,16 @@ public class Home extends AppCompatActivity {
     public void onPostCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onPostCreate(savedInstanceState, persistentState);
         toggle.syncState();
+    }
+
+    @Override
+    protected void onRestart() {
+        try{
+            HashMap<String, String> cookies = Cooks.getCookies().get(0);
+        }catch (NullPointerException ex){
+            finish();
+        }
+        super.onRestart();
     }
 
     public class HomeList extends AsyncTask<String, String, ArrayList<Contents>> {
@@ -173,8 +184,9 @@ public class Home extends AppCompatActivity {
                     }
 
                     return list;
-                } catch (Exception e) {
-                    e.printStackTrace();
+                } catch (IOException e) {
+                    ArrayList<Contents> listFail = new ArrayList<>(1);
+                    listFail.add(null);
                 }
             return null;
         }
@@ -196,7 +208,6 @@ public class Home extends AppCompatActivity {
                             firstSkipped = true;
 
                         else {
-                            //   System.out.print(link.select("a").attr("href").toString().length());
                             len = link.select("a").attr("href").length();
                             links.add(link.select("a").attr("href").toString().substring(len - 5, len - 1));
                         }
@@ -212,6 +223,10 @@ public class Home extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Contents> s) {
             progressDialog.dismiss();
+            if(s.get(0).equals(null)){
+                Toast.makeText(Home.this,"Timed out while connecting",Toast.LENGTH_LONG).show();
+                finish();
+            }
             ArrayList<String> sideList = (ArrayList<String>) getIntent().getSerializableExtra("list");
             super.onPostExecute(s);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, android.R.id.text1, sideList);
@@ -219,11 +234,9 @@ public class Home extends AppCompatActivity {
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    System.out.println("came to handle");
                     if (list.getItemAtPosition(position).toString().equals("Update Marks")) {
                         if (netCheck.isNetAvailable(Home.this)) {
                             drawer.closeDrawer(GravityCompat.START);
-                            System.out.println(getCooks());
                             android.support.v4.app.Fragment fragment_marks = new UpdateMarks();
                             getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_marks).addToBackStack(null).commit();
                         } else {
@@ -232,7 +245,6 @@ public class Home extends AppCompatActivity {
                         }
                     } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("Change Password")) {
                         drawer.closeDrawer(GravityCompat.START);
-                        System.out.println(getCooks());
                         android.support.v4.app.Fragment fragment_pass = new UpdatePassFragment();
                         getSupportFragmentManager().beginTransaction().replace(R.id.frameContainer, fragment_pass).addToBackStack(null).commit();
                     } else if (list.getItemAtPosition(position).toString().equalsIgnoreCase("MY MBD")) {
