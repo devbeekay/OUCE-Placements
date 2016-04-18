@@ -1,9 +1,9 @@
 package com.beekay.ouceplacements;
 
 
+import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -27,6 +26,10 @@ public class UpdatePassFragment extends android.support.v4.app.Fragment {
 
     HashMap<String, String> cookie;
 
+    public UpdatePassFragment() {
+        // Required empty public constructor
+    }
+
     public HashMap<String, String> getCookie() {
         return cookie;
     }
@@ -35,17 +38,12 @@ public class UpdatePassFragment extends android.support.v4.app.Fragment {
         this.cookie = cookie;
     }
 
-    public UpdatePassFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_update_pass, container, false);
-        ArrayList<HashMap<String,String>> clist= (ArrayList<HashMap<String, String>>) Cooks.getCookies();
+        ArrayList<HashMap<String,String>> clist= Cooks.getCookies();
         setCookie(clist.get(0));
         final EditText oldpass=(EditText)view.findViewById(R.id.oldpass);
         final EditText newpass1=(EditText)view.findViewById(R.id.newpass1);
@@ -77,7 +75,7 @@ public class UpdatePassFragment extends android.support.v4.app.Fragment {
         @Override
         protected String doInBackground(String... params) {
             try{
-                Document doc= Jsoup.connect("http://oucecareers.org/students/changepasswordaction.php?rollno="+NetCheck.getUser()+"&pass="+params[0]).cookies(getCookie()).get();
+                Document doc= Jsoup.connect("http://oucecareers.org/students/changepasswordaction.php?rollno="+NetCheck.getUser()+"&pass="+params[0]).cookies(getCookie()).timeout(50000).get();
                 if(doc.text().equals("Successfully changed password")){
                     return "success";
                 }
@@ -85,9 +83,8 @@ public class UpdatePassFragment extends android.support.v4.app.Fragment {
                     return "fail";
                 }
             }catch (IOException ex){
-
+                return null;
             }
-            return null;
         }
 
         @Override
@@ -95,8 +92,11 @@ public class UpdatePassFragment extends android.support.v4.app.Fragment {
             if(s.equals("success")){
                 Toast.makeText(getActivity().getApplicationContext(),"Successfully changed password",Toast.LENGTH_LONG).show();
             }
-            else{
+            else if(s.equals("fail")){
                 Toast.makeText(getActivity().getApplicationContext(),"Couldn't update try again later",Toast.LENGTH_LONG).show();
+            }
+            else{
+                Toast.makeText(getActivity(),"Timed out while connecting",Toast.LENGTH_LONG).show();
             }
             super.onPostExecute(s);
         }

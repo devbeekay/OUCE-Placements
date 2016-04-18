@@ -81,8 +81,6 @@ public class Notification extends android.support.v4.app.Fragment {
                     if (netCheck.isNetAvailable(getActivity())) {
                         ArrayList<Map<String, String>> cookies = new ArrayList<Map<String, String>>();
                         cookies.add(getCookie());
-                        System.out.print(position);
-                        System.out.println("touched");
                         android.support.v4.app.Fragment notice_fragment = new Notice();
                         Bundle arguments = new Bundle();
                         arguments.putString("id", getLinkId().get(position));
@@ -170,7 +168,7 @@ public class Notification extends android.support.v4.app.Fragment {
             ArrayList<String> links = new ArrayList<>();
             int len;
             try {
-                Document notDoc = Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(getCookie()).get();
+                Document notDoc = Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).timeout(50000).cookies(getCookie()).get();
                 setDocument(notDoc);
                 Elements table = notDoc.select("table");
                 Contents contents;
@@ -202,9 +200,8 @@ public class Notification extends android.support.v4.app.Fragment {
                 setLinkId(links);
                 return list;
             } catch (Exception e) {
-                e.printStackTrace();
+                return null;
             }
-            return null;
         }
 
         @Override
@@ -215,15 +212,18 @@ public class Notification extends android.support.v4.app.Fragment {
         @Override
         protected void onPostExecute(ArrayList<Contents> s) {
         super.onPostExecute(s);
-//            setRecycleList(s);//setting the list of items for the recycle list
-            recycleList.clear();
-            recycleList.addAll(s);
-            recyclerView.removeAllViews();
-            recyclerView.destroyDrawingCache();
-//            adapter.refresh(s);//adjusting the  adapter for refreshed list
-            adapter.notifyDataSetChanged();
-            adapter.notifyItemRangeChanged(0,adapter.getItemCount());
+            if(s!=null) {
+                recycleList.clear();
+                recycleList.addAll(s);
+                recyclerView.removeAllViews();
+                recyclerView.destroyDrawingCache();
+                adapter.notifyDataSetChanged();
+                adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+            }
+            else
+                Toast.makeText(getActivity(),"Timed out while connecting",Toast.LENGTH_LONG).show();
             swipe.setRefreshing(false);
+
         }
     }
 

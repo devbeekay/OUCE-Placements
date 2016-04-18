@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -42,8 +43,6 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         if(cooks==null)
             finish();
         jobId = intent.getStringExtra("position");
-
-        System.out.println(cooks.size());
         GetDetails details = new GetDetails();
         details.execute(jobId);
         apply = (Button) findViewById(R.id.applyvalue);
@@ -57,10 +56,19 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
 
      if(view.getId()==R.id.applyvalue){
-         System.out.println("apply clicked");
          Apply applyJob = new Apply();
          applyJob.execute(jobId);
      }
+    }
+
+    @Override
+    protected void onRestart() {
+        try {
+            HashMap<String,String> cookies = Cooks.getCookies().get(0);
+        }catch (NullPointerException ex){
+            finish();
+        }
+        super.onRestart();
     }
 
     public class GetDetails extends AsyncTask<String, String, String>{
@@ -78,7 +86,7 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         protected String doInBackground(String... strings) {
             try {
                 publishProgress("");
-                Document doc = Jsoup.connect("http://oucecareers.org/students/applyjob.php?jobid="+strings[0]).cookies(cooks.get(0)).followRedirects(false).get();
+                Document doc = Jsoup.connect("http://oucecareers.org/students/applyjob.php?jobid="+strings[0]).cookies(cooks.get(0)).followRedirects(false).timeout(50000).get();
                 Elements table = doc.select("table");
                 names = new ArrayList<>();
                 int i = 0;
@@ -91,7 +99,7 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                return "time out";
             }
             return null;
         }
@@ -99,27 +107,31 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
-            TextView comp = (TextView) findViewById(R.id.cvalue);
-            comp.setText(names.get(0));
-            TextView desig = (TextView) findViewById(R.id.dvalue);
-            desig.setText(names.get(1));
-            TextView rType = (TextView) findViewById(R.id.rvalue);
-            rType.setText(names.get(2));
-            TextView cut = (TextView) findViewById(R.id.cutvalue);
-            cut.setText(names.get(3));
-            TextView pay = (TextView) findViewById(R.id.pvalue);
-            pay.setText(names.get(4));
-            TextView bond = (TextView) findViewById(R.id.bvalue);
-            bond.setText(names.get(5));
-            TextView note = (TextView) findViewById(R.id.nvalue);
-            note.setText(names.get(6));
             progressDialog.hide();
+            if(s.equals("time out")){
+                Toast.makeText(ApplyJobActivity.this,"Timed out while connecting",Toast.LENGTH_LONG).show();
+            }
+            else {
+                TextView comp = (TextView) findViewById(R.id.cvalue);
+                comp.setText(names.get(0));
+                TextView desig = (TextView) findViewById(R.id.dvalue);
+                desig.setText(names.get(1));
+                TextView rType = (TextView) findViewById(R.id.rvalue);
+                rType.setText(names.get(2));
+                TextView cut = (TextView) findViewById(R.id.cutvalue);
+                cut.setText(names.get(3));
+                TextView pay = (TextView) findViewById(R.id.pvalue);
+                pay.setText(names.get(4));
+                TextView bond = (TextView) findViewById(R.id.bvalue);
+                bond.setText(names.get(5));
+                TextView note = (TextView) findViewById(R.id.nvalue);
+                note.setText(names.get(6));
+            }
         }
     }
 
     public class Apply extends AsyncTask<String, String, Boolean>{
-
+        String s = null;
         @Override
         protected void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
@@ -132,15 +144,10 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
-                Document doc = Jsoup.connect("http://oucecareers.org/students/applyjobaction.php?jobid="+strings[0]).cookies(cooks.get(0)).followRedirects(false).get();
-//                if(doc.body().text().equalsIgnoreCase("Successfully Applied")){
-//                    return true;
-//                }
-//                else
-//                    return false;
+                Document doc = Jsoup.connect("http://oucecareers.org/students/applyjobaction.php?jobid="+strings[0]).cookies(cooks.get(0)).followRedirects(false).timeout(50000).get();
                 return doc.body().text().equalsIgnoreCase("Successfully Applied");
             } catch (IOException e) {
-                e.printStackTrace();
+                s="timed out";
             }
             return false;
         }
@@ -149,23 +156,27 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             progressDialog.hide();
-            if(aBoolean){
-                AlertDialog.Builder builder = new AlertDialog.Builder(ApplyJobActivity.this).setMessage("Applied Successfully").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                });
-                builder.create().show();
+            if (s != null) {
+                if (aBoolean) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ApplyJobActivity.this).setMessage("Applied Successfully").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    });
+                    builder.create().show();
+                } else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ApplyJobActivity.this).setMessage("Applying failed.\nTry again later.").setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    });
+                    builder.create().show();
+                }
             }
             else{
-                AlertDialog.Builder builder = new AlertDialog.Builder(ApplyJobActivity.this).setMessage("Applying failed.\nTry again later.").setNegativeButton("Okay", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                });
-                builder.create().show();
+                Toast.makeText(ApplyJobActivity.this,"Timed out while connecting",Toast.LENGTH_LONG).show();
             }
         }
     }

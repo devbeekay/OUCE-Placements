@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -75,6 +76,15 @@ public class Mbd extends AppCompatActivity {
         collapsingToolbarLayout=(CollapsingToolbarLayout)findViewById(R.id.collapsing_toolbar);
     }
 
+    @Override
+    protected void onRestart() {
+        try {
+            HashMap<String,String> cookies = Cooks.getCookies().get(0);
+        }catch (NullPointerException ex){
+            finish();
+        }
+        super.onRestart();
+    }
 
     public class LoadMBD extends AsyncTask<String,String,ArrayList<Details>>{
         ProgressDialog progressDialog;
@@ -86,18 +96,14 @@ public class Mbd extends AppCompatActivity {
             Details details=new Details();
             details.roll=NetCheck.getUser();
             try{
-                Document doc= Jsoup.connect("http://oucecareers.org/students/showMbd.php?rollno=" + NetCheck.getUser()).cookies(getCookies()).get();
+                Document doc= Jsoup.connect("http://oucecareers.org/students/showMbd.php?rollno=" + NetCheck.getUser()).cookies(getCookies()).timeout(50000).get();
                 String Url=doc.select("img").attr("src").toString();
-                Connection.Response res=Jsoup.connect("http://oucecareers.org/"+Url.substring(3)).followRedirects(false).ignoreContentType(true).timeout(10000).ignoreHttpErrors(true).execute();
+                Connection.Response res=Jsoup.connect("http://oucecareers.org/"+Url.substring(3)).followRedirects(false).ignoreContentType(true).timeout(50000).ignoreHttpErrors(true).execute();
                 if(res.statusCode()==200) {
                     BufferedInputStream in = new BufferedInputStream((new URL("http://oucecareers.org/"+Url.substring(3))).openStream());
                     setBitmap(BitmapFactory.decodeStream(in));
                     in.close();
                 }
-                else if(res.statusCode()==404){
-                    System.out.println("not found");
-                }
-
                 details.gender=doc.select("select > option[selected=\"selected\"").text();
                 details.dream=doc.select("div#companyholder").text();
                 for(Element  e: doc.select("input")){
@@ -276,7 +282,6 @@ public class Mbd extends AppCompatActivity {
                 for(Element e: addresses){
                     Details details1=new Details();
                     if(e.attr("name").toString().equals("address1")){
-                        System.out.println(e.val());
                         details.present=e.val();
                     }
                     else if(e.attr("name").toString().equals("address2")){
@@ -291,9 +296,8 @@ public class Mbd extends AppCompatActivity {
 
                 return detailList;
             } catch (IOException e) {
-                e.printStackTrace();
+                return null;
             }
-            return null;
         }
 
         @Override
@@ -321,6 +325,9 @@ public class Mbd extends AppCompatActivity {
                 recyclerView.setLayoutManager(llm);
                 RecyclerView.Adapter adapter=new DetailAdapter(s);
                 recyclerView.setAdapter(adapter);
+            }
+            else{
+                Toast.makeText(Mbd.this,"Timed out while connecting",Toast.LENGTH_LONG).show();
             }
             super.onPostExecute(s);
         }

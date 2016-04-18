@@ -85,7 +85,8 @@ public class JobStatusFrag extends Fragment {
                     rows.add(company);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                ArrayList<Company> c = new ArrayList<>(1);
+                c.add(null);
             }
             return rows;
         }
@@ -104,6 +105,10 @@ public class JobStatusFrag extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Company> companies) {
             super.onPostExecute(companies);
+            if(companies.get(0).equals(null)) {
+                Toast.makeText(getActivity(), "Timed out while connecting", Toast.LENGTH_LONG).show();
+                companies.clear();
+            }
             TableRow.LayoutParams fieldParams = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
             TableLayout.LayoutParams rowParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
             int j=0;

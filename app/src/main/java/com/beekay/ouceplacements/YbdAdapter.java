@@ -2,10 +2,7 @@ package com.beekay.ouceplacements;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +12,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by bvepuri on 2/5/2016.
@@ -32,7 +28,6 @@ public class YbdAdapter extends RecyclerView.Adapter<YbdAdapter.YbdViewHolder>  
         this.linkId = linkId;
         this.context = context;
         this.cookie =  cookies;
-        System.out.println(cookie);
     }
 
     @Override
@@ -92,15 +87,12 @@ public class YbdAdapter extends RecyclerView.Adapter<YbdAdapter.YbdViewHolder>  
         @Override
         public void onClick(View view) {
             if(view.getId() == apply.getId()){
-                System.out.println("Apply clicked " + getLayoutPosition());
                 Intent intent = new Intent(context,ApplyJobActivity.class);
                 intent.putExtra("position",linkId.get(getLayoutPosition()));
-                System.out.println(cookie);
                 intent.putExtra("cookie",cookie);
                 context.startActivity(intent);
             }
             else{
-//                Snackbar.make(null,"view Clicked",Snackbar.LENGTH_LONG).show();
             }
         }
 

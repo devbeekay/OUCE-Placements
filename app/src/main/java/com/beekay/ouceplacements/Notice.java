@@ -1,16 +1,15 @@
 package com.beekay.ouceplacements;
 
 
+import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -44,7 +43,12 @@ import java.util.Iterator;
 public class Notice extends android.support.v4.app.Fragment {
 
     TextView resultView;
-
+    String id;
+    ArrayList<HashMap<String,String>> cooks;
+    NetCheck netCheck;
+    public Notice() {
+        // Required empty public constructor
+    }
 
     public String getNoticeId() {
         return id;
@@ -54,14 +58,6 @@ public class Notice extends android.support.v4.app.Fragment {
         this.id = id;
     }
 
-    String id;
-    ArrayList<HashMap<String,String>> cooks;
-    NetCheck netCheck;
-    public Notice() {
-        // Required empty public constructor
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -69,7 +65,6 @@ public class Notice extends android.support.v4.app.Fragment {
         setHasOptionsMenu(true);
         setId(getArguments().getString("id"));
         cooks= Cooks.getCookies();
-            System.out.println(getNoticeId());
         View v=inflater.inflate(R.layout.fragment_notice, container, false);
         resultView=(TextView)v.findViewById(R.id.resultView);
         FloatingActionButton fab = (FloatingActionButton) v.findViewById(R.id.fab);
@@ -81,23 +76,24 @@ public class Notice extends android.support.v4.app.Fragment {
                 rootView.setDrawingCacheEnabled(true);
                 Bitmap screen = rootView.getDrawingCache();
                 String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), screen, "ScreenShot", "Screen Shot");
-                System.out.println(path);
                 Uri uri = Uri.parse(path);
-                System.out.println(uri.toString());
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
                 intent.setType("image/png");
                 startActivity(Intent.createChooser(intent, "Placement"));
-                System.out.println("came back");
 
 
             }
         });
         netCheck=new NetCheck();
-        if(netCheck.isNetAvailable(getActivity()))
-        new OpenNotice().execute(getNoticeId());
+        if(cooks!=null) {
+            if (netCheck.isNetAvailable(getActivity()))
+                new OpenNotice().execute(getNoticeId());
+            else
+                Toast.makeText(getActivity(), "Check your network Connection!!!", Toast.LENGTH_SHORT).show();
+        }
         else
-            Toast.makeText(getActivity(),"Check your network Connection!!!",Toast.LENGTH_SHORT).show();
+            getActivity().finish();
         return v;
     }
 
@@ -123,8 +119,7 @@ public class Notice extends android.support.v4.app.Fragment {
         protected ArrayList<Element> doInBackground(String... params) {
             publishProgress("");
             try {
-                System.out.println("try start time"+(new java.sql.Timestamp(new java.util.Date().getTime())));
-                Document doc = Jsoup.connect("http://oucecareers.org/students/opennotice.php?noticeid=" + params[0]).cookies(cooks.get(0)).followRedirects(false).get();
+                Document doc = Jsoup.connect("http://oucecareers.org/students/opennotice.php?noticeid=" + params[0]).cookies(cooks.get(0)).timeout(50000).followRedirects(false).get();
                 boolean firstSkipped=false;
                 ArrayList<Element> elementsList=new ArrayList<>();
                 for(Element e: doc.getElementsByTag("center")){
@@ -148,12 +143,10 @@ public class Notice extends android.support.v4.app.Fragment {
                         }
                     }
                 }
-                System.out.println("try end time"+(new java.sql.Timestamp(new java.util.Date().getTime())));
                 return elementsList;
             } catch (IOException e) {
-                e.printStackTrace();
+                return null;
             }
-            return null;
         }
 
         @Override
@@ -169,73 +162,71 @@ public class Notice extends android.support.v4.app.Fragment {
         @Override
         protected void onPostExecute(ArrayList<Element> s) {
             super.onPostExecute(s);
-            System.out.println("layout starting time" + (new java.sql.Timestamp(new java.util.Date().getTime())));
-            FrameLayout frame=(FrameLayout)getActivity().findViewById(R.id.notice_frame);
-            ScrollView scrollView=new ScrollView(getActivity());
-            scrollView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            LinearLayout ll=new LinearLayout(getActivity());
-            ll.setOrientation(LinearLayout.VERTICAL);
-            ll.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            if(s!=null) {
+                FrameLayout frame = (FrameLayout) getActivity().findViewById(R.id.notice_frame);
+                ScrollView scrollView = new ScrollView(getActivity());
+                scrollView.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                LinearLayout ll = new LinearLayout(getActivity());
+                ll.setOrientation(LinearLayout.VERTICAL);
+                ll.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-            for(int i=0;i<s.size();i++){
-                if(s.get(i).tagName().equalsIgnoreCase("table")){
-                    HorizontalScrollView hsv=new HorizontalScrollView(getActivity());
-                    hsv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    TableLayout table=new TableLayout(getActivity());
-                    LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(10, 10, 10, 10);
-                    table.setLayoutParams(params);
-                    table.setGravity(Gravity.CENTER_HORIZONTAL);
-                    Iterator<Element> elementIterator=s.get(i).select("tr").iterator();
-                    while(elementIterator.hasNext()){
-                        TableRow row=new TableRow(getActivity());
-                        row.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT,Gravity.CENTER));
-                        row.setOrientation(LinearLayout.HORIZONTAL);
-                        row.setGravity(Gravity.CENTER_HORIZONTAL);
-                        Iterator<Element> rowIterator=elementIterator.next().select("td").iterator();
-                        while(rowIterator.hasNext()){
-                            TextView view=new TextView(getActivity());
-                            LinearLayout.LayoutParams lp=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                            lp.setMargins(10,10,10,10);
-                            view.setTextIsSelectable(true);
-                            view.setGravity(Gravity.CENTER);
-                            view.setText(rowIterator.next().text());
-                            row.addView(view);
+                for (int i = 0; i < s.size(); i++) {
+                    if (s.get(i).tagName().equalsIgnoreCase("table")) {
+                        HorizontalScrollView hsv = new HorizontalScrollView(getActivity());
+                        hsv.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        TableLayout table = new TableLayout(getActivity());
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(10, 10, 10, 10);
+                        table.setLayoutParams(params);
+                        table.setGravity(Gravity.CENTER_HORIZONTAL);
+                        Iterator<Element> elementIterator = s.get(i).select("tr").iterator();
+                        while (elementIterator.hasNext()) {
+                            TableRow row = new TableRow(getActivity());
+                            row.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
+                            row.setOrientation(LinearLayout.HORIZONTAL);
+                            row.setGravity(Gravity.CENTER_HORIZONTAL);
+                            Iterator<Element> rowIterator = elementIterator.next().select("td").iterator();
+                            while (rowIterator.hasNext()) {
+                                TextView view = new TextView(getActivity());
+                                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                                lp.setMargins(10, 10, 10, 10);
+                                view.setTextIsSelectable(true);
+                                view.setGravity(Gravity.CENTER);
+                                view.setText(rowIterator.next().text());
+                                row.addView(view);
+                            }
+                            table.addView(row);
                         }
-                        table.addView(row);
+                        hsv.addView(table);
+                        ll.addView(hsv);
+
+
+                    } else if (s.get(i).tagName().equalsIgnoreCase("p")) {
+                        TextView textView = new TextView(getActivity());
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(10, 10, 10, 10);
+                        textView.setLayoutParams(params);
+                        textView.setText(s.get(i).text());
+                        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+                        textView.setTextIsSelectable(true);
+                        ll.addView(textView);
+                    } else if (s.get(i).tagName().equalsIgnoreCase("li")) {
+                        TextView textView = new TextView(getActivity());
+                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        params.setMargins(10, 10, 10, 10);
+                        textView.setLayoutParams(params);
+                        textView.setText(s.get(i).text());
+                        textView.setGravity(Gravity.CENTER_HORIZONTAL);
+                        textView.setTextIsSelectable(true);
+                        ll.addView(textView);
                     }
-                    hsv.addView(table);
-                    ll.addView(hsv);
-
-
-                }
-
-                else if(s.get(i).tagName().equalsIgnoreCase("p")){
-                    TextView textView=new TextView(getActivity());
-                    LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(10, 10, 10, 10);
-                    textView.setLayoutParams(params);
-                    textView.setText(s.get(i).text());
-                    textView.setGravity(Gravity.CENTER_HORIZONTAL);
-                    textView.setTextIsSelectable(true);
-                    ll.addView(textView);
-                }
-
-                else if(s.get(i).tagName().equalsIgnoreCase("li")){
-                    TextView textView=new TextView(getActivity());
-                    LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(10, 10, 10, 10);
-                    textView.setLayoutParams(params);
-                    textView.setText(s.get(i).text());
-                    textView.setGravity(Gravity.CENTER_HORIZONTAL);
-                    textView.setTextIsSelectable(true);
-                    ll.addView(textView);
-                }
                 }
                 scrollView.addView(ll);
                 frame.addView(scrollView);
-            System.out.println("layout starting time" + (new java.sql.Timestamp(new java.util.Date().getTime())));
-            progressDialog.dismiss();
+                progressDialog.dismiss();
+            }
+            else
+                Toast.makeText(getActivity(),"Timed out while connecting",Toast.LENGTH_LONG).show();
             }
 
         }

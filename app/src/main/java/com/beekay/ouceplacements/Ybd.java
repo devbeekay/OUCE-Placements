@@ -2,18 +2,15 @@ package com.beekay.ouceplacements;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -31,30 +28,29 @@ import java.util.Map;
  */
 public class Ybd extends Fragment {
 
-    private Notification.OnFragmentInteractionListener mListener;
+    static Map<String, String> cookie;
+    static ArrayList<Ybd_Details> list = new ArrayList<Ybd_Details>();
+    static ArrayList<String> linkId = new ArrayList<String>();
     ArrayList<Ybd_Details> details;
     RecyclerView recyclerView;
-    static Map<String, String> cookie;
     ArrayList<HashMap<String,String>> cookies;
     ArrayList<Ybd_Details> recycleList;
     RecyclerView.Adapter adapter;
-    static ArrayList<Ybd_Details> list = new ArrayList<Ybd_Details>();
-    static ArrayList<String> linkId = new ArrayList<String>();
     NetCheck netCheck;
+    private Notification.OnFragmentInteractionListener mListener;
 
+
+    public Ybd() {
+        // Required empty public constructor
+    }
 
     public Map<String, String> getCookie() {
         return cookie;
     }
 
     public void setCookie(Map<String, String> cookie) {
-        this.cookie = cookie;
+        Ybd.cookie = cookie;
     }
-
-    public Ybd() {
-        // Required empty public constructor
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -63,7 +59,7 @@ public class Ybd extends Fragment {
         super.onCreateView(inflater,container,savedInstanceState);
         netCheck=new NetCheck();
         if(netCheck.isNetAvailable(getActivity())){
-            cookies = (ArrayList<HashMap<String, String>>) Cooks.getCookies();
+            cookies = Cooks.getCookies();
             setCookie(cookies.get(0));
             GetYBD getYBD = new GetYBD();
             getYBD.execute("");
@@ -92,13 +88,10 @@ public class Ybd extends Fragment {
         protected ArrayList<Ybd_Details> doInBackground(String... strings) {
             try {
                 publishProgress("");
-                Document notDoc = Jsoup.connect("http://oucecareers.org/students/ybdnoticeboard.php").followRedirects(false).cookies(getCookie()).get();
-//                System.out.println(notDoc.body());
+                Document notDoc = Jsoup.connect("http://oucecareers.org/students/ybdnoticeboard.php").followRedirects(false).cookies(getCookie()).timeout(50000).get();
                 Elements table = notDoc.select("table");
                 Ybd_Details details;
                 boolean firstSkipped=false;
-
-
                 int i = 0;
                 for (Element tr : table.select("tr")) {
                     if(firstSkipped) {
@@ -142,23 +135,25 @@ public class Ybd extends Fragment {
                     }
                     firstSkipped=true;
                 }
-                System.out.println(linkId);
                 return list;
             } catch (IOException e) {
-                e.printStackTrace();
+                return null;
             }
-            return null;
         }
 
         @Override
         protected void onPostExecute(ArrayList<Ybd_Details> s) {
             super.onPostExecute(s);
-            progressDialog.hide();
-            adapter = new YbdAdapter(s,linkId,getActivity(),cookies);
-            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(adapter);
-            recyclerView.smoothScrollBy(20, 20);
+            if (s != null) {
+                progressDialog.hide();
+                adapter = new YbdAdapter(s, linkId, getActivity(), cookies);
+                adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setAdapter(adapter);
+                recyclerView.smoothScrollBy(20, 20);
+            }
+            else
+                Toast.makeText(getActivity(),"Timed out while connecting",Toast.LENGTH_LONG).show();
         }
     }
 
