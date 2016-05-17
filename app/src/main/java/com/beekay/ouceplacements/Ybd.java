@@ -37,8 +37,8 @@ public class Ybd extends Fragment {
     ArrayList<Ybd_Details> recycleList;
     RecyclerView.Adapter adapter;
     NetCheck netCheck;
+    ProgressDialog progressDialog;
     private Notification.OnFragmentInteractionListener mListener;
-
 
     public Ybd() {
         // Required empty public constructor
@@ -59,10 +59,15 @@ public class Ybd extends Fragment {
         super.onCreateView(inflater,container,savedInstanceState);
         netCheck=new NetCheck();
         if(netCheck.isNetAvailable(getActivity())){
-            cookies = Cooks.getCookies();
-            setCookie(cookies.get(0));
-            GetYBD getYBD = new GetYBD();
-            getYBD.execute("");
+            try{
+                cookies = Cooks.getCookies();
+                setCookie(cookies.get(0));
+                GetYBD getYBD = new GetYBD();
+                getYBD.execute("");
+            }catch (NullPointerException ex){
+                getActivity().finish();
+            }
+
         }
 
         View view= inflater.inflate(R.layout.fragment_ybd, container, false);
@@ -71,8 +76,16 @@ public class Ybd extends Fragment {
 
     }
 
+    @Override
+    public void onDetach() {
+        if(progressDialog!=null)
+            progressDialog.dismiss();
+
+        super.onDetach();
+    }
+
     public class GetYBD extends AsyncTask<String,String,ArrayList<Ybd_Details>>{
-        ProgressDialog progressDialog;
+
 
         @Override
         protected void onProgressUpdate(String... values) {
@@ -156,6 +169,4 @@ public class Ybd extends Fragment {
                 Toast.makeText(getActivity(),"Timed out while connecting",Toast.LENGTH_LONG).show();
         }
     }
-
-
 }

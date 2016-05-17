@@ -1,5 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" tools:context="com.beekay.ouceplacements.Home">
+    <item android:id="@+id/push"
+        android:checkable="true"
+        android:orderInCategory="100"
+        android:title="Notification"
+        app:showAsAction="never"/>
 
 </menu>

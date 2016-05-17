@@ -65,7 +65,12 @@ public class Notification extends android.support.v4.app.Fragment {
             ContentWrapper wrapper = (ContentWrapper) getArguments().getSerializable("list");
             setRecycleList(wrapper.getContents());
             ArrayList<HashMap<String, String>> cooks = Cooks.getCookies();
-            setCookie(cooks.get(0));
+            try {
+                setCookie(cooks.get(0));
+            }catch (NullPointerException ex){
+
+                getActivity().finish();
+            }
             setLinkId(getArguments().getStringArrayList("ids"));
             View view = inflater.inflate(R.layout.fragment_notification, container, false);
             recyclerView = (RecyclerView) view.findViewById(R.id.cardList);
@@ -95,20 +100,20 @@ public class Notification extends android.support.v4.app.Fragment {
                     }
                 }
             }));
-            swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
-            swipe.setColorSchemeResources(R.color.green,R.color.yellow,R.color.blue);
-            swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-                @Override
-                public void onRefresh() {
-                    if (netCheck.isNetAvailable(getActivity())) {
-                        new RefreshList().execute("");
-                    }
-                    else{
-                        Toast.makeText(getActivity(),"Check your Network Connection",Toast.LENGTH_SHORT).show();
-                    }
-
-                }
-            });
+//            swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+//            swipe.setColorSchemeResources(R.color.green,R.color.yellow,R.color.blue);
+//            swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//                @Override
+//                public void onRefresh() {
+//                    if (netCheck.isNetAvailable(getActivity())) {
+//                        new RefreshList().execute("");
+//                    }
+//                    else{
+//                        Toast.makeText(getActivity(),"Check your Network Connection",Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                }
+//            });
             return view;
 
 

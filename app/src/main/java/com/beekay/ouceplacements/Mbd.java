@@ -34,6 +34,7 @@ public class Mbd extends AppCompatActivity {
     ArrayList<Details> detailList;
     Bitmap bitmap;
     HashMap<String,String> cookies;
+    ProgressDialog progressDialog;
 
     public String getMyTitle() {
         return title;
@@ -64,11 +65,12 @@ public class Mbd extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mbd);
         ArrayList<HashMap<String,String>> cooks= Cooks.getCookies();
-            if(cooks==null)
-                finish();
+        try {
             setCookies(cooks.get(0));
             new LoadMBD().execute("");
-
+        }catch (NullPointerException ex){
+            finish();
+        }
         toolbar=(Toolbar)findViewById(R.id.anim_toolbar);
         image=(ImageView)findViewById(R.id.image);
         setSupportActionBar(toolbar);
@@ -81,13 +83,14 @@ public class Mbd extends AppCompatActivity {
         try {
             HashMap<String,String> cookies = Cooks.getCookies().get(0);
         }catch (NullPointerException ex){
+            if(progressDialog!=null)
+                progressDialog.dismiss();
             finish();
         }
         super.onRestart();
     }
 
     public class LoadMBD extends AsyncTask<String,String,ArrayList<Details>>{
-        ProgressDialog progressDialog;
 
         @Override
         protected ArrayList<Details> doInBackground(String... params) {
