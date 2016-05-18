@@ -211,9 +211,9 @@ public class Home extends AppCompatActivity {
         Intent alarmIntent = new Intent(Home.this,AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(Home.this,0,alarmIntent,0);
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 60000;
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis(),interval,pendingIntent);
-        Toast.makeText(this,"Notification Turned on with current user's credentials",Toast.LENGTH_LONG).show();
+        int interval = 1*60*60000;
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+3*60*1000,interval,pendingIntent);
+        Toast.makeText(this,"Notification Turned on with first saved user's credentials",Toast.LENGTH_LONG).show();
         String path = this.getApplicationContext().getFilesDir()+"/service/";
         File file = new File(path);
         file.mkdirs();
@@ -238,6 +238,8 @@ public class Home extends AppCompatActivity {
 
     private void stop() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent alarmIntent = new Intent(Home.this,AlarmReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(Home.this,0,alarmIntent,0);
         manager.cancel(pendingIntent);
         Toast.makeText(this,"Notifications turned off",Toast.LENGTH_LONG).show();
         String path = this.getApplicationContext().getFilesDir()+"/service/";
@@ -267,8 +269,6 @@ public class Home extends AppCompatActivity {
 
             if (cooks.size() != 0)
                 try {
-
-
                     Document notDoc = Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(cooks.get(0)).timeout(50000).get();
                     setDocument(notDoc);
                     publishProgress("");
@@ -418,6 +418,26 @@ public class Home extends AppCompatActivity {
                 }
             });
             setRecycleList(s);
+            String path = Home.this.getApplicationContext().getFilesDir()+"/service/";
+            File file = new File(path);
+            file.mkdirs();
+            path+="last_notice.txt";
+            File f = new File(path);
+            if(f.exists() && !f.isDirectory()){
+                f.delete();
+            }
+            OutputStream myOutput;
+            try{
+                myOutput = new BufferedOutputStream(new FileOutputStream(path,true));
+                myOutput.write(getRecycleList().get(1).notificationContent.getBytes());
+                System.out.println("written to last_notice.txt "+getRecycleList().get(1).notificationContent);
+                myOutput.flush();
+                myOutput.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             fragment = new Notification();
             Bundle bundle = new Bundle();
             bundle.putSerializable("list", new ContentWrapper(new ArrayList<>(getRecycleList().subList(1, getRecycleList().size()))));
