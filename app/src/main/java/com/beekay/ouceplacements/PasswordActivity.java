@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -74,6 +75,7 @@ public class PasswordActivity extends AppCompatActivity {
         user.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View view, boolean b) {
+                    try{
                     opener = new DataOpener(context);
                     opener.openRead();
                     Editable u = user.getText();
@@ -91,19 +93,24 @@ public class PasswordActivity extends AppCompatActivity {
                         cursor.close();
                         opener.close();
                     }
-                    else{
+                    else {
                         opener = new DataOpener(context);
                         opener.openRead();
                         Cursor cursor = opener.retrieve();
-                        if(cursor.getCount()>0){
+                        if (cursor.getCount() > 0) {
                             int i = 0;
-                            while(cursor.moveToFirst() && i==0){
+                            while (cursor.moveToFirst() && i == 0) {
                                 user.setText(cursor.getString(0));
                                 pass.setText(cursor.getString(1));
                                 i++;
                             }
                         }
                         cursor.close();
+                        opener.close();
+                    }
+                    }catch (SQLException e){
+
+                    }finally {
                         opener.close();
                     }
                 }
@@ -229,28 +236,33 @@ public class PasswordActivity extends AppCompatActivity {
             if(Cooks.getCookies()!=null && !getList().get(0).equals("timedout")) {
                 CheckBox box = (CheckBox) findViewById(R.id.remember);
                 if(box.isChecked()){
-                    opener = new DataOpener(PasswordActivity.this);
-                    opener.open();
-                    Cursor cursor = opener.retrieve(username);
-                    if(cursor.getCount()!=0 ){
-                        int i = 0;
-                        String pas = null;
-                        while(cursor.moveToFirst() && i==0){
-                            pas = cursor.getString(1);
-                            i++;
+                    try {
+                        opener = new DataOpener(PasswordActivity.this);
+                        opener.open();
+                        Cursor cursor = opener.retrieve(username);
+                        if (cursor.getCount() != 0) {
+                            int i = 0;
+                            String pas = null;
+                            while (cursor.moveToFirst() && i == 0) {
+                                pas = cursor.getString(1);
+                                i++;
+                            }
+                            if (pas != null && !pas.equalsIgnoreCase(password)) {
+                                opener.upgrade(username, password);
+                                Toast.makeText(context, name + "\'s Password Updated", Toast.LENGTH_LONG).show();
+                            }
+                            cursor.close();
+                            opener.close();
+                        } else {
+                            opener.insertData(username, password);
+                            cursor.close();
+                            opener.close();
+                            Toast.makeText(context, "Password remembered for " + name, Toast.LENGTH_LONG).show();
                         }
-                        if(pas !=null && !pas.equalsIgnoreCase(password)){
-                            opener.upgrade(username,password);
-                            Toast.makeText(context,name+"\'s Password Updated",Toast.LENGTH_LONG).show();
-                        }
-                        cursor.close();
+                    }catch (SQLException e){
+
+                    }finally {
                         opener.close();
-                    }
-                    else{
-                        opener.insertData(username,password);
-                        cursor.close();
-                        opener.close();
-                        Toast.makeText(context,"Password remembered for "+name,Toast.LENGTH_LONG).show();
                     }
                 }
                 Intent intent = new Intent(PasswordActivity.this, Home.class);

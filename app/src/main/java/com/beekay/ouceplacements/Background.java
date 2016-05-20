@@ -84,7 +84,7 @@ public class Background extends IntentService {
 
                 }
             } catch (IOException e) {
-                Toast.makeText(this, "Timed out", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "Timed out", Toast.LENGTH_LONG).show();
             }
             String path = this.getApplicationContext().getFilesDir() + "/service/";
             File file = new File(path);
@@ -121,6 +121,9 @@ public class Background extends IntentService {
                         while (!notText.equals(contentList.get(i).notificationContent))
                             i++;
                         pushNotification(contentList, i);
+                    }else{
+//                        Toast.makeText(this,"Up to date",Toast.LENGTH_LONG).show();
+                        pushNotification(null,-1);
                     }
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
@@ -154,7 +157,7 @@ public class Background extends IntentService {
                     .setDefaults(android.app.Notification.DEFAULT_SOUND)
                     .setSmallIcon(R.mipmap.ic_launcher).build();
             notificationManager.notify(1, notification);
-        }else{
+        }else if(i!=-1){
             if(i<3){
                 notification = new NotificationCompat.Builder(getApplicationContext())
                         .setContentTitle("New Placements News")
@@ -186,7 +189,10 @@ public class Background extends IntentService {
                 notificationManager.notify(1, notification);
             }
 
+        }else if(i==-1){
+//            Toast.makeText(this,"Placement news up to date",Toast.LENGTH_LONG).show();
         }
+
 
     }
 

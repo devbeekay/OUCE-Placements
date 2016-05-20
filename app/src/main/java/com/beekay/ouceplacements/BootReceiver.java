@@ -5,8 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.widget.Toast;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -69,7 +67,7 @@ public class BootReceiver extends BroadcastReceiver {
                 Intent serviceIntent = new Intent(context, AlarmReceiver.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, serviceIntent, 0);
                 AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                int interval = 1*60*60000;
+                int interval = 3*60*60000;
                 manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
             } else {
         }

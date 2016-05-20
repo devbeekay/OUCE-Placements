@@ -211,8 +211,8 @@ public class Home extends AppCompatActivity {
         Intent alarmIntent = new Intent(Home.this,AlarmReceiver.class);
         pendingIntent = PendingIntent.getBroadcast(Home.this,0,alarmIntent,0);
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 1*60*60000;
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+3*60*1000,interval,pendingIntent);
+        int interval = 3*60*60*1000;
+        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(3*60*1000),interval,pendingIntent);
         Toast.makeText(this,"Notification Turned on with first saved user's credentials",Toast.LENGTH_LONG).show();
         String path = this.getApplicationContext().getFilesDir()+"/service/";
         File file = new File(path);
