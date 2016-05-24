@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <include domain="database" path="cred.db"/>
+    <include domain="file" path="/data/data/com.beekay.ouceplacements/files/service/service_option.txt"/>
+    <include domain="file" path="/data/data/com.beekay.ouceplacements/files/service/last_notice.txt"/>
+</full-backup-content>

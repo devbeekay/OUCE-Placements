@@ -45,7 +45,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Toast.makeText(context, errorText, Toast.LENGTH_LONG).show();
                 Intent intents = new Intent(context, AlarmReceiver.class);
                 AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                PendingIntent pi = PendingIntent.getBroadcast(context, 0, intents, 0);
+                PendingIntent pi = PendingIntent.getBroadcast(context, 5686, intents, 0);
                 manager.cancel(pi);
                 String path = context.getFilesDir() + "/service/";
                 path += "service_option.txt";

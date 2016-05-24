@@ -22,6 +22,10 @@ android {
         release {
             minifyEnabled false
             signingConfig signingConfigs.release
+            proguardFile 'C:/Users/bvepuri/studioProjects/OUCE-Placements/proguard-android.txt'
+        }
+        debug {
+            proguardFile 'C:/Users/bvepuri/studioProjects/OUCE-Placements/proguard-android.txt'
         }
     }
     productFlavors {

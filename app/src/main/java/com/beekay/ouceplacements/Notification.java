@@ -6,10 +6,15 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -32,7 +37,7 @@ import java.util.Map;
  * Use the {@link Notification#} factory method to
  * create an instance of this fragment.
  */
-public class Notification extends android.support.v4.app.Fragment {
+public class Notification extends android.support.v4.app.Fragment implements SearchView.OnQueryTextListener {
 
 
     RecyclerView recyclerView;
@@ -43,6 +48,7 @@ public class Notification extends android.support.v4.app.Fragment {
     SwipeRefreshLayout swipe;
     NetCheck netCheck;
     private OnFragmentInteractionListener mListener;
+
 
     public Notification() {
         // Required empty public constructor
@@ -61,8 +67,10 @@ public class Notification extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
             super.onCreateView(inflater, container, savedInstanceState);
+            setHasOptionsMenu(true);
             netCheck=new NetCheck();
             ContentWrapper wrapper = (ContentWrapper) getArguments().getSerializable("list");
+
             setRecycleList(wrapper.getContents());
             ArrayList<HashMap<String, String>> cooks = Cooks.getCookies();
             try {
@@ -141,7 +149,7 @@ public class Notification extends android.support.v4.app.Fragment {
         return recycleList;
     }
 
-    public void setRecycleList(ArrayList<Contents> recycleList) {
+    public final void setRecycleList(ArrayList<Contents> recycleList) {
         this.recycleList = recycleList;
     }
 
@@ -151,6 +159,45 @@ public class Notification extends android.support.v4.app.Fragment {
 
     public void setLinkId(ArrayList<String> linkId) {
         this.linkId = linkId;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.searchmenu,menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setOnQueryTextListener(Notification.this);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+
+        ArrayList<Contents> filteredList = filter(getRecycleList(),newText);
+        adapter.setFilter(filteredList);
+        recyclerView.scrollToPosition(0);
+        return false;
+    }
+
+    private ArrayList<Contents> filter(ArrayList<Contents> oldList, String newText) {
+        final ArrayList<Contents> filteredList = new ArrayList<>();
+        for(Contents contents : oldList){
+            final String text = contents.notificationContent.toLowerCase();
+            if(text.contains(newText)){
+                filteredList.add(contents);
+            }
+        }
+        return filteredList;
     }
 
     public interface OnFragmentInteractionListener {
@@ -231,6 +278,8 @@ public class Notification extends android.support.v4.app.Fragment {
 
         }
     }
+
+
 
 
 

@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -120,7 +119,7 @@ public class Background extends IntentService {
                         int i = 0;
                         while (!notText.equals(contentList.get(i).notificationContent))
                             i++;
-                        pushNotification(contentList, i);
+                        pushNotification(contentList, i-1);
                     }else{
 //                        Toast.makeText(this,"Up to date",Toast.LENGTH_LONG).show();
                         pushNotification(null,-1);
@@ -133,7 +132,7 @@ public class Background extends IntentService {
             }
             }
             else{
-                Toast.makeText(this, "Internet Connection not available unable to connect to server", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "Internet Connection not available unable to connect to server", Toast.LENGTH_LONG).show();
             }
     }
 
@@ -144,6 +143,7 @@ public class Background extends IntentService {
     }
 
     private void pushNotification(ArrayList<Contents> notificationContent, int i) {
+        System.out.println(i);
         Intent notIntent = new Intent(this, PasswordActivity.class);
         PendingIntent notPendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), notIntent, 0);
         String notificatonText = i==0?notificationContent.get(0).notificationContent:"New Placements News";

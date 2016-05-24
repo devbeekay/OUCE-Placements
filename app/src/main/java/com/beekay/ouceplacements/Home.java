@@ -191,6 +191,7 @@ public class Home extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_home,menu);
         if(cond.equals("true"))
             menu.findItem(R.id.push).setChecked(true);
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -209,7 +210,7 @@ public class Home extends AppCompatActivity {
 
     private void start() {
         Intent alarmIntent = new Intent(Home.this,AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(Home.this,0,alarmIntent,0);
+        pendingIntent = PendingIntent.getBroadcast(Home.this,5686,alarmIntent,0);
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int interval = 3*60*60*1000;
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+(3*60*1000),interval,pendingIntent);
@@ -239,7 +240,7 @@ public class Home extends AppCompatActivity {
     private void stop() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(Home.this,AlarmReceiver.class);
-        pendingIntent = PendingIntent.getBroadcast(Home.this,0,alarmIntent,0);
+        pendingIntent = PendingIntent.getBroadcast(Home.this,5686,alarmIntent,0);
         manager.cancel(pendingIntent);
         Toast.makeText(this,"Notifications turned off",Toast.LENGTH_LONG).show();
         String path = this.getApplicationContext().getFilesDir()+"/service/";

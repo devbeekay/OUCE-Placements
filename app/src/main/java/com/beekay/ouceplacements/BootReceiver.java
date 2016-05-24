@@ -65,7 +65,7 @@ public class BootReceiver extends BroadcastReceiver {
         System.out.println("cond is "+cond);
         if (cond.equals("true")) {
                 Intent serviceIntent = new Intent(context, AlarmReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, serviceIntent, 0);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 5686, serviceIntent, 0);
                 AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 int interval = 3*60*60000;
                 manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);

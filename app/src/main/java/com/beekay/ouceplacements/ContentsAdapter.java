@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -79,6 +80,11 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Conten
         notifyItemRangeChanged(0,this.getItemCount());
     }
 
+    public void setFilter(List<Contents> visibleContents){
+        contentsList = new ArrayList<>();
+        contentsList.addAll(visibleContents);
+        notifyDataSetChanged();
+    }
 
     public static class ContentViewHolder extends RecyclerView.ViewHolder{
 
