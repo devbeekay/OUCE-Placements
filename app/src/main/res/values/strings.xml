@@ -1,13 +1,8 @@
 <resources>
     <string name="app_name">OUCE Placements</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
     <string name="title_activity_home">Home</string>
     <string name="string_open">Menu</string>
     <string name="string_close">Home</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_mbd">MBD</string>
 </resources>

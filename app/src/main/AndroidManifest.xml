@@ -12,6 +12,7 @@
         android:fullBackupContent="@xml/backupscheme"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity
             android:name=".PasswordActivity"
@@ -19,8 +20,16 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <data android:host="www.oucecareers.org"
+                    android:scheme="http"/>
+                <data android:host="oucecareers.org"
+                    android:scheme="http"/>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity

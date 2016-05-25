@@ -103,6 +103,7 @@ public class Home extends AppCompatActivity {
             list = (ListView) findViewById(R.id.drawerlist);
             tool = (Toolbar) findViewById(R.id.tool);
             setSupportActionBar(tool);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             cooks = Cooks.getCookies();
             setCooks(cooks);
             if (netCheck.isNetAvailable(this))
@@ -116,15 +117,17 @@ public class Home extends AppCompatActivity {
                 public void onDrawerOpened(View drawerView) {
                     invalidateOptionsMenu();
                     super.onDrawerOpened(drawerView);
+                    getSupportActionBar().setTitle(R.string.string_open);
                 }
 
                 @Override
                 public void onDrawerClosed(View drawerView) {
                     invalidateOptionsMenu();
                     super.onDrawerClosed(drawerView);
+                    getSupportActionBar().setTitle(R.string.string_close);
                 }
             };
-            drawer.setDrawerListener(toggle);
+            drawer.addDrawerListener(toggle);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             toggle.syncState();
         } else {

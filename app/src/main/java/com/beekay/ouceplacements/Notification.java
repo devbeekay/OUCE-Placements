@@ -1,6 +1,5 @@
 package com.beekay.ouceplacements;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
@@ -44,7 +43,7 @@ public class Notification extends android.support.v4.app.Fragment implements Sea
     Map<String, String> cookie;
     ArrayList<Contents> recycleList;
     ContentsAdapter adapter;
-    ArrayList<String> linkId;
+    ArrayList<String> linkId,links;
     SwipeRefreshLayout swipe;
     NetCheck netCheck;
     private OnFragmentInteractionListener mListener;
@@ -80,6 +79,7 @@ public class Notification extends android.support.v4.app.Fragment implements Sea
                 getActivity().finish();
             }
             setLinkId(getArguments().getStringArrayList("ids"));
+            links=getLinkId();
             View view = inflater.inflate(R.layout.fragment_notification, container, false);
             recyclerView = (RecyclerView) view.findViewById(R.id.cardList);
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
@@ -96,7 +96,7 @@ public class Notification extends android.support.v4.app.Fragment implements Sea
                         cookies.add(getCookie());
                         android.support.v4.app.Fragment notice_fragment = new Notice();
                         Bundle arguments = new Bundle();
-                        arguments.putString("id", getLinkId().get(position));
+                        arguments.putString("id", links.get(position));
                         arguments.putSerializable("cookies", cookies);
                         notice_fragment.setArguments(arguments);
                         FragmentManager fm = getActivity().getSupportFragmentManager();
@@ -128,17 +128,6 @@ public class Notification extends android.support.v4.app.Fragment implements Sea
     }
 
 
-
-
-    // TODO: Rename method, update argument and hook method into UI event
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-    }
-
-
     @Override
     public void onDetach() {
         super.onDetach();
@@ -166,6 +155,8 @@ public class Notification extends android.support.v4.app.Fragment implements Sea
         inflater.inflate(R.menu.searchmenu,menu);
         MenuItem item = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(item);
+        searchView.setQueryHint("Search");
+
         searchView.setOnQueryTextListener(Notification.this);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -173,6 +164,14 @@ public class Notification extends android.support.v4.app.Fragment implements Sea
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home){
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -191,17 +190,19 @@ public class Notification extends android.support.v4.app.Fragment implements Sea
 
     private ArrayList<Contents> filter(ArrayList<Contents> oldList, String newText) {
         final ArrayList<Contents> filteredList = new ArrayList<>();
-        for(Contents contents : oldList){
+        links=new ArrayList<>();
+        for(int i=0;i<oldList.size();i++){
+            Contents contents = oldList.get(i);
             final String text = contents.notificationContent.toLowerCase();
             if(text.contains(newText)){
                 filteredList.add(contents);
+                links.add(getLinkId().get(i));
             }
         }
         return filteredList;
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(ArrayList<Contents> contents);
     }
 

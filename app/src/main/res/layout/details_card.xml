@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     >
     <android.support.v7.widget.CardView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        app:cardCornerRadius="2dp"
-        app:cardBackgroundColor="#fff"
-        android:id="@+id/detailscard"
+        android:id="@+id/detailscard" android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
-        android:paddingBottom="10dp">
+        android:layout_marginTop="10dp"
+        android:paddingBottom="10dp"
+        app:cardBackgroundColor="#fff"
+        app:cardCornerRadius="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,347 +21,347 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Details"
                 android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:textSize="@dimen/abc_text_size_headline_material"
-                android:layout_margin="2dp"/>
+                android:textSize="@dimen/abc_text_size_headline_material"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Course of Study"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Course of Study"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/coursevalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Course of Study"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Branch"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Branch"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/branchvalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Branch"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Year of Passing"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/yearvalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Year"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Dream Company"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Dream Company"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/dreamvalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Dream Company"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Roll Number"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Roll Number"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/rollvalue"
-                android:textColor="@android:color/black"
-                android:text="Roll Number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Roll Number"
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Date Of Birth"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Date Of Birth"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/dobvalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Date Of Birth"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Place Of Birth"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Place Of Birth"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/placevalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Place Of Birth"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Age"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Age"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/agevalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Age"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Gender"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Gender"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/gendervalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Gender"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Nationality"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Nationality"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/nationalvalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Nationality"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Height in CentiMeters"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/heightvalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Height"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Weight in Kgs"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/weightvalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Weight"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Eye Sight"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/eyevalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Sight"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Father Name"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/fathervalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Roll Number"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Father's Occupation"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/occupationvalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Occupation"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Father's Income"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/incomevalue"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Income"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
@@ -370,85 +370,85 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Present Address"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Present Address"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/presentcomplete"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Present Address"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/secondary_text_dark"
-                android:text="Permanent Address"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Permanent Address"
+                android:textColor="@android:color/secondary_text_dark"/>
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/permanentcomplete"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Permanent Address"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Phone Numbers"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
+                android:id="@+id/phones"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/phones"
-                android:textColor="@android:color/black"
-                android:text="Phone numbers"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Phone numbers"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email Id"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/mails"
-                android:textColor="@android:color/black"
-                android:text="Mails"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Email Id"
+                android:textColor="@android:color/secondary_text_dark"/>
+
+            <TextView
+                android:id="@+id/mails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:text="Mails"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -457,81 +457,81 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Graduation/MCA Details"
                 android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:textSize="@dimen/abc_text_size_headline_material"
-                android:layout_margin="2dp"/>
+                android:textSize="@dimen/abc_text_size_headline_material"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="EAMCET/ICET/ECET Rank"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/eamrank"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Eamcet rank"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Aggregate at the end of "
                 android:id="@+id/sems"
-                android:textColor="@android:color/black"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
-
-            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/aggregate"
-                android:textColor="@android:color/black"
-                android:text="Aggregate"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Aggregate at the end of "
+                android:textColor="@android:color/black"/>
+
+            <TextView
+                android:id="@+id/aggregate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:text="Aggregate"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Project done/intend to do"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/project"
-                android:textColor="@android:color/black"
-                android:text="Project"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Project done/intend to do"
+                android:textColor="@android:color/secondary_text_dark"/>
+
+            <TextView
+                android:id="@+id/project"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:text="Project"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -540,77 +540,77 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Post Graduation Details"
                 android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:textSize="@dimen/abc_text_size_headline_material"
-                android:layout_margin="2dp"/>
+                android:textSize="@dimen/abc_text_size_headline_material"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Gate/PGECET Rank"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/gaterank"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Post Graduation Aggregate"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
+                android:id="@+id/pgaggregate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/pgaggregate"
-                android:textColor="@android:color/black"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Title of Theis/Dissertion"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/thesis"
-                android:textColor="@android:color/black"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Title of Theis/Dissertion"
+                android:textColor="@android:color/secondary_text_dark"/>
+
+            <TextView
+                android:id="@+id/thesis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -619,78 +619,78 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Industrial Training Details"
                 android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:textSize="@dimen/abc_text_size_headline_material"
-                android:layout_margin="2dp"/>
+                android:textSize="@dimen/abc_text_size_headline_material"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Name of the Organization"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/org"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="SSC Board"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Duration"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
+                android:id="@+id/duration"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/duration"
-                android:textColor="@android:color/black"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Type of Organization"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/type"
-                android:textColor="@android:color/black"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Type of Organization"
+                android:textColor="@android:color/secondary_text_dark"/>
+
+            <TextView
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -699,25 +699,25 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Extracurricular Activities/Merits"
                 android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:textSize="@dimen/abc_text_size_headline_material"
-                android:layout_margin="2dp"/>
+                android:textSize="@dimen/abc_text_size_headline_material"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
+                android:id="@+id/merits"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/merits"
-                android:textColor="@android:color/black"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
 
 
@@ -728,458 +728,456 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Pre Graduation Education"
                 android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:textSize="@dimen/abc_text_size_headline_material"
-                android:layout_margin="2dp"/>
+                android:textSize="@dimen/abc_text_size_headline_material"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SSC Board"
-                android:textColor="@android:color/secondary_text_dark"
+                android:layout_margin="2dp"
                 android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:text="SSC Board"
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/sboard"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="SSC Board"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SSC School"
-                android:textColor="@android:color/secondary_text_dark"
+                android:layout_margin="2dp"
                 android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:text="SSC School"
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/scol"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="SSC School"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="School Address"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/sadd"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Address"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="SSC Year Of Passing"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/sboardhead"
                 android:id="@+id/syop"
-                android:textColor="@android:color/black"
-                android:text="Year Of Passing"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Year Of Passing"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="SSC GPA"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/sboardhead"
                 android:id="@+id/sgpa"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Year Of Passing"
-                android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Inter Board"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/iboard"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Inter College"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/icol"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Inter College Address"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/iadd"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Intermediate Year Of Passing"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/iyop"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Intermediate GPA"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/igpa"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Diploma Board"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/dboard"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Diploma College"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/dcol"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Diploma College Address"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/dadd"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Diploma Year Of Passing"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/dyop"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Diploma GPA"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/dgpa"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Degree Board"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/bboard"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Degree College"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/bcol"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Degree College Address"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/badd"
-                android:textColor="@android:color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
                 android:text="Degree Year Of Passing"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
+                android:textColor="@android:color/secondary_text_dark"/>
 
             <TextView
+                android:id="@+id/byop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/byop"
-                android:textColor="@android:color/black"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@android:color/darker_gray"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Degree GPA"
-                android:textColor="@android:color/secondary_text_dark"
-                android:padding="2dp"
-                android:layout_margin="2dp"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/bgpa"
-                android:textColor="@android:color/black"
                 android:layout_margin="2dp"
-                android:padding="2dp"/>
+                android:padding="2dp"
+                android:text="Degree GPA"
+                android:textColor="@android:color/secondary_text_dark"/>
+
+            <TextView
+                android:id="@+id/bgpa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="2dp"
+                android:padding="2dp"
+                android:textColor="@android:color/black"/>
 
 
 

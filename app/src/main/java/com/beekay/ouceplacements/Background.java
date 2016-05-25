@@ -115,7 +115,7 @@ public class Background extends IntentService {
                     }
                     br.close();
                     inputStream.close();
-                    if (!notText.equals(contentList.get(0).notificationContent)) {
+                    if (contentList.size()!=0 && !notText.equals(contentList.get(0).notificationContent)) {
                         int i = 0;
                         while (!notText.equals(contentList.get(i).notificationContent))
                             i++;
