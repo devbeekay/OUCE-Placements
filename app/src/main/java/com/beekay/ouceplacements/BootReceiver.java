@@ -25,7 +25,6 @@ public class BootReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         // an Intent broadcast.
-        System.out.println("came to boot receiver");
         String path = context.getFilesDir() + "/service/";
         File file = new File(path);
         file.mkdirs();
@@ -62,7 +61,6 @@ public class BootReceiver extends BroadcastReceiver {
                 e.printStackTrace();
             }
         }
-        System.out.println("cond is "+cond);
         if (cond.equals("true")) {
                 Intent serviceIntent = new Intent(context, AlarmReceiver.class);
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 5686, serviceIntent, 0);

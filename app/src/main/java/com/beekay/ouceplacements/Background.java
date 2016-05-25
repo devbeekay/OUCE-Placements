@@ -46,7 +46,6 @@ public class Background extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        System.out.println("came to service");
         String message = "Service is running at " + new java.sql.Timestamp(System.currentTimeMillis());
         ArrayList<Contents> contentList = new ArrayList<>();
         NetCheck netCheck = new NetCheck();
@@ -143,7 +142,6 @@ public class Background extends IntentService {
     }
 
     private void pushNotification(ArrayList<Contents> notificationContent, int i) {
-        System.out.println(i);
         Intent notIntent = new Intent(this, PasswordActivity.class);
         PendingIntent notPendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), notIntent, 0);
         String notificatonText = i==0?notificationContent.get(0).notificationContent:"New Placements News";
@@ -159,19 +157,47 @@ public class Background extends IntentService {
             notificationManager.notify(1, notification);
         }else if(i!=-1){
             if(i<3){
-                notification = new NotificationCompat.Builder(getApplicationContext())
-                        .setContentTitle("New Placements News")
-                        .setContentText(notificatonText)
-                        .setWhen(System.currentTimeMillis())
-                        .setContentIntent(notPendingIntent)
-                        .setAutoCancel(true)
-                        .setDefaults(android.app.Notification.DEFAULT_SOUND)
-                        .setStyle(new NotificationCompat.InboxStyle()
-                        .addLine(notificationContent.get(0).notificationContent)
-                        .addLine(notificationContent.get(1).notificationContent)
-                        .addLine(notificationContent.get(2).notificationContent))
-                        .setSmallIcon(R.mipmap.ic_launcher).build();
-                notificationManager.notify(1, notification);
+                switch (i) {
+                    case 0: notification= new NotificationCompat.Builder(getApplicationContext())
+                            .setContentTitle("New Placements News")
+                            .setContentText(notificatonText)
+                            .setWhen(System.currentTimeMillis())
+                            .setContentIntent(notPendingIntent)
+                            .setAutoCancel(true)
+                            .setDefaults(android.app.Notification.DEFAULT_SOUND)
+                            .setStyle(new NotificationCompat.InboxStyle()
+                                    .addLine(notificationContent.get(0).notificationContent))
+                            .setSmallIcon(R.mipmap.ic_launcher).build();
+                            notificationManager.notify(1, notification);
+                        break;
+                    case 1: notification= new NotificationCompat.Builder(getApplicationContext())
+                            .setContentTitle("New Placements News")
+                            .setContentText(notificatonText)
+                            .setWhen(System.currentTimeMillis())
+                            .setContentIntent(notPendingIntent)
+                            .setAutoCancel(true)
+                            .setDefaults(android.app.Notification.DEFAULT_SOUND)
+                            .setStyle(new NotificationCompat.InboxStyle()
+                                    .addLine(notificationContent.get(0).notificationContent)
+                                    .addLine(notificationContent.get(1).notificationContent))
+                            .setSmallIcon(R.mipmap.ic_launcher).build();
+                        notificationManager.notify(1, notification);
+                        break;
+                    case 2: notification= new NotificationCompat.Builder(getApplicationContext())
+                            .setContentTitle("New Placements News")
+                            .setContentText(notificatonText)
+                            .setWhen(System.currentTimeMillis())
+                            .setContentIntent(notPendingIntent)
+                            .setAutoCancel(true)
+                            .setDefaults(android.app.Notification.DEFAULT_SOUND)
+                            .setStyle(new NotificationCompat.InboxStyle()
+                                    .addLine(notificationContent.get(0).notificationContent)
+                                    .addLine(notificationContent.get(1).notificationContent)
+                                    .addLine(notificationContent.get(2).notificationContent))
+                            .setSmallIcon(R.mipmap.ic_launcher).build();
+                        notificationManager.notify(1, notification);
+                        break;
+                }
             }else{
                 notification = new NotificationCompat.Builder(getApplicationContext())
                         .setContentTitle("New Placements News")
@@ -184,7 +210,7 @@ public class Background extends IntentService {
                                 .addLine(notificationContent.get(0).notificationContent)
                                 .addLine(notificationContent.get(1).notificationContent)
                                 .addLine(notificationContent.get(2).notificationContent)
-                        .setSummaryText("+"+(i-3)+" notifications"))
+                        .setSummaryText("+"+(i-2)+" notifications"))
                         .setSmallIcon(R.mipmap.ic_launcher).build();
                 notificationManager.notify(1, notification);
             }

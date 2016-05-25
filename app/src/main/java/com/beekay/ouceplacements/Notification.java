@@ -68,18 +68,17 @@ public class Notification extends android.support.v4.app.Fragment implements Sea
             super.onCreateView(inflater, container, savedInstanceState);
             setHasOptionsMenu(true);
             netCheck=new NetCheck();
-            ContentWrapper wrapper = (ContentWrapper) getArguments().getSerializable("list");
-
-            setRecycleList(wrapper.getContents());
             ArrayList<HashMap<String, String>> cooks = Cooks.getCookies();
             try {
                 setCookie(cooks.get(0));
+                ContentWrapper wrapper = (ContentWrapper) getArguments().getSerializable("list");
+                setRecycleList(wrapper.getContents());
+                setLinkId(getArguments().getStringArrayList("ids"));
+                links=getLinkId();
             }catch (NullPointerException ex){
 
                 getActivity().finish();
             }
-            setLinkId(getArguments().getStringArrayList("ids"));
-            links=getLinkId();
             View view = inflater.inflate(R.layout.fragment_notification, container, false);
             recyclerView = (RecyclerView) view.findViewById(R.id.cardList);
             LinearLayoutManager llm = new LinearLayoutManager(getActivity());
