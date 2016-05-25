@@ -47,23 +47,23 @@ import java.util.HashMap;
 public class Home extends AppCompatActivity {
 
 
-    static ArrayList<Contents> recycleList;
-    DrawerLayout drawer;
-    ActionBarDrawerToggle toggle;
-    Toolbar tool;
-    ListView list;
-    NetCheck netCheck;
-    Document document;
-    android.support.v4.app.Fragment fragment;
-    ArrayList<String> linkId;
-    ArrayList<HashMap<String, String>> cooks;
-    PendingIntent pendingIntent;
+    private static ArrayList<Contents> recycleList;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+    private Toolbar tool;
+    private ListView list;
+    private NetCheck netCheck;
+    private Document document;
+    private android.support.v4.app.Fragment fragment;
+    private ArrayList<String> linkId;
+    private ArrayList<HashMap<String, String>> cooks;
+    private PendingIntent pendingIntent;
 
-    public Document getDocument() {
+    private Document getDocument() {
         return document;
     }
 
-    public void setDocument(Document document) {
+    private void setDocument(Document document) {
         this.document = document;
     }
 
@@ -71,15 +71,15 @@ public class Home extends AppCompatActivity {
         return linkId;
     }
 
-    public void setLinkId(ArrayList<String> linkId) {
+    private void setLinkId(ArrayList<String> linkId) {
         this.linkId = linkId;
     }
 
-    public ArrayList<Contents> getRecycleList() {
+    private ArrayList<Contents> getRecycleList() {
         return recycleList;
     }
 
-    public void setRecycleList(ArrayList<Contents> recycleList) {
+    private void setRecycleList(ArrayList<Contents> recycleList) {
         Home.recycleList = recycleList;
     }
 
@@ -87,7 +87,7 @@ public class Home extends AppCompatActivity {
         return cooks;
     }
 
-    public void setCooks(ArrayList<HashMap<String, String>> cooks) {
+    private void setCooks(ArrayList<HashMap<String, String>> cooks) {
         this.cooks = cooks;
     }
 
@@ -179,7 +179,7 @@ public class Home extends AppCompatActivity {
             try{
                 inputStream = new BufferedInputStream(new FileInputStream(path));
                 BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-                String text = null;
+                String text;
                 while((text = br.readLine())!=null){
                     cond = text;
                 }
@@ -306,6 +306,7 @@ public class Home extends AppCompatActivity {
                 } catch (IOException e) {
                     ArrayList<Contents> listFail = new ArrayList<>(1);
                     listFail.add(null);
+                    return listFail;
                 }
             return null;
         }
@@ -326,7 +327,7 @@ public class Home extends AppCompatActivity {
                             firstSkipped = true;
                         else {
                             len = link.select("a").attr("href").length();
-                            links.add(link.select("a").attr("href").toString().substring(len - 5, len - 1));
+                            links.add(link.select("a").attr("href").substring(len - 5, len - 1));
                         }
                     }
                     i++;
@@ -338,7 +339,7 @@ public class Home extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Contents> s) {
             progressDialog.dismiss();
-            if(s.get(0).equals(null)){
+            if(s.get(0)==(null)){
                 Toast.makeText(Home.this,"Timed out while connecting",Toast.LENGTH_LONG).show();
                 finish();
             }

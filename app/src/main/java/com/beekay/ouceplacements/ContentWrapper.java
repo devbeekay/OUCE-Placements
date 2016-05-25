@@ -6,7 +6,7 @@ import java.util.ArrayList;
 /**
  * Created by Krishna on 8/8/2015.
  */
-public class ContentWrapper implements Serializable {
+class ContentWrapper implements Serializable {
 
     private ArrayList<Contents> contents;
 

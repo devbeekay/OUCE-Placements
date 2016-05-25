@@ -7,8 +7,8 @@ import java.io.Serializable;
  */
 public class Contents implements Serializable {
 
-    protected String number;
-    protected String notificationContent;
-    protected String attachments;
-    protected String datePosted;
+    String number;
+    String notificationContent;
+    String attachments;
+    String datePosted;
 }

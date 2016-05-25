@@ -103,7 +103,7 @@ public class Background extends IntentService {
                     try {
                         inputStream = new BufferedInputStream(new FileInputStream(path));
                         BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-                        String text = null;
+                        String text ;
                         String notText = null;
                         while ((text = br.readLine()) != null) {
                             notText=text;

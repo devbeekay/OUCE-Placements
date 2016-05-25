@@ -85,8 +85,8 @@ public class JobStatusFrag extends Fragment {
                     rows.add(company);
                 }
             } catch (IOException e) {
-                ArrayList<Company> c = new ArrayList<>(1);
-                c.add(null);
+                rows.clear();
+                rows.add(null);
             }
             return rows;
         }
@@ -105,7 +105,7 @@ public class JobStatusFrag extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<Company> companies) {
             super.onPostExecute(companies);
-            if(companies.get(0).equals(null)) {
+            if(companies.get(0)==null) {
                 Toast.makeText(getActivity(), "Timed out while connecting", Toast.LENGTH_LONG).show();
                 companies.clear();
             }

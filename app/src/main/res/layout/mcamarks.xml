@@ -101,7 +101,9 @@
             <EditText
                 android:id="@+id/ms5value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:hint="Sem 5 marks"
+                android:inputType="numberDecimal"/>
         </LinearLayout>
 
         <LinearLayout
@@ -121,7 +123,9 @@
             <EditText
                 android:id="@+id/ms6value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:hint="Sem 6 marks"
+                android:inputType="numberDecimal"/>
         </LinearLayout>
 
         <Button

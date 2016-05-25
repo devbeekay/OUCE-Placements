@@ -49,7 +49,7 @@ public class BootReceiver extends BroadcastReceiver {
             try {
                 inputStream = new BufferedInputStream(new FileInputStream(path));
                 BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-                String text = null;
+                String text;
                 while ((text = br.readLine()) != null) {
                     cond = text;
                 }

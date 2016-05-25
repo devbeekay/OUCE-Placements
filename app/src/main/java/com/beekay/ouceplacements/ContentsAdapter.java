@@ -22,15 +22,15 @@ import java.util.regex.Pattern;
  */
 public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.ContentViewHolder>{
 
-    int lastPostition=-1;
-    Context context;
+    private int lastPostition=-1;
+    private Context context;
     private List<Contents> contentsList;
 
     ContentsAdapter(List<Contents> contentsList){
         this.contentsList=contentsList;
     }
 
-    public void setContext(Context context) {
+    private void setContext(Context context) {
         this.context = context;
     }
 
@@ -65,7 +65,7 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Conten
         return contentsList.size();
     }
 
-    void setAnimation(View toAnimate,int position){
+    private void setAnimation(View toAnimate, int position){
         if(position>lastPostition){
             Animation animation= AnimationUtils.loadAnimation(context,android.R.anim.fade_in);
             toAnimate.setAnimation(animation);
@@ -88,10 +88,10 @@ public class ContentsAdapter extends RecyclerView.Adapter<ContentsAdapter.Conten
 
     public static class ContentViewHolder extends RecyclerView.ViewHolder{
 
-        protected TextView notificationView;
-        protected TextView attachmentView;
-        protected TextView dateView;
-        protected CardView card;
+        TextView notificationView;
+        TextView attachmentView;
+        TextView dateView;
+        CardView card;
 
         public ContentViewHolder(View itemView) {
             super(itemView);

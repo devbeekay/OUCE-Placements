@@ -121,7 +121,6 @@ public class PasswordActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (netCheck.isNetAvailable(context)) {
-                        ArrayList<String> credentialList = new ArrayList<>(2);
                         username = user.getText().toString();
                         password = pass.getText().toString();
                         Login log = new Login();

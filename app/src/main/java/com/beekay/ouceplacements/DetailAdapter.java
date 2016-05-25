@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 public class DetailAdapter extends RecyclerView.Adapter<DetailAdapter.DetailViewHolder> {
 
 
-    ArrayList<Details> detailsList;
+    private ArrayList<Details> detailsList;
 
 
     DetailAdapter(ArrayList<Details> detailsList){

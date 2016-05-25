@@ -24,17 +24,18 @@ import java.util.HashMap;
 
 public class ApplyJobActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button apply;
-    Button cancel;
-    String jobId;
-    ArrayList<HashMap<String,String>> cooks;
-    ArrayList<String> names;
-    ProgressDialog progressDialog;
+    private Button apply;
+    private Button cancel;
+    private String jobId;
+    private ArrayList<HashMap<String,String>> cooks;
+    private ArrayList<String> names;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply_job);
         Toolbar toolbar = (Toolbar) findViewById(R.id.tool);
+        assert toolbar != null;
         toolbar.setTitle("Apply");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,6 +59,8 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
      if(view.getId()==R.id.applyvalue){
          Apply applyJob = new Apply();
          applyJob.execute(jobId);
+     }else if(view.getId()==R.id.cancelname){
+         finish();
      }
     }
 
@@ -108,7 +111,7 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressDialog.hide();
-            if(s.equals(null)){
+            if(s==null){
                 Toast.makeText(ApplyJobActivity.this,"Timed out while connecting",Toast.LENGTH_LONG).show();
             }
             else {
@@ -147,16 +150,15 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
                 Document doc = Jsoup.connect("http://oucecareers.org/students/applyjobaction.php?jobid="+strings[0]).cookies(cooks.get(0)).followRedirects(false).timeout(50000).get();
                 return doc.body().text().equalsIgnoreCase("Successfully Applied");
             } catch (IOException e) {
-                s="timed out";
+                return false;
             }
-            return false;
         }
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
             progressDialog.hide();
-            if (s != null) {
+            if (aBoolean) {
                 if (aBoolean) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ApplyJobActivity.this).setMessage("Applied Successfully").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override

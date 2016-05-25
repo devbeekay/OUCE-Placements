@@ -13,7 +13,7 @@ import java.io.File;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
-    DataOpener opener;
+    private DataOpener opener;
 
     public AlarmReceiver() {
     }

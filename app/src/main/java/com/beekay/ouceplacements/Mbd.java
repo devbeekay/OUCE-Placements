@@ -283,7 +283,6 @@ public class Mbd extends AppCompatActivity {
                 }
                 Elements addresses=doc.select("textarea");
                 for(Element e: addresses){
-                    Details details1=new Details();
                     if(e.attr("name").toString().equals("address1")){
                         details.present=e.val();
                     }

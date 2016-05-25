@@ -166,14 +166,6 @@ public class Notification extends android.support.v4.app.Fragment implements Sea
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home){
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public boolean onQueryTextSubmit(String query) {
         return false;
     }

@@ -127,7 +127,9 @@
             <EditText
                 android:id="@+id/s6value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:hint="Sem 6 marks"
+                android:inputType="numberDecimal"/>
         </LinearLayout>
 
         <LinearLayout
@@ -148,7 +150,9 @@
             <EditText
                 android:id="@+id/s7value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:hint="Sem 7 marks"
+                android:inputType="numberDecimal"/>
         </LinearLayout>
 
         <LinearLayout
@@ -169,7 +173,9 @@
             <EditText
                 android:id="@+id/s8value"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:hint="Sem 8 marks"
+                android:inputType="numberDecimal"/>
         </LinearLayout>
 
         <Button

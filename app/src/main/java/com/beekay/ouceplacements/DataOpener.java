@@ -21,33 +21,11 @@ public class DataOpener {
     private static final String STATEMENT = "CREATE TABLE IF NOT EXISTS ptable(user text not null,pass text not null);";
     private SQLiteDatabase db;
     private DataHelper helper;
-    Context context;
+    private Context context;
 
     public DataOpener(Context context){
         this.context = context;
         helper = new DataHelper(context);
-    }
-
-    public class DataHelper extends SQLiteOpenHelper{
-
-        public DataHelper(Context context) {
-            super(context, DBNAME, null, VERSION);
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase sqLiteDatabase) {
-            try{
-                sqLiteDatabase.execSQL(STATEMENT);
-            }catch (SQLException ex){
-                Log.v("Exception",ex.toString());
-            }
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS ptable");
-            onCreate(sqLiteDatabase);
-        }
     }
 
     public DataOpener open(){
@@ -84,5 +62,27 @@ public class DataOpener {
 
     public Cursor retrieve(String user){
         return db.query(TABLE_NAME, new String[]{USER,PASS},"user=?",new String[]{user},null,null,null);
+    }
+
+    public class DataHelper extends SQLiteOpenHelper{
+
+        public DataHelper(Context context) {
+            super(context, DBNAME, null, VERSION);
+        }
+
+        @Override
+        public void onCreate(SQLiteDatabase sqLiteDatabase) {
+            try{
+                sqLiteDatabase.execSQL(STATEMENT);
+            }catch (SQLException ex){
+                Log.v("Exception",ex.toString());
+            }
+        }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+            sqLiteDatabase.execSQL("DROP TABLE IF EXISTS ptable");
+            onCreate(sqLiteDatabase);
+        }
     }
 }
