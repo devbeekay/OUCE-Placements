@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -37,7 +36,6 @@ import java.util.ArrayList;
  */
 public class Background extends IntentService {
 
-    private Notification notification;
     private NotificationManager notificationManager;
     public Background() {
         super("Background");
@@ -46,14 +44,12 @@ public class Background extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
-        String message = "Service is running at " + new java.sql.Timestamp(System.currentTimeMillis());
         ArrayList<Contents> contentList = new ArrayList<>();
         NetCheck netCheck = new NetCheck();
         if (netCheck.isNetAvailable(this)) {
             try {
                 Connection.Response res = Jsoup.connect("http://oucecareers.org/s_logaction.php").data("uname", intent.getExtras().getString("uname"), "upass", intent.getExtras().getString("pass"), "Submit", "sign in").method(Connection.Method.POST).timeout(50000).execute();
                 Document doc = Jsoup.connect("http://oucecareers.org/students/showNotice.php").followRedirects(false).cookies(res.cookies()).timeout(50000).get();
-                Log.d("came", "in");
                 Elements table = doc.select("table");
                 Contents contents;
                 int i = 0;
@@ -103,35 +99,32 @@ public class Background extends IntentService {
                     e.printStackTrace();
                 }
             } else {
-                InputStream inputStream;
-                try {
-                    inputStream = new BufferedInputStream(new FileInputStream(path));
-                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-                    String text = null;
-                    String notText = null;
-                    while ((text = br.readLine()) != null) {
-                        notText=text;
+                    InputStream inputStream;
+                    try {
+                        inputStream = new BufferedInputStream(new FileInputStream(path));
+                        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+                        String text = null;
+                        String notText = null;
+                        while ((text = br.readLine()) != null) {
+                            notText=text;
+                        }
+                        br.close();
+                        inputStream.close();
+                        if (contentList.size()!=0 && !notText.equals(contentList.get(0).notificationContent)) {
+                            int i = 0;
+                            while (!notText.equals(contentList.get(i).notificationContent))
+                                i++;
+                            pushNotification(contentList, i-1);
+                        }else{
+    //                        Toast.makeText(this,"Up to date",Toast.LENGTH_LONG).show();
+                            pushNotification(null,-1);
+                        }
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                    br.close();
-                    inputStream.close();
-                    if (contentList.size()!=0 && !notText.equals(contentList.get(0).notificationContent)) {
-                        int i = 0;
-                        while (!notText.equals(contentList.get(i).notificationContent))
-                            i++;
-                        pushNotification(contentList, i-1);
-                    }else{
-//                        Toast.makeText(this,"Up to date",Toast.LENGTH_LONG).show();
-                        pushNotification(null,-1);
-                    }
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-            }
-            }
-            else{
-//                Toast.makeText(this, "Internet Connection not available unable to connect to server", Toast.LENGTH_LONG).show();
             }
     }
 
@@ -145,6 +138,7 @@ public class Background extends IntentService {
         Intent notIntent = new Intent(this, PasswordActivity.class);
         PendingIntent notPendingIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), notIntent, 0);
         String notificatonText = i==0?notificationContent.get(0).notificationContent:"New Placements News";
+        Notification notification;
         if(i==0) {
             notification = new NotificationCompat.Builder(getApplicationContext())
                     .setContentTitle("New Placements News")
@@ -158,19 +152,7 @@ public class Background extends IntentService {
         }else if(i!=-1){
             if(i<3){
                 switch (i) {
-                    case 0: notification= new NotificationCompat.Builder(getApplicationContext())
-                            .setContentTitle("New Placements News")
-                            .setContentText(notificatonText)
-                            .setWhen(System.currentTimeMillis())
-                            .setContentIntent(notPendingIntent)
-                            .setAutoCancel(true)
-                            .setDefaults(android.app.Notification.DEFAULT_SOUND)
-                            .setStyle(new NotificationCompat.InboxStyle()
-                                    .addLine(notificationContent.get(0).notificationContent))
-                            .setSmallIcon(R.mipmap.ic_launcher).build();
-                            notificationManager.notify(1, notification);
-                        break;
-                    case 1: notification= new NotificationCompat.Builder(getApplicationContext())
+                    case 1: notification = new NotificationCompat.Builder(getApplicationContext())
                             .setContentTitle("New Placements News")
                             .setContentText(notificatonText)
                             .setWhen(System.currentTimeMillis())
@@ -183,7 +165,7 @@ public class Background extends IntentService {
                             .setSmallIcon(R.mipmap.ic_launcher).build();
                         notificationManager.notify(1, notification);
                         break;
-                    case 2: notification= new NotificationCompat.Builder(getApplicationContext())
+                    case 2: notification = new NotificationCompat.Builder(getApplicationContext())
                             .setContentTitle("New Placements News")
                             .setContentText(notificatonText)
                             .setWhen(System.currentTimeMillis())
@@ -215,11 +197,7 @@ public class Background extends IntentService {
                 notificationManager.notify(1, notification);
             }
 
-        }else if(i==-1){
-//            Toast.makeText(this,"Placement news up to date",Toast.LENGTH_LONG).show();
         }
-
-
     }
 
 }
