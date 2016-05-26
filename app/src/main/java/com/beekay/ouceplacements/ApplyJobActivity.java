@@ -110,7 +110,7 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            progressDialog.hide();
+            progressDialog.dismiss();
             if(s==null){
                 Toast.makeText(ApplyJobActivity.this,"Timed out while connecting",Toast.LENGTH_LONG).show();
             }
@@ -157,7 +157,7 @@ public class ApplyJobActivity extends AppCompatActivity implements View.OnClickL
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
-            progressDialog.hide();
+            progressDialog.dismiss();
             if (aBoolean) {
                 if (aBoolean) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ApplyJobActivity.this).setMessage("Applied Successfully").setPositiveButton("Okay", new DialogInterface.OnClickListener() {
