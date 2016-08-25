@@ -5,16 +5,16 @@ android {
         release {
             keyAlias 'OUCE-Placements-Keys'
             keyPassword '5257464B'
-            storeFile file('C:/Users/bvepuri/studioProjects/placementkeys.jks')
+            storeFile file('C:/Users/bvepuri/StudioProjects/placementkeys.jks')
             storePassword '5257464B'
         }
     }
-    compileSdkVersion 23
-    buildToolsVersion '23.0.2'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.1'
     defaultConfig {
         applicationId "com.beekay.ouceplacements"
-        minSdkVersion 14
-        targetSdkVersion 23
+        minSdkVersion 24
+        targetSdkVersion 24
         versionCode 1
         versionName "1.10"
     }
@@ -35,9 +35,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile files('libs/jsoup-1.8.2.jar')
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:cardview-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.android.support:cardview-v7:24.1.1'
+    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:support-v4:24.1.1'
 }

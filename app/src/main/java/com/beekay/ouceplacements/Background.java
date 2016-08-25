@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 
 
@@ -77,8 +78,10 @@ public class Background extends IntentService {
                     firstSkipped = true;
 
                 }
-            } catch (IOException e) {
+            } catch (SocketTimeoutException e) {
 //                Toast.makeText(this, "Timed out", Toast.LENGTH_LONG).show();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
             String path = this.getApplicationContext().getFilesDir() + "/service/";
             File file = new File(path);
